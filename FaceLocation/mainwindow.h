@@ -29,11 +29,11 @@ private:
 //    bool loadFile(const QString &fileName);
 	bool okToContinue();
  //   bool saveFile(const QString &fileName);
-//    void setCurrentFile(const QString &fileName);
+    void setCurrentFile(const QString &fileName);
 
 	QImage *image;
     QString curFile;
-
+	CFaceAlign face;
 	QAction *separatorAction;
 
     QMenu *fileMenu;

@@ -1,7 +1,7 @@
 #include <QtGui>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "Align.h"
+#include "faceAlign.h"
 
 using namespace Gdiplus; 
 
@@ -11,12 +11,12 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 {
 	ui->setupUi(this);
     this->image = new QImage();
-
+	face = new CFaceAlign();
 //    createActions();
 //    createMenus();
  //   createContextMenu();
 
-//    setCurrentFile("");
+    setCurrentFile("");
 }
 
 MainWindow::~MainWindow()
@@ -33,6 +33,7 @@ void MainWindow::on_openAction_triggered()
                 "Image files (*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm);;All files (*.*)");
     if(fileName != "")
     {
+		setCurrentFile(fileName);
         if(image->load(fileName))
         {
             QGraphicsScene *scene = new QGraphicsScene;
@@ -46,7 +47,7 @@ void MainWindow::on_openAction_triggered()
 
 void MainWindow::on_alignAction_triggered()
 {
-	procPic(strFilePath);
+	face->procPic(curFile);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -141,19 +142,16 @@ bool MainWindow::okToContinue()
 //    return true;
 //}
 //
-//void MainWindow::setCurrentFile(const QString &fileName)
-//{
-//    curFile = fileName;
-//    setWindowModified(false);
-//
-//    QString shownName = tr("Untitled");
-//    if (!curFile.isEmpty()) {
-//        shownName = strippedName(curFile);
-//        recentFiles.removeAll(curFile);
-//        recentFiles.prepend(curFile);
-//        updateRecentFileActions();
-//    }
-//
-//    setWindowTitle(tr("%1[*] - %2").arg(shownName)
-//                                   .arg(tr("Spreadsheet")));
-//}
+void MainWindow::setCurrentFile(const QString &fileName)
+{
+    curFile = fileName;
+    setWindowModified(false);
+
+    QString shownName = tr("Untitled");
+    //if (!curFile.isEmpty()) {
+    //    shownName = strippedName(curFile);
+    //}
+
+    setWindowTitle(tr("%1[*] - %2").arg(shownName)
+                                   .arg(tr("Spreadsheet")));
+}
