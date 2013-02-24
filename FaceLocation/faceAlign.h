@@ -1,4 +1,5 @@
-#include "FaceAlignDll.h"
+#ifndef FACEALIGN_H
+#define FACEALIGN_H
 #include <stdlib.h>
 #include <iostream>
 #include <afxwin.h>
@@ -7,6 +8,9 @@
 #include <cv.h>
 #include <cxcore.h>
 #include <highgui.h>
+#include "FaceAlignDll.h"
+#pragma comment(lib,"FaceAlignDll.lib")
+
 using namespace cv;
 
 class CFaceAlign
@@ -32,3 +36,5 @@ private:
 };
 
 bool CFaceAlign::isShowFace = false;
+
+#endif // FACEALIGN_H

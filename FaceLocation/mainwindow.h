@@ -1,8 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
 #include <QtGui/QMainWindow>
- 
+#endif // MAINWINDOW_H
+
+#include "faceAlign.h"
+
+class CFaceAlign;
+
 namespace Ui {
     class MainWindow;
 }
@@ -45,5 +49,3 @@ private:
 
 	Ui::MainWindow *ui;
 };
-
-#endif // MAINWINDOW_H

@@ -1,13 +1,13 @@
 #include "faceAlign.h"
 #include "stdafx.h"
+#include <afxwin.h>
 #include <stdlib.h>
 #include <iostream>
 #include <gdiplus.h> 
 #include <cv.h>
 #include <cxcore.h>
 #include <highgui.h>
-#include "FaceAlignDll.h"
-#pragma comment(lib,"FaceAlignDll.lib")
+
 
 using namespace std;
 using namespace Gdiplus; 
