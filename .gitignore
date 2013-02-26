@@ -18,7 +18,8 @@ Thumbs.db
 *.ilk
 *.log
 [Bb]in
-[Dd]ebug*/
+FaceLocation/*/[Dd]ebug*/
+FaceLocation/[Dd]ebug*/
 *.lib
 *.sbr
 obj/
