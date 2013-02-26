@@ -1,19 +1,13 @@
 #include "faceAlign.h"
-#include "stdafx.h"
-#include <afxwin.h>
-#include <stdlib.h>
-#include <iostream>
-#include <gdiplus.h> 
-#include <cv.h>
-#include <cxcore.h>
-#include <highgui.h>
-
 
 using namespace std;
 using namespace Gdiplus; 
 using namespace cv;
 
-CFaceAlign::CFaceAlign():face_cascade_name("haarcascade_frontalface_alt2.xml"){}
+bool CFaceAlign::isShowFace = false;
+CascadeClassifier CFaceAlign::cascade;
+
+CFaceAlign::CFaceAlign():FACE_CASCADE_NAME("haarcascade_frontalface_alt2.xml"){}
 
 CFaceAlign::~CFaceAlign()
 {
@@ -29,7 +23,7 @@ void CFaceAlign::DestroyAlign()
 	}
 }
 
-int CFaceAlign::InitAlign(const WCHAR* wzModelFile)
+ HRESULT CFaceAlign::InitAlign(const WCHAR* wzModelFile)
 {
 	DestroyAlign();
 
@@ -93,24 +87,28 @@ void CFaceAlign::AvgShape( float* pPoints )
 }
 
 
-void CFaceAlign::procPic(CString strFilePath)
+void CFaceAlign::procPic(string strFilePath)
 {
 	ULONG_PTR m_gdiplusToken; 
 	GdiplusStartupInput gdiplusStartupInput;     //ÉùÃ÷
 	GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);    //Æô¶¯
 
-	int Pos = strFilePath.GetLength() - strFilePath.ReverseFind(TEXT('\\')) -1;
-	cout<<strFilePath.Right(Pos)<<":"<<endl;
+	int Pos = strFilePath.length() - strFilePath.rfind(TEXT('\\')) -1;
+	//cout<<strFilePath.r.Right(Pos)<<":"<<endl;
 	string srcImageFile="";
 	string resImageFile="";
 	srcImageFile = strFilePath;
 	resImageFile = strFilePath;
-	resImageFile.insert(strFilePath.ReverseFind(TEXT('\\')),"\\res");
-	Bitmap srcImg(strFilePath.AllocSysString());
+	resImageFile.insert(strFilePath.rfind(TEXT('\\')),"\\res");
+	//Bitmap srcImg(strFilePath.AllocSysString());
+	wchar_t *wstrFilePath = new wchar_t[strFilePath.size()+1];  
+	swprintf(wstrFilePath,L"%S",strFilePath.c_str());   
+
+	Bitmap srcImg(wstrFilePath);
 	if(srcImg.GetLastStatus() == Ok)
 	{		
 
-		const WCHAR configpath[]=L"F:\\Files\\Project\\ASM\\Code\\FYP\\FaceLocation\\FaceLocation\\Debug\\casm.bin";
+		const WCHAR configpath[]=L"F:\\Files\\Project\\ASM\\Code\\FYP\\FaceLocation\\Win32\\Debug\\casm.bin";
 		InitAlign(configpath); //input file path of casm.bin
 
 		Gdiplus::Rect detRect(0, 0, srcImg.GetWidth(), srcImg.GetHeight());
@@ -139,7 +137,7 @@ void CFaceAlign::procPic(CString strFilePath)
 		rcBoundBox.bottom = srcImg.GetHeight();
 		if(!image.empty())
 		{
-			if( !cascade.load( face_cascade_name ) )
+			if( !cascade.load( FACE_CASCADE_NAME ) )
 			{ 
 				fprintf( stderr, "ERROR: Could not load classifier cascade\n" ); 
 				return; 
@@ -148,7 +146,7 @@ void CFaceAlign::procPic(CString strFilePath)
 		}
 
 		Align(reinterpret_cast<BYTE *>(lkData.Scan0), srcImg.GetWidth(), srcImg.GetHeight(), lkData.Stride, rcBoundBox, ptsPos1);
-		showAlignedFace(image, ptsPos1, ptsNum);
+		//showAlignedFace(image, ptsPos1, ptsNum);
 		try
 		{
 			imwrite(resImageFile,image);
@@ -291,7 +289,7 @@ void CFaceAlign::detectAndDisplay(Mat& img, RECT* detectBox)
 //	}
 //}
 
-bool ConvertToGrayBits(BYTE* pOrgBits, int width, int height, int nChannels, BYTE* pGrayBits, int nOrgStride, int nGrayStride)
+bool CFaceAlign::ConvertToGrayBits(BYTE* pOrgBits, int width, int height, int nChannels, BYTE* pGrayBits, int nOrgStride, int nGrayStride)
 {
 	if (nOrgStride == 0)
 		nOrgStride = width*nChannels;

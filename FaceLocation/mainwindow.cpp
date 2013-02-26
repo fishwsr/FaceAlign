@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 {
 	ui->setupUi(this);
     this->image = new QImage();
-	this->face = new CFaceAlign();
+	//this->face = new CFaceAlign();
 //    createActions();
 //    createMenus();
  //   createContextMenu();
