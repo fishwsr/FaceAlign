@@ -1,5 +1,3 @@
-#ifndef FACEALIGN_H
-#define FACEALIGN_H
 #include <stdlib.h>
 #include <iostream>
 #include <afxwin.h>
@@ -9,9 +7,11 @@
 #include <cxcore.h>
 #include <highgui.h>
 #include "FaceAlignDll.h"
-#pragma comment(lib,"FaceAlignDll.lib")
-
+//#pragma comment(lib,"FaceAlignDll.lib")
 using namespace cv;
+
+#ifndef FACEALIGN_H
+#define FACEALIGN_H
 
 class CFaceAlign
 {
