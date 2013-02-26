@@ -18,9 +18,8 @@ Thumbs.db
 *.ilk
 *.log
 [Bb]in
-FaceLocation/*/[Dd]ebug*/
 FaceLocation/[Dd]ebug*/
-*.lib
+GeneratedFiles*/
 *.sbr
 obj/
 [Rr]elease*/
