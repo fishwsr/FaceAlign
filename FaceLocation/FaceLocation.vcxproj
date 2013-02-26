@@ -44,8 +44,8 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\OpenCV2.2\include;D:\OpenCV2.2\include\opencv;D:\QT\4.8.4\include\QtCore;D:\QT\4.8.4\include\Qt;D:\QT\4.8.4\include\;D:\Qt\4.8.4\include\QtGui;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\OpenCV2.2\lib;D:\Qt\4.8.4\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OPENCV220_DIR)\include;$(OPENCV220_DIR)\include\opencv;$(QT484_DIR)\include\QtCore;$(QT484_DIR)\include\Qt;$(QT484_DIR)\include\;$(QT484_DIR)\include\QtGui;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OPENCV220_DIR)\lib;$(QT484_DIR)\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
