@@ -35,7 +35,7 @@ private:
 
 	QImage *image;
     QString curFile;
-	CFaceAlign face;
+	CFaceAlign *face;
 	QAction *separatorAction;
 
     QMenu *fileMenu;

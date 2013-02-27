@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 {
 	ui->setupUi(this);
     this->image = new QImage();
-	//this->face = new CFaceAlign();
 //    createActions();
 //    createMenus();
  //   createContextMenu();
@@ -21,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 MainWindow::~MainWindow()
 {
+	delete face;
 	delete image;  
 	delete ui; 
 }
@@ -47,7 +47,8 @@ void MainWindow::on_openAction_triggered()
 
 void MainWindow::on_alignAction_triggered()
 {
-	face.procPic((const char *)curFile.toLocal8Bit());
+	this->face = new CFaceAlign();
+	face->procPic((const char *)curFile.toLocal8Bit());
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

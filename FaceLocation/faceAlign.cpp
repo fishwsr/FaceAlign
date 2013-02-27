@@ -1,5 +1,5 @@
 #include "faceAlign.h"
-
+#pragma comment(lib,"FaceAlignDll.lib")
 using namespace std;
 using namespace Gdiplus; 
 using namespace cv;
@@ -11,6 +11,7 @@ CFaceAlign::CFaceAlign():FACE_CASCADE_NAME("haarcascade_frontalface_alt2.xml"){}
 
 CFaceAlign::~CFaceAlign()
 {
+	g_pAlign = NULL;
 	DestroyAlign();
 }
 
@@ -25,7 +26,7 @@ void CFaceAlign::DestroyAlign()
 
  HRESULT CFaceAlign::InitAlign(const WCHAR* wzModelFile)
 {
-	DestroyAlign();
+	//DestroyAlign();
 
 	g_pAlign = new CFaceAlignDll();
 
@@ -93,13 +94,14 @@ void CFaceAlign::procPic(string strFilePath)
 	GdiplusStartupInput gdiplusStartupInput;     //声明
 	GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);    //启动
 
-	int Pos = strFilePath.length() - strFilePath.rfind(TEXT('\\')) -1;
+	int Pos = strFilePath.length() - strFilePath.rfind(TEXT('/')) -1;
 	//cout<<strFilePath.r.Right(Pos)<<":"<<endl;
 	string srcImageFile="";
 	string resImageFile="";
 	srcImageFile = strFilePath;
 	resImageFile = strFilePath;
-	resImageFile.insert(strFilePath.rfind(TEXT('\\')),"\\res");
+	int position = strFilePath.find_last_of('/');
+	resImageFile.insert(strFilePath.rfind(TEXT('/')),"/res");
 	//Bitmap srcImg(strFilePath.AllocSysString());
 	wchar_t *wstrFilePath = new wchar_t[strFilePath.size()+1];  
 	swprintf(wstrFilePath,L"%S",strFilePath.c_str());   
@@ -110,7 +112,6 @@ void CFaceAlign::procPic(string strFilePath)
 
 		const WCHAR configpath[]=L"F:\\Files\\Project\\ASM\\Code\\FYP\\FaceLocation\\Win32\\Debug\\casm.bin";
 		InitAlign(configpath); //input file path of casm.bin
-
 		Gdiplus::Rect detRect(0, 0, srcImg.GetWidth(), srcImg.GetHeight());
 		BitmapData lkData;
 		srcImg.LockBits(&detRect,ImageLockModeWrite,srcImg.GetPixelFormat(),&lkData);
@@ -146,7 +147,7 @@ void CFaceAlign::procPic(string strFilePath)
 		}
 
 		Align(reinterpret_cast<BYTE *>(lkData.Scan0), srcImg.GetWidth(), srcImg.GetHeight(), lkData.Stride, rcBoundBox, ptsPos1);
-		//showAlignedFace(image, ptsPos1, ptsNum);
+		showAlignedFace(image, ptsPos1, ptsNum);
 		try
 		{
 			imwrite(resImageFile,image);
@@ -240,54 +241,54 @@ void CFaceAlign::detectAndDisplay(Mat& img, RECT* detectBox)
 	return;
 }
 
-//void showAlignedFace(Mat& img, float* ptsPos, int ptsNum)
-//{
-//	for(int i=0;i<ptsNum;i=i+2)
-//	{
-//		cv::Point point1(ptsPos[i], ptsPos[i+1]);
-//		cv::Point point2(ptsPos[i+2],ptsPos[i+3]);
-//		if(i<172)
-//		{
-//			circle(img, point1 ,1 , CV_RGB(255,0,0),2, 8, 0 );
-//			switch(i)
-//			{
-//			case 14:
-//			case 30:
-//				point2.x = ptsPos[i-14];
-//				point2.y = ptsPos[i-13];
-//				break;
-//			case 50:
-//			case 70:
-//				point2.x = ptsPos[i-18];
-//				point2.y = ptsPos[i-17];
-//				break;
-//			case 94:
-//				point2.x = ptsPos[i-22];
-//				point2.y = ptsPos[i-21];
-//				break;
-//			case 134:
-//				point2.x = ptsPos[i-38];
-//				point2.y = ptsPos[i-37];
-//			}
-//			line(img, point1, point2, CV_RGB(255,0,0));
-//		}
-//		else if(i == 172)
-//		{
-//			circle(img, point1 ,1 , CV_RGB(255,0,0),2, 8, 0 );
-//		}
-//		else
-//		{
-//			circle(img, point1 ,1 , CV_RGB(0,255,0),2, 8, 0 );
-//		}
-//	} 
-//	if(isShowFace)
-//	{
-//		namedWindow("image", CV_WINDOW_AUTOSIZE); //创建窗口
-//		imshow("image",img);
-//		cvWaitKey(0); 
-//		destroyWindow("image");
-//	}
-//}
+void CFaceAlign::showAlignedFace(Mat& img, float* ptsPos, int ptsNum)
+{
+	for(int i=0;i<ptsNum;i=i+2)
+	{
+		cv::Point point1(ptsPos[i], ptsPos[i+1]);
+		cv::Point point2(ptsPos[i+2],ptsPos[i+3]);
+		if(i<172)
+		{
+			circle(img, point1 ,1 , CV_RGB(255,0,0),2, 8, 0 );
+			switch(i)
+			{
+			case 14:
+			case 30:
+				point2.x = ptsPos[i-14];
+				point2.y = ptsPos[i-13];
+				break;
+			case 50:
+			case 70:
+				point2.x = ptsPos[i-18];
+				point2.y = ptsPos[i-17];
+				break;
+			case 94:
+				point2.x = ptsPos[i-22];
+				point2.y = ptsPos[i-21];
+				break;
+			case 134:
+				point2.x = ptsPos[i-38];
+				point2.y = ptsPos[i-37];
+			}
+			line(img, point1, point2, CV_RGB(255,0,0));
+		}
+		else if(i == 172)
+		{
+			circle(img, point1 ,1 , CV_RGB(255,0,0),2, 8, 0 );
+		}
+		else
+		{
+			circle(img, point1 ,1 , CV_RGB(0,255,0),2, 8, 0 );
+		}
+	} 
+	if(isShowFace)
+	{
+		namedWindow("image", CV_WINDOW_AUTOSIZE); //创建窗口
+		imshow("image",img);
+		cvWaitKey(0); 
+		destroyWindow("image");
+	}
+}
 
 bool CFaceAlign::ConvertToGrayBits(BYTE* pOrgBits, int width, int height, int nChannels, BYTE* pGrayBits, int nOrgStride, int nGrayStride)
 {

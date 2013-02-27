@@ -1,3 +1,4 @@
+#pragma once
 #include <stdlib.h>
 #include <iostream>
 #include <afxwin.h>
@@ -7,7 +8,7 @@
 #include <cxcore.h>
 #include <highgui.h>
 #include "FaceAlignDll.h"
-//#pragma comment(lib,"FaceAlignDll.lib")
+
 using namespace cv;
 
 #ifndef FACEALIGN_H
@@ -34,6 +35,7 @@ private:
 	HRESULT InitAlign(const WCHAR* wzModelFile);
 	int Align(BYTE* pImgData, int iImgW, int iImgH, int iStride, RECT& rcFace, float* pPoints);
 	void AvgShape( float* pPoints );
+	void showAlignedFace(Mat& img, float* ptsPos, int ptsNum);
 };
 
 #endif // FACEALIGN_H
