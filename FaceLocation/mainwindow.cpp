@@ -11,17 +11,16 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 {
 	ui->setupUi(this);
     this->image = new QImage();
-//    createActions();
-//    createMenus();
- //   createContextMenu();
-
+	this->imgItem = new QGraphicsPixmapItem();
+	this->scene = new QGraphicsScene(parent);
     setCurrentFile("");
 }
 
 MainWindow::~MainWindow()
 {
-	delete face;
-	delete image;  
+	delete image;
+	delete imgItem;
+	delete scene;
 	delete ui; 
 }
 
@@ -36,10 +35,10 @@ void MainWindow::on_openAction_triggered()
 		setCurrentFile(fileName);
         if(image->load(fileName))
         {
-            QGraphicsScene *scene = new QGraphicsScene;
-            scene->addPixmap(QPixmap::fromImage(*image));
+			imgItem->setPixmap(QPixmap::fromImage(*image));
+            scene->addItem(imgItem);
             ui->graphicsView->setScene(scene);
-            ui->graphicsView->resize(image->width() + 10, image->height() + 10);
+            //ui->graphicsView->resize(image->width(), image->height());
             ui->graphicsView->show();
         }
     }
@@ -47,8 +46,55 @@ void MainWindow::on_openAction_triggered()
 
 void MainWindow::on_alignAction_triggered()
 {
-	this->face = new CFaceAlign();
-	face->procPic((const char *)curFile.toLocal8Bit());
+	CFaceAlign face;
+	int pointnum = face.PointNum();
+	float *ptsPos= new float[pointnum];
+	QGraphicsEllipseItem **dots = new QGraphicsEllipseItem*[pointnum];
+	ptsPos = face.procPic((const char *)curFile.toLocal8Bit());
+
+	for(int i=0;i<pointnum;i=i++)
+	{
+		dots[i] = new QGraphicsEllipseItem(QRect(ptsPos[2*i], ptsPos[2*i+1], 2.5, 2.5),imgItem);
+		//if(i<172)
+		//{
+		//	dots[i] = new QGraphicsEllipseItem(QRect(ptsPos[i], ptsPos[i+1], 2, 2),imgItem);
+		//	//switch(i)
+		//	//{
+		//	//case 14:
+		//	//case 30:
+		//	//	point2.x = ptsPos[i-14];
+		//	//	point2.y = ptsPos[i-13];
+		//	//	break;
+		//	//case 50:
+		//	//case 70:
+		//	//	point2.x = ptsPos[i-18];
+		//	//	point2.y = ptsPos[i-17];
+		//	//	break;
+		//	//case 94:
+		//	//	point2.x = ptsPos[i-22];
+		//	//	point2.y = ptsPos[i-21];
+		//	//	break;
+		//	//case 134:
+		//	//	point2.x = ptsPos[i-38];
+		//	//	point2.y = ptsPos[i-37];
+		//	//}
+		//	//line(img, point1, point2, CV_RGB(255,0,0));
+		//}
+		//else if(i == 172)
+		//{
+		//	dots[i] = new QGraphicsEllipseItem(QRect(ptsPos[i], ptsPos[i+1], 2, 2),imgItem);
+		//}
+		//else
+		//{
+		//	dots[i] = new QGraphicsEllipseItem(QRect(ptsPos[i], ptsPos[i+1], 2, 2),imgItem);
+		//}
+		dots[i]->setPen(QPen(Qt::red));
+		dots[i]->setBrush(Qt::red);
+		dots[i]->setFlag(QGraphicsItem::ItemIsMovable,true);
+	} 
+	ui->graphicsView->show();
+	delete ptsPos;
+	delete *dots;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -105,7 +151,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 bool MainWindow::okToContinue()
 {
     if (isWindowModified()) {
-        int r = QMessageBox::warning(this, tr("Spreadsheet"),
+        int r = QMessageBox::warning(this, tr("FaceAlign"),
                         tr("The document has been modified.\n"
                            "Do you want to save your changes?"),
                         QMessageBox::Yes | QMessageBox::No
@@ -149,10 +195,13 @@ void MainWindow::setCurrentFile(const QString &fileName)
     setWindowModified(false);
 
     QString shownName = tr("Untitled");
-    //if (!curFile.isEmpty()) {
-    //    shownName = strippedName(curFile);
-    //}
+    if (!curFile.isEmpty()) {
+        shownName = strippedName(curFile);
+    }
+    setWindowTitle(tr("%1 - %2[*]").arg(tr("FaceAlign")).arg(shownName));
+}
 
-    setWindowTitle(tr("%1[*] - %2").arg(shownName)
-                                   .arg(tr("Spreadsheet")));
+QString MainWindow::strippedName(const QString &fullFileName)
+{
+	return QFileInfo(fullFileName).fileName();
 }

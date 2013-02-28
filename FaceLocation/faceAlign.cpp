@@ -4,14 +4,18 @@ using namespace std;
 using namespace Gdiplus; 
 using namespace cv;
 
-bool CFaceAlign::isShowFace = false;
 CascadeClassifier CFaceAlign::cascade;
 
-CFaceAlign::CFaceAlign():FACE_CASCADE_NAME("haarcascade_frontalface_alt2.xml"){}
+CFaceAlign::CFaceAlign()
+{
+	FACE_CASCADE_NAME = "haarcascade_frontalface_alt2.xml";
+	const WCHAR configpath[]=L"F:\\Files\\Project\\ASM\\Code\\FYP\\FaceLocation\\Win32\\Debug\\casm.bin";
+	g_pAlign = NULL;
+	InitAlign(configpath); //input file path of casm.bin
+}
 
 CFaceAlign::~CFaceAlign()
 {
-	g_pAlign = NULL;
 	DestroyAlign();
 }
 
@@ -26,7 +30,6 @@ void CFaceAlign::DestroyAlign()
 
  HRESULT CFaceAlign::InitAlign(const WCHAR* wzModelFile)
 {
-	//DestroyAlign();
 
 	g_pAlign = new CFaceAlignDll();
 
@@ -88,14 +91,12 @@ void CFaceAlign::AvgShape( float* pPoints )
 }
 
 
-void CFaceAlign::procPic(string strFilePath)
+float* CFaceAlign::procPic(string strFilePath)
 {
 	ULONG_PTR m_gdiplusToken; 
 	GdiplusStartupInput gdiplusStartupInput;     //声明
 	GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);    //启动
 
-	int Pos = strFilePath.length() - strFilePath.rfind(TEXT('/')) -1;
-	//cout<<strFilePath.r.Right(Pos)<<":"<<endl;
 	string srcImageFile="";
 	string resImageFile="";
 	srcImageFile = strFilePath;
@@ -106,24 +107,21 @@ void CFaceAlign::procPic(string strFilePath)
 	wchar_t *wstrFilePath = new wchar_t[strFilePath.size()+1];  
 	swprintf(wstrFilePath,L"%S",strFilePath.c_str());   
 
+	int ptsNum = PointNum();
+	if (ptsNum < 0)
+	{
+		printf("Initial failed");
+		exit(0);
+	}
+	ptsNum = ptsNum  <<1;
+	float *ptsPos1= new float[ptsNum];
+
 	Bitmap srcImg(wstrFilePath);
 	if(srcImg.GetLastStatus() == Ok)
 	{		
-
-		const WCHAR configpath[]=L"F:\\Files\\Project\\ASM\\Code\\FYP\\FaceLocation\\Win32\\Debug\\casm.bin";
-		InitAlign(configpath); //input file path of casm.bin
 		Gdiplus::Rect detRect(0, 0, srcImg.GetWidth(), srcImg.GetHeight());
 		BitmapData lkData;
 		srcImg.LockBits(&detRect,ImageLockModeWrite,srcImg.GetPixelFormat(),&lkData);
-
-		int ptsNum = PointNum();
-		if (ptsNum < 0)
-		{
-			printf("Initial failed");
-			exit(0);
-		}
-		ptsNum = ptsNum  <<1;
-		float *ptsPos1= new float[ptsNum];
 
 		Mat image = imread(srcImageFile);
 		//CvSize dst_cvsize;
@@ -141,7 +139,7 @@ void CFaceAlign::procPic(string strFilePath)
 			if( !cascade.load( FACE_CASCADE_NAME ) )
 			{ 
 				fprintf( stderr, "ERROR: Could not load classifier cascade\n" ); 
-				return; 
+				exit(0); 
 			}
 			detectAndDisplay(image, &rcBoundBox); 
 		}
@@ -155,14 +153,15 @@ void CFaceAlign::procPic(string strFilePath)
 		catch (runtime_error& ex) 
 		{
 			fprintf(stderr, "Exception saving aligned image: %s\n", ex.what());
-			return;
+			exit(0);
 		}
 		image.release();
-		delete ptsPos1;
-		srcImg.UnlockBits(&lkData);     
+		srcImg.UnlockBits(&lkData);    
 	}
 	srcImageFile = "";
 	resImageFile = "";
+	delete wstrFilePath;
+	return ptsPos1;
 }
 
 //void ProcPicDir(CString strPicDir)
@@ -226,13 +225,6 @@ void CFaceAlign::detectAndDisplay(Mat& img, RECT* detectBox)
 		(*detectBox).top = faces[0].y * scale + 10;
 		(*detectBox).bottom = (faces[0].y + faces[0].height) * scale + 10;
 		rectangle(img, cvPoint((*detectBox).left,(*detectBox).top), cvPoint((*detectBox).right,(*detectBox).bottom), Scalar( 255, 0, 0 ));
-		if(isShowFace)
-		{
-			namedWindow("image", CV_WINDOW_AUTOSIZE); //创建窗口
-			//imshow("image",img);
-			cvWaitKey(0); 
-			destroyWindow("image");
-		}
 	}
 	else
 	{
@@ -281,13 +273,6 @@ void CFaceAlign::showAlignedFace(Mat& img, float* ptsPos, int ptsNum)
 			circle(img, point1 ,1 , CV_RGB(0,255,0),2, 8, 0 );
 		}
 	} 
-	if(isShowFace)
-	{
-		namedWindow("image", CV_WINDOW_AUTOSIZE); //创建窗口
-		imshow("image",img);
-		cvWaitKey(0); 
-		destroyWindow("image");
-	}
 }
 
 bool CFaceAlign::ConvertToGrayBits(BYTE* pOrgBits, int width, int height, int nChannels, BYTE* pGrayBits, int nOrgStride, int nGrayStride)

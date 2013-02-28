@@ -1,4 +1,6 @@
 #include "faceAlign.h"
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QGraphicsPixmapItem>
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -32,11 +34,11 @@ private:
 	bool okToContinue();
  //   bool saveFile(const QString &fileName);
     void setCurrentFile(const QString &fileName);
-
+	QString strippedName(const QString &fullFileName);
 	QImage *image;
+	QGraphicsPixmapItem *imgItem;
     QString curFile;
-	CFaceAlign *face;
-	QAction *separatorAction;
+	QGraphicsScene *scene;
 
     QMenu *fileMenu;
 
@@ -44,6 +46,7 @@ private:
 	QAction *saveAction;
 	QAction *exitAction;
 	QAction *alignAction;
+	QAction *separatorAction;
 
 	Ui::MainWindow *ui;
 };
