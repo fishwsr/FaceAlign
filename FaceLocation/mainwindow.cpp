@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "faceAlign.h"
+//#include "QFaceModel.h"
 
 using namespace Gdiplus; 
 
@@ -14,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	this->imgItem = new QGraphicsPixmapItem();
 	this->scene = new QGraphicsScene(parent);
     setCurrentFile("");
+	isAligned = false;
 }
 
 MainWindow::~MainWindow()
@@ -22,6 +24,21 @@ MainWindow::~MainWindow()
 	delete imgItem;
 	delete scene;
 	delete ui; 
+	if(isAligned)
+	{
+		delete facemodel;
+	}
+}
+
+//TODO
+void MainWindow::on_saveAction_triggered()
+{
+
+}
+
+void MainWindow::on_closeAcion_triggered()
+{
+
 }
 
 void MainWindow::on_openAction_triggered()
@@ -51,50 +68,54 @@ void MainWindow::on_alignAction_triggered()
 	float *ptsPos= new float[pointnum];
 	QGraphicsEllipseItem **dots = new QGraphicsEllipseItem*[pointnum];
 	ptsPos = face.procPic((const char *)curFile.toLocal8Bit());
+	facemodel = new QFaceModel(ptsPos,pointnum,imgItem);
 
-	for(int i=0;i<pointnum;i=i++)
-	{
-		dots[i] = new QGraphicsEllipseItem(QRect(ptsPos[2*i], ptsPos[2*i+1], 2.5, 2.5),imgItem);
-		//if(i<172)
-		//{
-		//	dots[i] = new QGraphicsEllipseItem(QRect(ptsPos[i], ptsPos[i+1], 2, 2),imgItem);
-		//	//switch(i)
-		//	//{
-		//	//case 14:
-		//	//case 30:
-		//	//	point2.x = ptsPos[i-14];
-		//	//	point2.y = ptsPos[i-13];
-		//	//	break;
-		//	//case 50:
-		//	//case 70:
-		//	//	point2.x = ptsPos[i-18];
-		//	//	point2.y = ptsPos[i-17];
-		//	//	break;
-		//	//case 94:
-		//	//	point2.x = ptsPos[i-22];
-		//	//	point2.y = ptsPos[i-21];
-		//	//	break;
-		//	//case 134:
-		//	//	point2.x = ptsPos[i-38];
-		//	//	point2.y = ptsPos[i-37];
-		//	//}
-		//	//line(img, point1, point2, CV_RGB(255,0,0));
-		//}
-		//else if(i == 172)
-		//{
-		//	dots[i] = new QGraphicsEllipseItem(QRect(ptsPos[i], ptsPos[i+1], 2, 2),imgItem);
-		//}
-		//else
-		//{
-		//	dots[i] = new QGraphicsEllipseItem(QRect(ptsPos[i], ptsPos[i+1], 2, 2),imgItem);
-		//}
-		dots[i]->setPen(QPen(Qt::red));
-		dots[i]->setBrush(Qt::red);
-		dots[i]->setFlag(QGraphicsItem::ItemIsMovable,true);
-	} 
+	//for(int k=0;k<pointnum;k++)
+	//{
+	//	int i=2*k;
+	//	QPoint point1(ptsPos[i],ptsPos[i+1]);
+	//	QPoint point2(ptsPos[i+2],ptsPos[i+3]);
+	//	
+	//	if(i<172)
+	//	{
+	//		switch(i)
+	//		{
+	//		case 14:
+	//		case 30:
+	//			point2.setX(ptsPos[i-14]);
+	//			point2.setY(ptsPos[i-13]);
+	//			break;
+	//		case 50:
+	//		case 70:
+	//			point2.setX(ptsPos[i-18]);
+	//			point2.setY(ptsPos[i-17]);
+	//			break;
+	//		case 94:
+	//			point2.setX(ptsPos[i-22]);
+	//			point2.setY(ptsPos[i-21]);
+	//			break;
+	//		case 134:
+	//			point2.setX(ptsPos[i-38]);
+	//			point2.setY(ptsPos[i-37]);
+	//		}
+	//		//QGraphicsLineItem(QLineF(point1, point2),imgItem);
+	//	}
+	//	dots[k] = new QGraphicsEllipseItem(QRect(point1.x(), point1.y(), 2.5, 2.5),imgItem);
+	//	dots[k]->setPen(QPen(Qt::red));
+	//	dots[k]->setBrush(Qt::red);
+	//	dots[k]->setFlag(QGraphicsItem::ItemIsMovable,true);
+	//} 
+
+
 	ui->graphicsView->show();
 	delete ptsPos;
-	delete *dots;
+	isAligned = true;
+
+	//for(int k=0;k<pointnum;k++)
+	//{
+	//	delete [] dots[k];
+	//}
+	//delete []dots;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -106,17 +127,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
-
-//void MainWindow::open()
-//{
-//    if (okToContinue()) {
-//        QString fileName = QFileDialog::getOpenFileName(this,
-//                                   tr("Open Spreadsheet"), ".",
-//                                   tr("Spreadsheet files (*.sp)"));
-//        if (!fileName.isEmpty())
-//            loadFile(fileName);
-//    }
-//}
 
 //void MainWindow::createActions()
 //{
@@ -165,18 +175,6 @@ bool MainWindow::okToContinue()
     return true;
 }
 
-//bool MainWindow::loadFile(const QString &fileName)
-//{
-//    if (!spreadsheet->readFile(fileName)) {
-//        statusBar()->showMessage(tr("Loading canceled"), 2000);
-//        return false;
-//    }
-//
-//    setCurrentFile(fileName);
-//    statusBar()->showMessage(tr("File loaded"), 2000);
-//    return true;
-//}
-//
 //bool MainWindow::saveFile(const QString &fileName)
 //{
 //    if (!spreadsheet->writeFile(fileName)) {

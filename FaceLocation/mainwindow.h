@@ -1,4 +1,5 @@
 #include "faceAlign.h"
+#include "QFaceModel.h"
 #include <QtGui/QGraphicsScene>
 #include <QtGui/QGraphicsPixmapItem>
 
@@ -24,21 +25,19 @@ public:
 private slots:
     void on_openAction_triggered();
 	void on_alignAction_triggered();
-//	bool save();
+	void on_saveAction_triggered();
+	void on_closeAcion_triggered();
 
 private:
-//   void createActions();
-//    void createMenus();
-//    void createContextMenu();
-//    bool loadFile(const QString &fileName);
 	bool okToContinue();
- //   bool saveFile(const QString &fileName);
     void setCurrentFile(const QString &fileName);
 	QString strippedName(const QString &fullFileName);
+	bool isAligned;
 	QImage *image;
 	QGraphicsPixmapItem *imgItem;
     QString curFile;
 	QGraphicsScene *scene;
+	QFaceModel *facemodel;
 
     QMenu *fileMenu;
 

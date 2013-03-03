@@ -79,6 +79,7 @@
    </attribute>
    <addaction name="openAction"/>
    <addaction name="saveAction"/>
+   <addaction name="closeAction"/>
    <addaction name="separator"/>
    <addaction name="alignAction"/>
   </widget>
@@ -96,6 +97,10 @@
    </property>
   </action>
   <action name="closeAction">
+   <property name="icon">
+    <iconset>
+     <normaloff>images/clear.png</normaloff>images/clear.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Close</string>
    </property>
