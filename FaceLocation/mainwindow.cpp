@@ -32,17 +32,6 @@ MainWindow::~MainWindow()
 	}
 }
 
-//TODO
-void MainWindow::on_saveAction_triggered()
-{
-
-}
-
-void MainWindow::on_closeAcion_triggered()
-{
-
-}
-
 void MainWindow::on_openAction_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(
