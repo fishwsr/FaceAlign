@@ -26,8 +26,7 @@ private slots:
     void on_openAction_triggered();
 	void on_alignAction_triggered();
 	void on_saveAction_triggered();
-	void on_closeAcion_triggered();
-
+	void on_closeAction_triggered();
 private:
 	bool okToContinue();
     void setCurrentFile(const QString &fileName);

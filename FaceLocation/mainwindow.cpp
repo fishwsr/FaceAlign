@@ -12,8 +12,10 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 {
 	ui->setupUi(this);
     this->image = new QImage();
-	this->imgItem = new QGraphicsPixmapItem();
 	this->scene = new QGraphicsScene(parent);
+	ui->graphicsView->setScene(scene);
+	//ui->graphicsView->resize(image->width(), image->height());
+	ui->graphicsView->show();
     setCurrentFile("");
 	isAligned = false;
 }
@@ -52,11 +54,9 @@ void MainWindow::on_openAction_triggered()
 		setCurrentFile(fileName);
         if(image->load(fileName))
         {
+			imgItem = new QGraphicsPixmapItem();
 			imgItem->setPixmap(QPixmap::fromImage(*image));
             scene->addItem(imgItem);
-            ui->graphicsView->setScene(scene);
-            //ui->graphicsView->resize(image->width(), image->height());
-            ui->graphicsView->show();
         }
     }
 }
@@ -116,6 +116,15 @@ void MainWindow::on_alignAction_triggered()
 	//	delete [] dots[k];
 	//}
 	//delete []dots;
+}
+
+void MainWindow::on_saveAction_triggered(){
+	std::cout << "Hello";
+}
+
+void MainWindow::on_closeAction_triggered(){
+	delete this->imgItem;
+	this->scene->clear();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
