@@ -1,7 +1,7 @@
 #pragma once
 #include <QVector>
-#include <QtGui/QGraphicsEllipseItem>
-#include <QtGui/QGraphicsLineItem>
+#include "Node.h"
+#include "Link.h"
 
 class QFaceModel
 {
@@ -11,6 +11,6 @@ public:
 	void paint();
 private:
 	void Connect(float *ptsPos,QGraphicsItem *parent);
-	QVector<QGraphicsEllipseItem *> nodes;
-	QVector<QGraphicsLineItem *> links;
+	QVector<Node *> nodes;
+	QVector<Link *> links;
 };

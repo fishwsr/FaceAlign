@@ -93,8 +93,10 @@
     <ClCompile Include="GeneratedFiles\Release\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Link.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="QFaceModel.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -130,6 +132,8 @@
     <ClInclude Include="faceAlign.h" />
     <ClInclude Include="FaceAlignDll.h" />
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h" />
+    <ClInclude Include="Link.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="QFaceModel.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
