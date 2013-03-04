@@ -9,8 +9,8 @@ public:
 	QFaceModel(float *ptsPos, int pointnum, QGraphicsItem *parent);
 	~QFaceModel(void);
 	void paint();
-
 private:
+	void Connect(float *ptsPos,QGraphicsItem *parent);
 	QVector<QGraphicsEllipseItem *> nodes;
-	//QVector<QGraphicsLineItem *> links;
+	QVector<QGraphicsLineItem *> links;
 };

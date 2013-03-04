@@ -23,7 +23,10 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 MainWindow::~MainWindow()
 {
 	delete image;
-	delete imgItem;
+	if(imgItem != NULL)
+	{
+		delete imgItem;
+	}
 	delete scene;
 	delete ui; 
 	if(isAligned)
@@ -107,12 +110,16 @@ void MainWindow::on_alignAction_triggered()
 	//delete []dots;
 }
 
-void MainWindow::on_saveAction_triggered(){
+void MainWindow::on_saveAction_triggered()
+{
 	std::cout << "Hello";
 }
 
-void MainWindow::on_closeAction_triggered(){
-	delete this->imgItem;
+void MainWindow::on_closeAction_triggered()
+{
+	delete imgItem;
+	imgItem = NULL;
+	setCurrentFile("");
 	this->scene->clear();
 }
 
