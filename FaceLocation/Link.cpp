@@ -12,7 +12,7 @@ Link::Link(Node *fromNode, Node *toNode, QGraphicsItem *parent)
     myFromNode->addLink(this);
     myToNode->addLink(this);
 
-    setZValue(-1);
+    //setZValue(0);
 	setPen(QPen(Qt::blue));
     trackNodes();
 }
@@ -25,7 +25,8 @@ Link::~Link()
 
 void Link::trackNodes()
 {
-	QPointF p1 = myFromNode->pos();
-	QPointF p2 = myToNode->pos();
-    setLine(QLineF(myFromNode->pos(), myToNode->pos()));
+	//QPointF p1 = myFromNode->pos());
+	//QPointF p2 = myToNode->mapFromParent(0,0);
+
+    setLine(QLineF(myFromNode->scenePos(), myToNode->scenePos()));
 }

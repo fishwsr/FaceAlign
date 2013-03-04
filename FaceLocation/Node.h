@@ -13,7 +13,7 @@ class Node : public QGraphicsEllipseItem
     Q_DECLARE_TR_FUNCTIONS(Node)
 
 public:
-    Node(QRectF rect, QGraphicsItem *parent);
+    Node(QPointF nodecenter, QGraphicsItem *parent);
     ~Node();
     void addLink(Link *link);
 	void removeLink(Link *link);

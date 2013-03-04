@@ -8,7 +8,7 @@ QFaceModel::QFaceModel(float *ptsPos, int pointnum, QGraphicsItem *parent)
 	nodes.resize(pointnum);
 	for(int i=0;i<pointnum;i=i++)
 	{	
-		nodes[i] = new Node(QRectF(ptsPos[2*i], ptsPos[2*i+1], 3, 3),parent);
+		nodes[i] = new Node(QPointF(ptsPos[2*i], ptsPos[2*i+1]),parent);
 	}
 	Connect(ptsPos,parent);
 }

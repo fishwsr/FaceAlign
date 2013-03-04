@@ -3,14 +3,14 @@
 #include "link.h"
 #include "node.h"
 
-Node::Node(QRectF rect, QGraphicsItem *parent)
+Node::Node(QPointF nodecenter, QGraphicsItem *parent)
 {
 	setParentItem(parent);
-	setRect(rect);
+	setRect(QRectF(0, 0, 3, 3));
 	setPen(QPen(Qt::red));
 	setBrush(Qt::red);
-    setFlags(ItemIsMovable | ItemIsSelectable);
-	//setPos(rect.center());
+    setFlags(ItemIsMovable | ItemIsSelectable |ItemSendsGeometryChanges);
+	setPos(nodecenter.x(),nodecenter.y());
 }
 
 Node::~Node()
