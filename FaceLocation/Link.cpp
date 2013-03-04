@@ -25,8 +25,7 @@ Link::~Link()
 
 void Link::trackNodes()
 {
-	//QPointF p1 = myFromNode->pos());
-	//QPointF p2 = myToNode->mapFromParent(0,0);
-
-    setLine(QLineF(myFromNode->scenePos(), myToNode->scenePos()));
+	QPointF p1 = myFromNode->sceneBoundingRect().center();
+	QPointF p2 = myToNode->sceneBoundingRect().center();
+	setLine(QLineF(p1, p2));
 }
