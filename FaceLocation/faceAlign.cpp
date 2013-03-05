@@ -9,7 +9,7 @@ CascadeClassifier CFaceAlign::cascade;
 CFaceAlign::CFaceAlign()
 {
 	FACE_CASCADE_NAME = "haarcascade_frontalface_alt2.xml";
-	const WCHAR configpath[]=L"F:\\Files\\Project\\ASM\\Code\\FYP\\FaceLocation\\Win32\\Debug\\casm.bin";
+	const WCHAR configpath[]=L"casm.bin";
 	g_pAlign = NULL;
 	InitAlign(configpath); //input file path of casm.bin
 }
