@@ -3,6 +3,7 @@
 #include "Link.h"
 #include <QtGui>
 
+
 QFaceModel::QFaceModel(float *ptsPos, int pointnum, QGraphicsItem *parent)
 {
 	nodes.resize(pointnum);
@@ -12,6 +13,7 @@ QFaceModel::QFaceModel(float *ptsPos, int pointnum, QGraphicsItem *parent)
 	}
 	Connect(ptsPos,parent);
 }
+
 
 
 QFaceModel::~QFaceModel(void)
@@ -47,4 +49,44 @@ void QFaceModel::Connect(float *ptsPos,QGraphicsItem *parent)
 		}
 		links[i] = new Link(nodes[i], nodes[c], parent);
 	}
+}
+
+QVector<Node*> QFaceModel::getRightBrowNodes()
+{
+	return nodes.mid(26, 10);
+}
+
+QVector<Node*> QFaceModel::getLeftBrowNodes()
+{
+	return nodes.mid(16, 10);
+}
+
+QVector<Node*> QFaceModel::getLeftEyeNodes()
+{
+	return nodes.mid(0, 8);
+}
+
+QVector<Node*> QFaceModel::getRightEyeNodes()
+{
+	return nodes.mid(8, 8);
+}
+
+QVector<Node*> QFaceModel::getNoseNodes()
+{
+	return nodes.mid(36, 12);
+}
+
+QVector<Node*> QFaceModel::getMouthNodes()
+{
+	return nodes.mid(48, 20);
+}
+
+QVector<Node*> QFaceModel::getFaceProfileNodes()
+{
+	return nodes.mid(68, 19);
+}
+
+void QFaceModel::paint()
+{
+
 }

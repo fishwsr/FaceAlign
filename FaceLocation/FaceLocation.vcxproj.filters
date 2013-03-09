@@ -33,6 +33,9 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Header Files\FaceModel">
+      <UniqueIdentifier>{af54f603-ab79-4501-a8b9-b21b3e85d52d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -93,14 +96,14 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QFaceModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Link.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\FaceModel</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\FaceModel</Filter>
+    </ClInclude>
+    <ClInclude Include="QFaceModel.h">
+      <Filter>Header Files\FaceModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
