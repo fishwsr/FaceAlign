@@ -68,6 +68,9 @@
     <ClCompile Include="Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CThinPlateSpline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -104,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="QFaceModel.h">
       <Filter>Header Files\FaceModel</Filter>
+    </ClInclude>
+    <ClInclude Include="CThinPlateSpline.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

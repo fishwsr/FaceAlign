@@ -2,6 +2,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "faceAlign.h"
+#include "CThinPlateSpline.h"
+#include <fstream>
+#include <iostream>
 
 using namespace Gdiplus; 
 
@@ -65,6 +68,33 @@ void MainWindow::on_alignAction_triggered()
 	setWindowModified(true);
 	delete[] ptsPos;
 }
+
+void MainWindow::on_sketchAction_triggered()
+{
+	cv::Mat templateImg = cv::imread("colorMode\\nose\\nose1.jpg");
+	std::vector<cv::Point> noseControlPts;
+	std::ifstream fin;
+	fin.open("colorMode\\nose\\nose1.pts");
+	for (int i = 0; i < 10; i++)
+	{
+		fin >> noseControlPts[i].x >> noseControlPts[i].y;
+	}
+	fin.close();
+
+	QVector<Node*> noseNodes;
+	noseNodes = facemodel->getNoseNodes();
+	std::vector<cv::Point> nosePts;
+	for(int i = 0; i<10; i++)
+	{
+		nosePts[i].x = noseNodes[i]->pos().x();
+		nosePts[i].y = noseNodes[i]->pos().y();
+	}
+	CThinPlateSpline tps(noseControlPts,nosePts);
+	Mat warpedNose;
+	tps.warpImage(templateImg, warpedNose,0.01,INTER_CUBIC,BACK_WARP);
+	imwrite("temp\\mouth\\1.jpg",warpedNose);
+}
+
 
 void MainWindow::on_saveAction_triggered()
 {
