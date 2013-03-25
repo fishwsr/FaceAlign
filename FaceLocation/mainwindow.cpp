@@ -74,8 +74,7 @@ void MainWindow::on_sketchAction_triggered()
 	cv::Mat templateImg = cv::imread("colorMode\\nose\\nose1.jpg");
 	cv::Mat bigTemplateImg(image->width(), image->height(), templateImg.type(),Scalar::all(0));
 	Mat(templateImg, cvRect(0,0,templateImg.cols, templateImg.rows)).copyTo(Mat(bigTemplateImg, cvRect(0,0,templateImg.cols, templateImg.rows)));
-	//bigTemplateImg.adjustROI(0, bigTemplateImg.rows, 0, bigTemplateImg.cols);
-	bigTemplateImg(cvRect(0, 0, bigTemplateImg.cols, bigTemplateImg.rows));
+
 	std::vector<cv::Point> noseControlPts;
 	int nosePtsNum;
 	std::ifstream fin;
