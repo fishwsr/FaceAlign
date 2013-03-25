@@ -72,27 +72,43 @@ void MainWindow::on_alignAction_triggered()
 void MainWindow::on_sketchAction_triggered()
 {
 	cv::Mat templateImg = cv::imread("colorMode\\nose\\nose1.jpg");
+	cv::Mat bigTemplateImg(image->width(), image->height(), templateImg.type(),Scalar::all(0));
+	Mat(templateImg, cvRect(0,0,templateImg.cols, templateImg.rows)).copyTo(Mat(bigTemplateImg, cvRect(0,0,templateImg.cols, templateImg.rows)));
+	//bigTemplateImg.adjustROI(0, bigTemplateImg.rows, 0, bigTemplateImg.cols);
+	bigTemplateImg(cvRect(0, 0, bigTemplateImg.cols, bigTemplateImg.rows));
 	std::vector<cv::Point> noseControlPts;
+	int nosePtsNum;
 	std::ifstream fin;
 	fin.open("colorMode\\nose\\nose1.pts");
-	for (int i = 0; i < 10; i++)
+	if(!fin)
 	{
-		fin >> noseControlPts[i].x >> noseControlPts[i].y;
+		return;
+	}
+	fin >> nosePtsNum;
+	noseControlPts.resize(nosePtsNum);
+	for (int i = 0; i < 12; i++)
+	{
+		double ptsX, ptsY;
+		fin >> ptsX >>ptsY;
+		noseControlPts[i].x = ptsX;
+		noseControlPts[i].y = ptsY; 
 	}
 	fin.close();
 
 	QVector<Node*> noseNodes;
 	noseNodes = facemodel->getNoseNodes();
 	std::vector<cv::Point> nosePts;
-	for(int i = 0; i<10; i++)
+	nosePts.resize(nosePtsNum);
+	for(int i = 0; i<12; i++)
 	{
-		nosePts[i].x = noseNodes[i]->pos().x();
-		nosePts[i].y = noseNodes[i]->pos().y();
+		nosePts[i].x = noseNodes[i]->sceneBoundingRect().center().x();
+		nosePts[i].y = noseNodes[i]->sceneBoundingRect().center().y();
 	}
 	CThinPlateSpline tps(noseControlPts,nosePts);
 	Mat warpedNose;
-	tps.warpImage(templateImg, warpedNose,0.01,INTER_CUBIC,BACK_WARP);
-	imwrite("temp\\mouth\\1.jpg",warpedNose);
+	tps.warpImage(bigTemplateImg, warpedNose,0.01,INTER_CUBIC,BACK_WARP);
+	imwrite("temp\\mouth\\t1.jpg",bigTemplateImg);
+	imwrite("temp\\mouth\\r1.jpg",warpedNose);
 }
 
 
