@@ -2,9 +2,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "faceAlign.h"
-#include "CThinPlateSpline.h"
-#include <fstream>
-#include <iostream>
+#include "FaceSketch.h"
 
 using namespace Gdiplus; 
 
@@ -71,43 +69,8 @@ void MainWindow::on_alignAction_triggered()
 
 void MainWindow::on_sketchAction_triggered()
 {
-	cv::Mat templateImg = cv::imread("colorMode\\nose\\nose1.jpg");
-	cv::Mat bigTemplateImg(image->width(), image->height(), templateImg.type(),Scalar::all(0));
-	Mat(templateImg, cvRect(0,0,templateImg.cols, templateImg.rows)).copyTo(Mat(bigTemplateImg, cvRect(0,0,templateImg.cols, templateImg.rows)));
-
-	std::vector<cv::Point> noseControlPts;
-	int nosePtsNum;
-	std::ifstream fin;
-	fin.open("colorMode\\nose\\nose1.pts");
-	if(!fin)
-	{
-		return;
-	}
-	fin >> nosePtsNum;
-	noseControlPts.resize(nosePtsNum);
-	for (int i = 0; i < 12; i++)
-	{
-		double ptsX, ptsY;
-		fin >> ptsX >>ptsY;
-		noseControlPts[i].x = ptsX;
-		noseControlPts[i].y = ptsY; 
-	}
-	fin.close();
-
-	QVector<Node*> noseNodes;
-	noseNodes = facemodel->getNoseNodes();
-	std::vector<cv::Point> nosePts;
-	nosePts.resize(nosePtsNum);
-	for(int i = 0; i<12; i++)
-	{
-		nosePts[i].x = noseNodes[i]->sceneBoundingRect().center().x();
-		nosePts[i].y = noseNodes[i]->sceneBoundingRect().center().y();
-	}
-	CThinPlateSpline tps(noseControlPts,nosePts);
-	Mat warpedNose;
-	tps.warpImage(bigTemplateImg, warpedNose,0.01,INTER_CUBIC,BACK_WARP);
-	imwrite("temp\\mouth\\t1.jpg",bigTemplateImg);
-	imwrite("temp\\mouth\\r1.jpg",warpedNose);
+	CFaceSketch faceSketch;
+	faceSketch.componentSketch("nose", facemodel, image->width(), image->height());
 }
 
 

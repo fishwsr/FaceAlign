@@ -71,6 +71,9 @@
     <ClCompile Include="CThinPlateSpline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FaceSketch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -109,6 +112,9 @@
       <Filter>Header Files\FaceModel</Filter>
     </ClInclude>
     <ClInclude Include="CThinPlateSpline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceSketch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
