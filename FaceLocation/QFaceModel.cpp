@@ -7,9 +7,15 @@
 QFaceModel::QFaceModel(float *ptsPos, int pointnum, QGraphicsItem *parent)
 {
 	nodes.resize(pointnum);
+	nodesID.resize(pointnum);
 	for(int i=0;i<pointnum;i=i++)
 	{	
-		nodes[i] = new Node(QRectF(ptsPos[2*i], ptsPos[2*i+1], 3, 3),parent);
+		int x = ptsPos[2*i];
+		int y = ptsPos[2*i+1];
+		nodes[i] = new Node(QRectF(x, y, 3, 3),parent);
+		nodesID[i] = new QGraphicsTextItem(QString::number(i),parent);
+		nodesID[i]->setPos(x,y);
+		nodesID[i]->setVisible(false);
 	}
 	Connect(ptsPos,parent);
 }
@@ -20,6 +26,7 @@ QFaceModel::~QFaceModel(void)
 {
 	nodes.clear();
 	links.clear();
+	nodesID.clear();
 }
 
 void QFaceModel::Connect(float *ptsPos,QGraphicsItem *parent)
@@ -89,4 +96,12 @@ QVector<Node*> QFaceModel::getFaceProfileNodes()
 void QFaceModel::paint()
 {
 
+}
+
+void QFaceModel::setNodesIdVisible( bool isVisible )
+{
+	for(int i=0; i<nodesID.size(); i++)
+	{
+		nodesID[i]->setVisible(isVisible);
+	}
 }

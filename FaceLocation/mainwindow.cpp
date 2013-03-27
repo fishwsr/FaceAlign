@@ -118,6 +118,12 @@ void MainWindow::on_closeAction_triggered()
 	}
 }
 
+void MainWindow::on_showNodeIDAction_triggered()
+{
+	bool isChecked = ui->showNodeIDAction->isChecked();
+	facemodel->setNodesIdVisible(isChecked);
+};
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (okToContinue()) {
@@ -182,4 +188,14 @@ bool MainWindow::eventFilter(QObject* object, QEvent* event)
 		ui->statusBar->showMessage(QString("x:%1,y:%2").arg(pos.x()).arg(pos.y()));
 	}
 	return false;
+}
+
+void MainWindow::contextMenuEvent( QContextMenuEvent *event )
+{
+	if (isAligned == true)
+	{
+		QMenu menu(this);
+		menu.addAction(ui->showNodeIDAction);
+		menu.exec(event->globalPos());
+	}
 }

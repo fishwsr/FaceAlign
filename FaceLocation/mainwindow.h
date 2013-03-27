@@ -28,9 +28,11 @@ private slots:
 	void on_saveAction_triggered();
 	void on_closeAction_triggered();
 	void on_sketchAction_triggered();
+	void on_showNodeIDAction_triggered();
 
 protected:
 	bool eventFilter(QObject* object, QEvent* event);
+	void contextMenuEvent(QContextMenuEvent *event);
 
 private:
 	bool okToContinue();
@@ -42,7 +44,6 @@ private:
     QString curFile;
 	QGraphicsScene *scene;
 	QFaceModel *facemodel;
-
 	Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

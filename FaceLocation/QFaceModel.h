@@ -1,5 +1,6 @@
 #pragma once
 #include <QVector>
+#include <QtGui/QGraphicsTextItem>
 #include "Node.h"
 #include "Link.h"
 
@@ -15,10 +16,11 @@ public:
 	QVector<Node*> getNoseNodes();
 	QVector<Node*> getMouthNodes();
 	QVector<Node*> getFaceProfileNodes();
+	void setNodesIdVisible(bool isVisible);
 	void paint();
 private:
 	void Connect(float *ptsPos,QGraphicsItem *parent);
 	QVector<Node *> nodes;
+	QVector<QGraphicsTextItem *> nodesID;
 	QVector<Link *> links;
-	
 };

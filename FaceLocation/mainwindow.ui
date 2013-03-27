@@ -180,6 +180,14 @@
     <string>sketch face</string>
    </property>
   </action>
+  <action name="showNodeIDAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Show nodes ID</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
