@@ -31,8 +31,14 @@
     </sizepolicy>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
     <item row="0" column="0">
      <widget class="QGraphicsView" name="graphicsView">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -44,6 +50,9 @@
         <width>256</width>
         <height>0</height>
        </size>
+      </property>
+      <property name="mouseTracking">
+       <bool>false</bool>
       </property>
       <property name="lineWidth">
        <number>1</number>
@@ -96,6 +105,9 @@
    <property name="toolTip">
     <string>Open an image</string>
    </property>
+   <property name="statusTip">
+    <string>Open an image</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
    </property>
@@ -128,8 +140,14 @@
    <property name="toolTip">
     <string>Save the aligned face</string>
    </property>
+   <property name="statusTip">
+    <string>Save the aligned face</string>
+   </property>
   </action>
   <action name="alignAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>images/find.png</normaloff>images/find.png</iconset>
@@ -138,10 +156,16 @@
     <string>&amp;Align</string>
    </property>
    <property name="toolTip">
-    <string>Align face</string>
+    <string>Locate face</string>
+   </property>
+   <property name="statusTip">
+    <string>Locate face</string>
    </property>
   </action>
   <action name="sketchAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>images/TOON-XP Icons (V1c) Icon 67.png</normaloff>images/TOON-XP Icons (V1c) Icon 67.png</iconset>
@@ -150,6 +174,9 @@
     <string>&amp;Sketch</string>
    </property>
    <property name="toolTip">
+    <string>sketch face</string>
+   </property>
+   <property name="statusTip">
     <string>sketch face</string>
    </property>
   </action>

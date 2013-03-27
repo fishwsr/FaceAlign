@@ -28,6 +28,10 @@ private slots:
 	void on_saveAction_triggered();
 	void on_closeAction_triggered();
 	void on_sketchAction_triggered();
+
+protected:
+	bool eventFilter(QObject* object, QEvent* event);
+
 private:
 	bool okToContinue();
     void setCurrentFile(const QString &fileName);
@@ -38,14 +42,6 @@ private:
     QString curFile;
 	QGraphicsScene *scene;
 	QFaceModel *facemodel;
-
-    QMenu *fileMenu;
-
-    QAction *openAction;
-	QAction *saveAction;
-	QAction *exitAction;
-	QAction *alignAction;
-	QAction *separatorAction;
 
 	Ui::MainWindow *ui;
 };

@@ -13,9 +13,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	ui->setupUi(this);
     this->image = new QImage();
 	this->scene = new QGraphicsScene(parent);
-	ui->graphicsView->setScene(scene);
-	//ui->graphicsView->resize(image->width(), image->height());
-	ui->graphicsView->show();
+	ui->statusBar->showMessage("Welcome");
+	ui->graphicsView->viewport()->installEventFilter(this);
     setCurrentFile("");
 	isAligned = false;
 	imgItem = NULL;
@@ -50,6 +49,12 @@ void MainWindow::on_openAction_triggered()
 			imgItem = new QGraphicsPixmapItem();
 			imgItem->setPixmap(QPixmap::fromImage(*image));
             scene->addItem(imgItem);
+			ui->graphicsView->setEnabled(true);
+			ui->graphicsView->setScene(scene);
+			//ui->graphicsView->adjustSize();
+			ui->graphicsView->show();
+			ui->graphicsView->setMouseTracking(true);
+			ui->alignAction->setEnabled(true);
         }
     }
 }
@@ -63,6 +68,7 @@ void MainWindow::on_alignAction_triggered()
 	facemodel = new QFaceModel(ptsPos,pointnum,imgItem);
 	ui->graphicsView->show();
 	isAligned = true;
+	ui->sketchAction->setEnabled(isAligned);
 	setWindowModified(true);
 	delete[] ptsPos;
 }
@@ -70,7 +76,25 @@ void MainWindow::on_alignAction_triggered()
 void MainWindow::on_sketchAction_triggered()
 {
 	CFaceSketch faceSketch;
-	faceSketch.componentSketch("nose", facemodel, image->width(), image->height());
+	faceSketch.sketchFace(facemodel, image->width(), image->height());
+	//std::vector<QGraphicsTextItem *> cmpnControlPts;
+	//int cmpnPtsNum;
+	//std::ifstream fin;
+	//fin.open("colorMode\\mouth\\mouth1.pts");
+	//if(!fin)
+	//{
+	//	return;
+	//}
+	//fin >> cmpnPtsNum;
+	//cmpnControlPts.resize(cmpnPtsNum);
+	//for (int i = 0; i < cmpnPtsNum; i++)
+	//{
+	//	double ptsX, ptsY;
+	//	fin >> ptsX >>ptsY;
+	//	cmpnControlPts[i] = new QGraphicsTextItem(QString::number(i), imgItem);
+	//	cmpnControlPts[i]->setPos(ptsX,ptsY);
+	//}
+	//fin.close();
 }
 
 
@@ -87,6 +111,10 @@ void MainWindow::on_closeAction_triggered()
 		imgItem = NULL;
 		setCurrentFile("");
 		this->scene->clear();
+		ui->graphicsView->setDisabled(true);
+		ui->graphicsView->setMouseTracking(false);
+		ui->alignAction->setDisabled(true);
+		ui->sketchAction->setDisabled(true);
 	}
 }
 
@@ -143,4 +171,15 @@ void MainWindow::setCurrentFile(const QString &fileName)
 QString MainWindow::strippedName(const QString &fullFileName)
 {
 	return QFileInfo(fullFileName).fileName();
+}
+
+bool MainWindow::eventFilter(QObject* object, QEvent* event)
+{
+	if (event->type() == QEvent::MouseMove)
+	{
+		QMouseEvent* mouse = static_cast<QMouseEvent*>(event);
+		QPointF pos = ui->graphicsView->mapToScene(mouse->pos());
+		ui->statusBar->showMessage(QString("x:%1,y:%2").arg(pos.x()).arg(pos.y()));
+	}
+	return false;
 }
