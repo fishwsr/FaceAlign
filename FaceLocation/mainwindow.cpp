@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     setCurrentFile("");
 	isAligned = false;
 	imgItem = NULL;
+
+	//debug purpose
+	openImage("./lena.jpg");
 }
 
 MainWindow::~MainWindow()
@@ -43,19 +46,7 @@ void MainWindow::on_openAction_triggered()
                 "Image files (*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm);;All files (*.*)");
     if(!fileName.isEmpty())
     {
-		setCurrentFile(fileName);
-        if(image->load(fileName))
-        {
-			imgItem = new QGraphicsPixmapItem();
-			imgItem->setPixmap(QPixmap::fromImage(*image));
-            scene->addItem(imgItem);
-			ui->graphicsView->setEnabled(true);
-			ui->graphicsView->setScene(scene);
-			//ui->graphicsView->adjustSize();
-			ui->graphicsView->show();
-			ui->graphicsView->setMouseTracking(true);
-			ui->alignAction->setEnabled(true);
-        }
+		openImage(fileName);
     }
 }
 
@@ -198,4 +189,21 @@ void MainWindow::contextMenuEvent( QContextMenuEvent *event )
 		menu.addAction(ui->showNodeIDAction);
 		menu.exec(event->globalPos());
 	}
+}
+
+void MainWindow::openImage( QString fileName )
+{
+		setCurrentFile(fileName);
+		if(image->load(fileName))
+		{
+			imgItem = new QGraphicsPixmapItem();
+			imgItem->setPixmap(QPixmap::fromImage(*image));
+			scene->addItem(imgItem);
+			ui->graphicsView->setEnabled(true);
+			ui->graphicsView->setScene(scene);
+			//ui->graphicsView->adjustSize();
+			ui->graphicsView->show();
+			ui->graphicsView->setMouseTracking(true);
+			ui->alignAction->setEnabled(true);
+		}
 }

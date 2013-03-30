@@ -292,7 +292,7 @@ void CThinPlateSpline::warpImage(const Mat& src, Mat& dst, float lambda, const i
 	
 	computeMaps(size,mapx,mapy);
 
-	remap(src,dst,mapx,mapy,interpolation);
+	remap(src,dst,mapx,mapy,interpolation, 0, Scalar(1,2,3));
 }
 
 void CThinPlateSpline::getMaps(Mat& mx, Mat& my)
