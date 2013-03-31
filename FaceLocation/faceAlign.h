@@ -22,7 +22,6 @@ public:
 	float* procPic(string strFilePath);
 	void detectAndDisplay(Mat& image, RECT* dectBox);
 	int PointNum();
-protected:
 private:
 	CFaceAlignDll* g_pAlign;
 	static CascadeClassifier cascade;
