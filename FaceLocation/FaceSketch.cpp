@@ -17,10 +17,34 @@ CFaceSketch::~CFaceSketch(void)
 
 void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 {
-	string templateNumber = "7";
-	string templatePath = "sketchMode\\" + componetName + "\\" +componetName + templateNumber;
-	string savetemplatePath = "temp\\" + componetName + "\\";
-	cv::Mat templateImg = cv::imread(templatePath + ".jpg", -1);
+	string eyeTemplateNumber = "2";
+	string browTemplateNumber = "7";
+	string noseTemplateNumber = "4";
+	string mouthTemplateNumber = "31";
+
+	string templatePath = "sketchMode\\" + componetName + "\\";
+	string modelPicPath = "";
+	string ptsFilePath = "";
+	
+	//string savetemplatePath = "temp\\" + componetName + "\\";
+	if(element == RIGHTBROW || element == LEFTBROW) {
+		modelPicPath = templatePath + componetName + browTemplateNumber + ".jpg";
+		ptsFilePath = templatePath + "eyebrow" + browTemplateNumber + ".pts";
+	} else if(element == RIGHTEYE || element == LEFTEYE) {
+		modelPicPath = templatePath + componetName + eyeTemplateNumber + ".jpg";
+		ptsFilePath = templatePath + componetName + eyeTemplateNumber + ".pts";
+	} else if(element == NOSE) {
+		modelPicPath = templatePath +componetName+  noseTemplateNumber + ".jpg";
+		ptsFilePath = templatePath + componetName + noseTemplateNumber + ".pts";
+	} else if(element == MOUTH) {
+		modelPicPath = templatePath + componetName + mouthTemplateNumber + ".jpg";
+		ptsFilePath = templatePath + componetName + mouthTemplateNumber + ".pts";
+	} else {
+		modelPicPath = templatePath + componetName + "1.jpg";
+		ptsFilePath = templatePath + componetName + "1.pts";
+	}
+	
+	cv::Mat templateImg = cv::imread(modelPicPath, -1);
 	cv::Mat bigTemplateImg(height, width, templateImg.type(), Scalar(1,2,3));
 	Mat(templateImg, cvRect(0,0,templateImg.cols, templateImg.rows)).copyTo(Mat(bigTemplateImg, cvRect(0,0,templateImg.cols, templateImg.rows)));
 
@@ -29,10 +53,7 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 	int featurePointsNum;
 
 	std::ifstream fin;
-	string ptsFilePath = templatePath + ".pts";
-	if(element == LEFTBROW || element == RIGHTBROW) {
-		ptsFilePath = "sketchMode\\" + componetName + "\\" + "eyebrow" + templateNumber + ".pts";
-	}
+	
 	
 	fin.open(ptsFilePath);
 	if(!fin)
