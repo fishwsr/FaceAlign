@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	imgItem = NULL;
 
 	//debug purpose
-	openImage("./lena.jpg");
+	openImage("./penny.jpg");
 }
 
 MainWindow::~MainWindow()

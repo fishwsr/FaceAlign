@@ -20,7 +20,7 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 	string templatePath = "colorMode\\" + componetName + "\\" +componetName + "1";
 	string savetemplatePath = "temp\\" + componetName + "\\";
 	cv::Mat templateImg = cv::imread(templatePath + ".jpg", -1);
-	cv::Mat bigTemplateImg(width, height, templateImg.type(), Scalar(1,2,3));
+	cv::Mat bigTemplateImg(height, width, templateImg.type(), Scalar(1,2,3));
 	Mat(templateImg, cvRect(0,0,templateImg.cols, templateImg.rows)).copyTo(Mat(bigTemplateImg, cvRect(0,0,templateImg.cols, templateImg.rows)));
 
 	std::vector<cv::Point> cmpnControlPts;
@@ -55,8 +55,8 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 	Mat warpedTemplate;
 	tps.warpImage(bigTemplateImg, warpedTemplate,0.01,INTER_CUBIC,BACK_WARP);
 	wholeFace.push_back(warpedTemplate);
-	cv::imwrite(savetemplatePath + "t1.jpg", bigTemplateImg);
-	cv::imwrite(savetemplatePath + "r1.jpg", warpedTemplate);
+	//cv::imwrite(savetemplatePath + "t1.jpg", bigTemplateImg);
+	//cv::imwrite(savetemplatePath + "r1.jpg", warpedTemplate);
 	
 	//string s = savetemplatePath + "r1.jpg";
 	//IplImage *warpedTemplate2 = cvLoadImage(s.c_str());
@@ -103,7 +103,7 @@ boolean CFaceSketch::isBackground(MatIterator_<Vec3b> point){
 
 void CFaceSketch::combineSketch()
 {
-	Mat face(width, height, CV_8UC3, Scalar(1,2,3));
+	Mat face(height, width, CV_8UC3, Scalar(1,2,3));
 	addTopToBottom(wholeFace[LEFTEYE], face);
 	addTopToBottom(wholeFace[RIGHTEYE], face);
 	addTopToBottom(wholeFace[LEFTBROW], face);
@@ -111,12 +111,12 @@ void CFaceSketch::combineSketch()
 	addTopToBottom(wholeFace[MOUTH], face);
 	addTopToBottom(wholeFace[NOSE], face);
 	addTopToBottom(face, wholeFace[PROFIILE]);
-	Mat whole(width, height, CV_8UC3, Scalar::all(255));
+	Mat whole(height, width, CV_8UC3, Scalar::all(255));
 	addTopToBottom(wholeFace[PROFIILE], whole);
 	
 	namedWindow("bbb", 1);
 	imshow("bbb", whole);
-
+	cv::imwrite("temp\\wholeSketch.jpg", whole);
 }
 
 void CFaceSketch::addTopToBottom( Mat &top, Mat &botom) 
