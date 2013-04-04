@@ -17,7 +17,8 @@ CFaceSketch::~CFaceSketch(void)
 
 void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 {
-	string templatePath = "colorMode\\" + componetName + "\\" +componetName + "1";
+	string templateNumber = "7";
+	string templatePath = "sketchMode\\" + componetName + "\\" +componetName + templateNumber;
 	string savetemplatePath = "temp\\" + componetName + "\\";
 	cv::Mat templateImg = cv::imread(templatePath + ".jpg", -1);
 	cv::Mat bigTemplateImg(height, width, templateImg.type(), Scalar(1,2,3));
@@ -25,20 +26,54 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 
 	std::vector<cv::Point> cmpnControlPts;
 	int cmpnPtsNum;
+	int featurePointsNum;
+
 	std::ifstream fin;
-	fin.open(templatePath + ".pts");
+	string ptsFilePath = templatePath + ".pts";
+	if(element == LEFTBROW || element == RIGHTBROW) {
+		ptsFilePath = "sketchMode\\" + componetName + "\\" + "eyebrow" + templateNumber + ".pts";
+	}
+	
+	fin.open(ptsFilePath);
 	if(!fin)
 	{
+		cerr << "File Not Found " << templatePath;
 		return;
 	}
-	fin >> cmpnPtsNum;
+	fin >> featurePointsNum;
+	cmpnPtsNum = featurePointsNum;
+	if(element == NOSE) {
+		cmpnPtsNum = 12;
+	}
+	
 	cmpnControlPts.resize(cmpnPtsNum);
-	for (int i = 0; i < cmpnPtsNum; i++)
+
+	for (int i = 0; i < featurePointsNum; i++)
 	{
 		double ptsX, ptsY;
 		fin >> ptsX >>ptsY;
-		cmpnControlPts[i].x = ptsX;
-		cmpnControlPts[i].y = ptsY; 
+		int width = templateImg.cols;
+
+		switch(element) {
+		case NOSE:
+			if(i < 6) {
+				cmpnControlPts[i].x = ptsX;
+				cmpnControlPts[i].y = ptsY; 
+			}else if(i == 6) {
+				continue;
+			} else if(i > 6) {
+				cmpnControlPts[i-1].x = ptsX;
+				cmpnControlPts[i-1].y = ptsY;
+			}
+			break;
+		case RIGHTBROW:
+			cmpnControlPts[i].x = width - ptsX;
+			cmpnControlPts[i].y = ptsY;
+			break;
+		default:
+			cmpnControlPts[i].x = ptsX;
+			cmpnControlPts[i].y = ptsY;
+		}
 	}
 	fin.close();
 
@@ -48,8 +83,35 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 	nosePts.resize(cmpnPtsNum);
 	for(int i = 0; i<cmpnPtsNum; i++)
 	{
-		nosePts[i].x = cmpnNodes[i]->sceneBoundingRect().center().x();
-		nosePts[i].y = cmpnNodes[i]->sceneBoundingRect().center().y();
+		switch(element) {
+		case LEFTBROW:
+			if(i == 0) {
+				nosePts[i].x = cmpnNodes[9]->sceneBoundingRect().center().x();
+				nosePts[i].y = cmpnNodes[9]->sceneBoundingRect().center().y();
+			} else if ( i < 5){
+				nosePts[i].x = cmpnNodes[i]->sceneBoundingRect().center().x();
+				nosePts[i].y = cmpnNodes[i]->sceneBoundingRect().center().y();
+			} else if ( i >= 5) {
+				nosePts[i].x = cmpnNodes[i+1]->sceneBoundingRect().center().x();
+				nosePts[i].y = cmpnNodes[i+1]->sceneBoundingRect().center().y();
+			}
+			break;
+		case RIGHTBROW:
+			if(i == 0) {
+				nosePts[i].x = cmpnNodes[4]->sceneBoundingRect().center().x();
+				nosePts[i].y = cmpnNodes[4]->sceneBoundingRect().center().y();
+			} else if ( i < 4){
+				nosePts[i].x = cmpnNodes[4-i]->sceneBoundingRect().center().x();
+				nosePts[i].y = cmpnNodes[4-i]->sceneBoundingRect().center().y();
+			} else if ( i >= 4) {
+				nosePts[i].x = cmpnNodes[13-i]->sceneBoundingRect().center().x();
+				nosePts[i].y = cmpnNodes[13-i]->sceneBoundingRect().center().y();
+			}
+			break;
+		default:
+			nosePts[i].x = cmpnNodes[i]->sceneBoundingRect().center().x();
+			nosePts[i].y = cmpnNodes[i]->sceneBoundingRect().center().y();
+		}
 	}
 	CThinPlateSpline tps(cmpnControlPts,nosePts);
 	Mat warpedTemplate;
@@ -71,8 +133,8 @@ void CFaceSketch::sketchFace( QFaceModel* ASMModel, int imgwidth, int imgheight 
 	facemodel = ASMModel;
 	componentSketch(LEFTEYE, "leftEye");
 	componentSketch(RIGHTEYE, "rightEye");
-	componentSketch(LEFTBROW, "leftBrow");
-	componentSketch(RIGHTBROW, "rightBrow");
+	componentSketch(LEFTBROW, "leftEyeBrow");
+	componentSketch(RIGHTBROW, "rightEyeBrow");
 	componentSketch(NOSE, "nose");
 	componentSketch(MOUTH, "mouth");
 	componentSketch(PROFIILE, "faceContour");
@@ -104,11 +166,11 @@ boolean CFaceSketch::isBackground(MatIterator_<Vec3b> point){
 void CFaceSketch::combineSketch()
 {
 	Mat face(height, width, CV_8UC3, Scalar(1,2,3));
-	addTopToBottom(wholeFace[LEFTEYE], face);
-	addTopToBottom(wholeFace[RIGHTEYE], face);
 	addTopToBottom(wholeFace[LEFTBROW], face);
 	addTopToBottom(wholeFace[RIGHTBROW], face);
 	addTopToBottom(wholeFace[MOUTH], face);
+	addTopToBottom(wholeFace[LEFTEYE], face);
+	addTopToBottom(wholeFace[RIGHTEYE], face);
 	addTopToBottom(wholeFace[NOSE], face);
 	addTopToBottom(face, wholeFace[PROFIILE]);
 	Mat whole(height, width, CV_8UC3, Scalar::all(255));
