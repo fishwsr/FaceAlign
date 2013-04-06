@@ -31,6 +31,7 @@ private slots:
 	void on_closeAction_triggered();
 	void on_sketchAction_triggered();
 	void on_showNodeIDAction_triggered();
+	void on_renderAction_triggered();
 
 protected:
 	bool eventFilter(QObject* object, QEvent* event);

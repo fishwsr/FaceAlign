@@ -156,7 +156,7 @@
           <x>0</x>
           <y>0</y>
           <width>501</width>
-          <height>351</height>
+          <height>356</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="videoLayout">
@@ -213,7 +213,12 @@
               </size>
              </property>
              <property name="text">
-              <string>PushButton</string>
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normalon>:/MainWindow/images/play.png</normalon>
+              </iconset>
              </property>
             </widget>
            </item>
@@ -277,6 +282,7 @@
    <addaction name="separator"/>
    <addaction name="alignAction"/>
    <addaction name="sketchAction"/>
+   <addaction name="renderAction"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="openAction">
@@ -371,6 +377,21 @@
    </property>
    <property name="text">
     <string>&amp;Show nodes ID</string>
+   </property>
+  </action>
+  <action name="renderAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/images/render.png</normaloff>:/MainWindow/images/render.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Render</string>
+   </property>
+   <property name="toolTip">
+    <string>Render Video</string>
    </property>
   </action>
  </widget>

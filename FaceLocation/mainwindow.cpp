@@ -90,6 +90,7 @@ void MainWindow::on_sketchAction_triggered()
 		ui->rightGraphicsView->setScene(rightGraphicsScene);
 		ui->rightGraphicsView->show();
 		ui->rightGraphicsView->setMouseTracking(true);
+		ui->renderAction->setEnabled(true);
 		
 	}
 
@@ -127,10 +128,12 @@ void MainWindow::on_closeAction_triggered()
 		imgItem = NULL;
 		setCurrentFile("");
 		this->leftGraphicsScene->clear();
+		this->rightGraphicsScene->clear();
 		ui->leftGraphicsView->setDisabled(true);
 		ui->leftGraphicsView->setMouseTracking(false);
 		ui->alignAction->setDisabled(true);
 		ui->sketchAction->setDisabled(true);
+		ui->renderAction->setDisabled(true);
 	}
 }
 
@@ -222,6 +225,7 @@ void MainWindow::openImage( QString fileName )
 		if(image->load(fileName))
 		{
 			on_closeAction_triggered();
+			
 			imgItem = new QGraphicsPixmapItem();
 			int width = ui->leftGraphicsView->width();
 			int hight = ui->leftGraphicsView->height();
@@ -236,5 +240,13 @@ void MainWindow::openImage( QString fileName )
 			ui->leftGraphicsView->show();
 			ui->leftGraphicsView->setMouseTracking(true);
 			ui->alignAction->setEnabled(true);
+			this->rightGraphicsScene->clear();
+			ui->stackedWidget->setCurrentIndex(0);
 		}
+}
+
+void MainWindow::on_renderAction_triggered()
+{
+	QMessageBox::information(this,"Face Location", "Video rendering completed");
+	ui->stackedWidget->setCurrentIndex(1);
 }

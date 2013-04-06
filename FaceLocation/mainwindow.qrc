@@ -1,4 +1,6 @@
 <RCC>
-    <qresource prefix="MainWindow">
-    </qresource>
+  <qresource prefix="MainWindow">
+    <file>images/play.png</file>
+    <file>images/render.png</file>
+  </qresource>
 </RCC>
