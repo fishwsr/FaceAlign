@@ -11,10 +11,11 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+	ui->stackedWidget->setCurrentIndex(0);
     this->image = new QImage();
 	this->scene = new QGraphicsScene(parent);
 	ui->statusBar->showMessage("Welcome");
-	ui->graphicsView->viewport()->installEventFilter(this);
+	ui->leftGraphicsView->viewport()->installEventFilter(this);
     setCurrentFile("");
 	isAligned = false;
 	imgItem = NULL;
@@ -57,7 +58,7 @@ void MainWindow::on_alignAction_triggered()
 	float *ptsPos;
 	ptsPos = face.procPic((const char *)curFile.toLocal8Bit());
 	facemodel = new QFaceModel(ptsPos,pointnum,imgItem);
-	ui->graphicsView->show();
+	ui->leftGraphicsView->show();
 	isAligned = true;
 	ui->sketchAction->setEnabled(isAligned);
 	setWindowModified(true);
@@ -102,8 +103,8 @@ void MainWindow::on_closeAction_triggered()
 		imgItem = NULL;
 		setCurrentFile("");
 		this->scene->clear();
-		ui->graphicsView->setDisabled(true);
-		ui->graphicsView->setMouseTracking(false);
+		ui->leftGraphicsView->setDisabled(true);
+		ui->leftGraphicsView->setMouseTracking(false);
 		ui->alignAction->setDisabled(true);
 		ui->sketchAction->setDisabled(true);
 	}
@@ -175,7 +176,7 @@ bool MainWindow::eventFilter(QObject* object, QEvent* event)
 	if (event->type() == QEvent::MouseMove)
 	{
 		QMouseEvent* mouse = static_cast<QMouseEvent*>(event);
-		QPointF pos = ui->graphicsView->mapToScene(mouse->pos());
+		QPointF pos = ui->leftGraphicsView->mapToScene(mouse->pos());
 		ui->statusBar->showMessage(QString("x:%1,y:%2").arg(pos.x()).arg(pos.y()));
 	}
 	return false;
@@ -199,11 +200,11 @@ void MainWindow::openImage( QString fileName )
 			imgItem = new QGraphicsPixmapItem();
 			imgItem->setPixmap(QPixmap::fromImage(*image));
 			scene->addItem(imgItem);
-			ui->graphicsView->setEnabled(true);
-			ui->graphicsView->setScene(scene);
+			ui->leftGraphicsView->setEnabled(true);
+			ui->leftGraphicsView->setScene(scene);
 			//ui->graphicsView->adjustSize();
-			ui->graphicsView->show();
-			ui->graphicsView->setMouseTracking(true);
+			ui->leftGraphicsView->show();
+			ui->leftGraphicsView->setMouseTracking(true);
 			ui->alignAction->setEnabled(true);
 		}
 }

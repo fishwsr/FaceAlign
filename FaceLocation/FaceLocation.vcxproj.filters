@@ -36,6 +36,15 @@
     <Filter Include="Header Files\FaceModel">
       <UniqueIdentifier>{af54f603-ab79-4501-a8b9-b21b3e85d52d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SketchModel">
+      <UniqueIdentifier>{51de279e-e26b-4ac9-bf6b-8a5bcacaa422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SketchModel\FaceContour">
+      <UniqueIdentifier>{236f89fa-412f-4d94-ae0d-f5816fe05168}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SketchModel\Mouth">
+      <UniqueIdentifier>{4a7c6557-f0fb-469b-8d22-d7555d48a194}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -119,6 +128,496 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="FaceLocation.rc" />
+    <None Include="sketchMode\faceContour\faceContour1.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints9.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour1.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour10.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour10.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour11.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour11.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour12.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour12.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour13.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour13.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour14.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour14.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour15.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour15.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour16.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour16.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour17.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour17.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour18.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour18.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour19.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour19.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour2.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour2.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour20.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour20.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour3.JPG">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour3.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour4.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour4.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour5.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour5.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour6.JPG">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour6.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour7.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour7.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour8.JPG">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour8.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour9.jpg">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\faceContour9.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints1.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints10.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints11.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints12.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints13.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints14.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints15.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints16.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints17.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints18.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints19.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints2.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints20.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints3.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints4.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints5.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints6.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints7.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\faceContour\keyPoints8.pts">
+      <Filter>SketchModel\FaceContour</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints1.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth9.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints10.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints11.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints12.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints13.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints14.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints15.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints16.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints17.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints18.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints19.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints2.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints20.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints21.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints22.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints23.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints24.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints25.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints26.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints27.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints28.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints29.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints3.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints30.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints31.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints32.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints33.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints4.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints5.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints6.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints7.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints8.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\keyPoints9.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth08.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth08.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth1.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth1.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth10.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth10.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth11.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth11.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth12.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth12.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth13.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth13.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth14.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth14.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth15.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth15.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth16.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth16.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth17.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth17.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth18.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth18.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth19.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth19.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth2.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth2.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth20.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth20.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth21.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth21.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth22.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth22.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth23.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth23.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth24.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth24.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth25.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth25.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth26.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth26.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth27.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth27.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth28.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth28.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth29.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth29.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth3.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth3.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth30.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth30.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth31 - 副本.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth31.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth31.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth32.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth32.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth33.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth33.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth4.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth4.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth5.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth5.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth6.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth6.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth7.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth7.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth8.JPG">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth8.pts">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+    <None Include="sketchMode\mouth\mouth9.jpg">
+      <Filter>SketchModel\Mouth</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FaceLocation.rc">
+      <Filter>SketchModel\FaceContour</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

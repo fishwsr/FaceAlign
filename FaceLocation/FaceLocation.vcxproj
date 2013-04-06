@@ -61,7 +61,7 @@
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;gdiplus.lib;opencv_core220d.lib;opencv_highgui220d.lib;opencv_video220d.lib;opencv_ml220d.lib;opencv_legacy220d.lib;opencv_imgproc220d.lib;opencv_objdetect220d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;gdiplus.lib;phonond4.lib;opencv_core220d.lib;opencv_highgui220d.lib;opencv_video220d.lib;opencv_ml220d.lib;opencv_legacy220d.lib;opencv_imgproc220d.lib;opencv_objdetect220d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,6 +130,7 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <SubType>Designer</SubType>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +160,170 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FaceLocation.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sketchMode\faceContour\faceContour1.jpg" />
+    <None Include="sketchMode\faceContour\faceContour1.pts" />
+    <None Include="sketchMode\faceContour\faceContour10.jpg" />
+    <None Include="sketchMode\faceContour\faceContour10.pts" />
+    <None Include="sketchMode\faceContour\faceContour11.jpg" />
+    <None Include="sketchMode\faceContour\faceContour11.pts" />
+    <None Include="sketchMode\faceContour\faceContour12.jpg" />
+    <None Include="sketchMode\faceContour\faceContour12.pts" />
+    <None Include="sketchMode\faceContour\faceContour13.jpg" />
+    <None Include="sketchMode\faceContour\faceContour13.pts" />
+    <None Include="sketchMode\faceContour\faceContour14.jpg" />
+    <None Include="sketchMode\faceContour\faceContour14.pts" />
+    <None Include="sketchMode\faceContour\faceContour15.jpg" />
+    <None Include="sketchMode\faceContour\faceContour15.pts" />
+    <None Include="sketchMode\faceContour\faceContour16.jpg" />
+    <None Include="sketchMode\faceContour\faceContour16.pts" />
+    <None Include="sketchMode\faceContour\faceContour17.jpg" />
+    <None Include="sketchMode\faceContour\faceContour17.pts" />
+    <None Include="sketchMode\faceContour\faceContour18.jpg" />
+    <None Include="sketchMode\faceContour\faceContour18.pts" />
+    <None Include="sketchMode\faceContour\faceContour19.jpg" />
+    <None Include="sketchMode\faceContour\faceContour19.pts" />
+    <None Include="sketchMode\faceContour\faceContour2.jpg" />
+    <None Include="sketchMode\faceContour\faceContour2.pts" />
+    <None Include="sketchMode\faceContour\faceContour20.jpg" />
+    <None Include="sketchMode\faceContour\faceContour20.pts" />
+    <None Include="sketchMode\faceContour\faceContour3.JPG" />
+    <None Include="sketchMode\faceContour\faceContour3.pts" />
+    <None Include="sketchMode\faceContour\faceContour4.jpg" />
+    <None Include="sketchMode\faceContour\faceContour4.pts" />
+    <None Include="sketchMode\faceContour\faceContour5.jpg" />
+    <None Include="sketchMode\faceContour\faceContour5.pts" />
+    <None Include="sketchMode\faceContour\faceContour6.JPG" />
+    <None Include="sketchMode\faceContour\faceContour6.pts" />
+    <None Include="sketchMode\faceContour\faceContour7.jpg" />
+    <None Include="sketchMode\faceContour\faceContour7.pts" />
+    <None Include="sketchMode\faceContour\faceContour8.JPG" />
+    <None Include="sketchMode\faceContour\faceContour8.pts" />
+    <None Include="sketchMode\faceContour\faceContour9.jpg" />
+    <None Include="sketchMode\faceContour\faceContour9.pts" />
+    <None Include="sketchMode\faceContour\keyPoints1.pts" />
+    <None Include="sketchMode\faceContour\keyPoints10.pts" />
+    <None Include="sketchMode\faceContour\keyPoints11.pts" />
+    <None Include="sketchMode\faceContour\keyPoints12.pts" />
+    <None Include="sketchMode\faceContour\keyPoints13.pts" />
+    <None Include="sketchMode\faceContour\keyPoints14.pts" />
+    <None Include="sketchMode\faceContour\keyPoints15.pts" />
+    <None Include="sketchMode\faceContour\keyPoints16.pts" />
+    <None Include="sketchMode\faceContour\keyPoints17.pts" />
+    <None Include="sketchMode\faceContour\keyPoints18.pts" />
+    <None Include="sketchMode\faceContour\keyPoints19.pts" />
+    <None Include="sketchMode\faceContour\keyPoints2.pts" />
+    <None Include="sketchMode\faceContour\keyPoints20.pts" />
+    <None Include="sketchMode\faceContour\keyPoints3.pts" />
+    <None Include="sketchMode\faceContour\keyPoints4.pts" />
+    <None Include="sketchMode\faceContour\keyPoints5.pts" />
+    <None Include="sketchMode\faceContour\keyPoints6.pts" />
+    <None Include="sketchMode\faceContour\keyPoints7.pts" />
+    <None Include="sketchMode\faceContour\keyPoints8.pts" />
+    <None Include="sketchMode\faceContour\keyPoints9.pts" />
+    <None Include="sketchMode\mouth\keyPoints1.pts" />
+    <None Include="sketchMode\mouth\keyPoints10.pts" />
+    <None Include="sketchMode\mouth\keyPoints11.pts" />
+    <None Include="sketchMode\mouth\keyPoints12.pts" />
+    <None Include="sketchMode\mouth\keyPoints13.pts" />
+    <None Include="sketchMode\mouth\keyPoints14.pts" />
+    <None Include="sketchMode\mouth\keyPoints15.pts" />
+    <None Include="sketchMode\mouth\keyPoints16.pts" />
+    <None Include="sketchMode\mouth\keyPoints17.pts" />
+    <None Include="sketchMode\mouth\keyPoints18.pts" />
+    <None Include="sketchMode\mouth\keyPoints19.pts" />
+    <None Include="sketchMode\mouth\keyPoints2.pts" />
+    <None Include="sketchMode\mouth\keyPoints20.pts" />
+    <None Include="sketchMode\mouth\keyPoints21.pts" />
+    <None Include="sketchMode\mouth\keyPoints22.pts" />
+    <None Include="sketchMode\mouth\keyPoints23.pts" />
+    <None Include="sketchMode\mouth\keyPoints24.pts" />
+    <None Include="sketchMode\mouth\keyPoints25.pts" />
+    <None Include="sketchMode\mouth\keyPoints26.pts" />
+    <None Include="sketchMode\mouth\keyPoints27.pts" />
+    <None Include="sketchMode\mouth\keyPoints28.pts" />
+    <None Include="sketchMode\mouth\keyPoints29.pts" />
+    <None Include="sketchMode\mouth\keyPoints3.pts" />
+    <None Include="sketchMode\mouth\keyPoints30.pts" />
+    <None Include="sketchMode\mouth\keyPoints31.pts" />
+    <None Include="sketchMode\mouth\keyPoints32.pts" />
+    <None Include="sketchMode\mouth\keyPoints33.pts" />
+    <None Include="sketchMode\mouth\keyPoints4.pts" />
+    <None Include="sketchMode\mouth\keyPoints5.pts" />
+    <None Include="sketchMode\mouth\keyPoints6.pts" />
+    <None Include="sketchMode\mouth\keyPoints7.pts" />
+    <None Include="sketchMode\mouth\keyPoints8.pts" />
+    <None Include="sketchMode\mouth\keyPoints9.pts" />
+    <None Include="sketchMode\mouth\mouth08.jpg" />
+    <None Include="sketchMode\mouth\mouth08.pts" />
+    <None Include="sketchMode\mouth\mouth1.JPG" />
+    <None Include="sketchMode\mouth\mouth1.pts" />
+    <None Include="sketchMode\mouth\mouth10.JPG" />
+    <None Include="sketchMode\mouth\mouth10.pts" />
+    <None Include="sketchMode\mouth\mouth11.JPG" />
+    <None Include="sketchMode\mouth\mouth11.pts" />
+    <None Include="sketchMode\mouth\mouth12.JPG" />
+    <None Include="sketchMode\mouth\mouth12.pts" />
+    <None Include="sketchMode\mouth\mouth13.JPG" />
+    <None Include="sketchMode\mouth\mouth13.pts" />
+    <None Include="sketchMode\mouth\mouth14.JPG" />
+    <None Include="sketchMode\mouth\mouth14.pts" />
+    <None Include="sketchMode\mouth\mouth15.jpg" />
+    <None Include="sketchMode\mouth\mouth15.pts" />
+    <None Include="sketchMode\mouth\mouth16.jpg" />
+    <None Include="sketchMode\mouth\mouth16.pts" />
+    <None Include="sketchMode\mouth\mouth17.jpg" />
+    <None Include="sketchMode\mouth\mouth17.pts" />
+    <None Include="sketchMode\mouth\mouth18.jpg" />
+    <None Include="sketchMode\mouth\mouth18.pts" />
+    <None Include="sketchMode\mouth\mouth19.jpg" />
+    <None Include="sketchMode\mouth\mouth19.pts" />
+    <None Include="sketchMode\mouth\mouth2.JPG" />
+    <None Include="sketchMode\mouth\mouth2.pts" />
+    <None Include="sketchMode\mouth\mouth20.jpg" />
+    <None Include="sketchMode\mouth\mouth20.pts" />
+    <None Include="sketchMode\mouth\mouth21.jpg" />
+    <None Include="sketchMode\mouth\mouth21.pts" />
+    <None Include="sketchMode\mouth\mouth22.jpg" />
+    <None Include="sketchMode\mouth\mouth22.pts" />
+    <None Include="sketchMode\mouth\mouth23.jpg" />
+    <None Include="sketchMode\mouth\mouth23.pts" />
+    <None Include="sketchMode\mouth\mouth24.jpg" />
+    <None Include="sketchMode\mouth\mouth24.pts" />
+    <None Include="sketchMode\mouth\mouth25.jpg" />
+    <None Include="sketchMode\mouth\mouth25.pts" />
+    <None Include="sketchMode\mouth\mouth26.jpg" />
+    <None Include="sketchMode\mouth\mouth26.pts" />
+    <None Include="sketchMode\mouth\mouth27.jpg" />
+    <None Include="sketchMode\mouth\mouth27.pts" />
+    <None Include="sketchMode\mouth\mouth28.jpg" />
+    <None Include="sketchMode\mouth\mouth28.pts" />
+    <None Include="sketchMode\mouth\mouth29.jpg" />
+    <None Include="sketchMode\mouth\mouth29.pts" />
+    <None Include="sketchMode\mouth\mouth3.JPG" />
+    <None Include="sketchMode\mouth\mouth3.pts" />
+    <None Include="sketchMode\mouth\mouth30.jpg" />
+    <None Include="sketchMode\mouth\mouth30.pts" />
+    <None Include="sketchMode\mouth\mouth31 - 副本.pts" />
+    <None Include="sketchMode\mouth\mouth31.jpg" />
+    <None Include="sketchMode\mouth\mouth31.pts" />
+    <None Include="sketchMode\mouth\mouth32.jpg" />
+    <None Include="sketchMode\mouth\mouth32.pts" />
+    <None Include="sketchMode\mouth\mouth33.JPG" />
+    <None Include="sketchMode\mouth\mouth33.pts" />
+    <None Include="sketchMode\mouth\mouth4.JPG" />
+    <None Include="sketchMode\mouth\mouth4.pts" />
+    <None Include="sketchMode\mouth\mouth5.JPG" />
+    <None Include="sketchMode\mouth\mouth5.pts" />
+    <None Include="sketchMode\mouth\mouth6.JPG" />
+    <None Include="sketchMode\mouth\mouth6.pts" />
+    <None Include="sketchMode\mouth\mouth7.jpg" />
+    <None Include="sketchMode\mouth\mouth7.pts" />
+    <None Include="sketchMode\mouth\mouth8.JPG" />
+    <None Include="sketchMode\mouth\mouth8.pts" />
+    <None Include="sketchMode\mouth\mouth9.jpg" />
+    <None Include="sketchMode\mouth\mouth9.pts" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
