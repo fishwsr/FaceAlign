@@ -58,8 +58,8 @@ void MainWindow::on_alignAction_triggered()
 	CFaceAlign face;
 	int pointnum = face.PointNum();
 	float *ptsPos;
-	//ptsPos = face.procPic((const char *)curFile.toLocal8Bit());
-	ptsPos = face.procPic("temp/resizedPic.jpg");
+	ptsPos = face.procPic((const char *)curFile.toLocal8Bit());
+	//ptsPos = face.procPic("temp/resizedPic.jpg");
 	facemodel = new QFaceModel(ptsPos,pointnum,imgItem);
 	ui->leftGraphicsView->show();
 	isAligned = true;
@@ -224,13 +224,12 @@ void MainWindow::openImage( QString fileName )
 		setCurrentFile(fileName);
 		if(image->load(fileName))
 		{
-			on_closeAction_triggered();
-			
+			this->leftGraphicsScene->clear();	
 			imgItem = new QGraphicsPixmapItem();
-			int width = ui->leftGraphicsView->width();
+			/*int width = ui->leftGraphicsView->width();
 			int hight = ui->leftGraphicsView->height();
 			*image = image->scaled(width, hight, Qt::KeepAspectRatio);
-			image->save("temp/resizedPic.jpg");
+			image->save("temp/resizedPic.jpg");*/
 
 			imgItem->setPixmap(QPixmap::fromImage(*image));
 			leftGraphicsScene->addItem(imgItem);
