@@ -44,7 +44,8 @@ private:
 	QImage *image;
 	QGraphicsPixmapItem *imgItem;
     QString curFile;
-	QGraphicsScene *scene;
+	QGraphicsScene *leftGraphicsScene;
+	QGraphicsScene *rightGraphicsScene;
 	QFaceModel *facemodel;
 	Ui::MainWindow *ui;
 };

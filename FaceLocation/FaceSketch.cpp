@@ -197,8 +197,6 @@ void CFaceSketch::combineSketch()
 	Mat whole(height, width, CV_8UC3, Scalar::all(255));
 	addTopToBottom(wholeFace[PROFIILE], whole);
 	
-	namedWindow("bbb", 1);
-	imshow("bbb", whole);
 	cv::imwrite("temp\\wholeSketch.jpg", whole);
 }
 

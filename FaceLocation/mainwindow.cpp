@@ -13,9 +13,11 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	ui->setupUi(this);
 	ui->stackedWidget->setCurrentIndex(0);
     this->image = new QImage();
-	this->scene = new QGraphicsScene(parent);
+	this->leftGraphicsScene = new QGraphicsScene(parent);
+	this->rightGraphicsScene = new QGraphicsScene(parent);
 	ui->statusBar->showMessage("Welcome");
 	ui->leftGraphicsView->viewport()->installEventFilter(this);
+	ui->rightGraphicsView->viewport()->installEventFilter(this);
     setCurrentFile("");
 	isAligned = false;
 	imgItem = NULL;
@@ -31,7 +33,7 @@ MainWindow::~MainWindow()
 	{
 		delete imgItem;
 	}
-	delete scene;
+	delete leftGraphicsScene;
 	delete ui; 
 	if(isAligned)
 	{
@@ -70,6 +72,27 @@ void MainWindow::on_sketchAction_triggered()
 {
 	CFaceSketch faceSketch;
 	faceSketch.sketchFace(facemodel, image->width(), image->height());
+
+	QImage* rightImage = new QImage();
+	if(rightImage->load("temp/wholeSketch.jpg"))
+	{
+		this->rightGraphicsScene->clear();
+		
+		QGraphicsPixmapItem* rightImgItem = new QGraphicsPixmapItem();
+		int width = ui->rightGraphicsView->width();
+		int hight = ui->rightGraphicsView->height();
+		/**image = image->scaled(width, hight, Qt::KeepAspectRatio);
+		image->save("temp/resizedPic.jpg");*/
+
+		rightImgItem->setPixmap(QPixmap::fromImage(*rightImage));
+		rightGraphicsScene->addItem(rightImgItem);
+		ui->rightGraphicsView->setEnabled(true);
+		ui->rightGraphicsView->setScene(rightGraphicsScene);
+		ui->rightGraphicsView->show();
+		ui->rightGraphicsView->setMouseTracking(true);
+		
+	}
+
 	//std::vector<QGraphicsTextItem *> cmpnControlPts;
 	//int cmpnPtsNum;
 	//std::ifstream fin;
@@ -103,7 +126,7 @@ void MainWindow::on_closeAction_triggered()
 		delete imgItem;
 		imgItem = NULL;
 		setCurrentFile("");
-		this->scene->clear();
+		this->leftGraphicsScene->clear();
 		ui->leftGraphicsView->setDisabled(true);
 		ui->leftGraphicsView->setMouseTracking(false);
 		ui->alignAction->setDisabled(true);
@@ -206,9 +229,9 @@ void MainWindow::openImage( QString fileName )
 			image->save("temp/resizedPic.jpg");
 
 			imgItem->setPixmap(QPixmap::fromImage(*image));
-			scene->addItem(imgItem);
+			leftGraphicsScene->addItem(imgItem);
 			ui->leftGraphicsView->setEnabled(true);
-			ui->leftGraphicsView->setScene(scene);
+			ui->leftGraphicsView->setScene(leftGraphicsScene);
 			//ui->graphicsView->adjustSize();
 			ui->leftGraphicsView->show();
 			ui->leftGraphicsView->setMouseTracking(true);
