@@ -197,7 +197,12 @@ void MainWindow::openImage( QString fileName )
 		setCurrentFile(fileName);
 		if(image->load(fileName))
 		{
+			on_closeAction_triggered();
 			imgItem = new QGraphicsPixmapItem();
+			int width = ui->leftGraphicsView->width();
+			int hight = ui->leftGraphicsView->height();
+			*image = image->scaled(width, hight, Qt::KeepAspectRatio);
+			
 			imgItem->setPixmap(QPixmap::fromImage(*image));
 			scene->addItem(imgItem);
 			ui->leftGraphicsView->setEnabled(true);
