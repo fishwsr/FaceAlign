@@ -117,7 +117,11 @@ void MainWindow::on_sketchAction_triggered()
 
 void MainWindow::on_saveAction_triggered()
 {
-	
+	QImage image(image->size(), image->format());
+	QPainter painter(&image);
+	painter.setRenderHint(QPainter::Antialiasing);
+	leftGraphicsScene->render(&painter);
+	image.save("temp/aligned.jpg");
 }
 
 void MainWindow::on_closeAction_triggered()
