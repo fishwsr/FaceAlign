@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>522</width>
-    <height>430</height>
+    <width>646</width>
+    <height>458</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -52,6 +52,9 @@
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
+    <property name="horizontalSpacing">
+     <number>1</number>
+    </property>
     <item row="0" column="1">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="sizePolicy">
@@ -73,7 +76,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="picWidget">
        <property name="sizePolicy">
@@ -118,7 +121,7 @@
             <property name="minimumSize">
              <size>
               <width>240</width>
-              <height>320</height>
+              <height>300</height>
              </size>
             </property>
            </widget>
@@ -232,6 +235,148 @@
       </widget>
      </widget>
     </item>
+    <item row="0" column="2">
+     <widget class="QWidget" name="templateAreaWidget" native="true">
+      <layout class="QVBoxLayout" name="templateAreaLayout">
+       <item>
+        <widget class="QTabWidget" name="templateTabWidget">
+         <property name="minimumSize">
+          <size>
+           <width>120</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="tabPosition">
+          <enum>QTabWidget::East</enum>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="hairTab">
+          <attribute name="title">
+           <string>Hair</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="hairLayout">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QListWidget" name="hairListWidget">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="browTab">
+          <attribute name="title">
+           <string>Brow</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="browLayout">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QListWidget" name="browListWidget">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="eyeTab">
+          <attribute name="title">
+           <string>Eye</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="eyeLayout">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QListWidget" name="eyeListWidget">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="noseTab">
+          <attribute name="title">
+           <string>Nose</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="noseLayout">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QListWidget" name="noseListWidget">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="mouthTab">
+          <attribute name="title">
+           <string>Mouth</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="mouthLayout">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QListWidget" name="mouthListWidget">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="faceContourTab">
+          <attribute name="title">
+           <string>Face Contour</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="faceContourLayout">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QListWidget" name="faceContourListWidget">
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -268,6 +413,30 @@
    <addaction name="renderAction"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="rightToolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="chooseTemplateAction"/>
+  </widget>
   <action name="openAction">
    <property name="icon">
     <iconset>
@@ -375,6 +544,18 @@
    </property>
    <property name="toolTip">
     <string>Render Video</string>
+   </property>
+  </action>
+  <action name="chooseTemplateAction">
+   <property name="icon">
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/images/chooseTemplate.png</normaloff>:/MainWindow/images/chooseTemplate.png</iconset>
+   </property>
+   <property name="text">
+    <string>chooseTemplate</string>
+   </property>
+   <property name="toolTip">
+    <string>chooseTemplate</string>
    </property>
   </action>
  </widget>

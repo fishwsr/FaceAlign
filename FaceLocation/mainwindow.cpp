@@ -24,6 +24,14 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 	//debug purpose
 	openImage("./penny.jpg");
+
+	initList(ui->hairListWidget, QString("sketchMode/hair/hair"));
+	initList(ui->browListWidget, QString("sketchMode/leftEyeBrow/leftEyebrow"));
+	initList(ui->eyeListWidget, QString("sketchMode/leftEye/leftEye"));
+	initList(ui->noseListWidget, QString("sketchMode/nose/nose"));
+	initList(ui->mouthListWidget, QString("sketchMode/mouth/mouth"));
+	initList(ui->faceContourListWidget, QString("sketchMode/faceContour/faceContour"));
+
 }
 
 MainWindow::~MainWindow()
@@ -253,3 +261,29 @@ void MainWindow::on_renderAction_triggered()
 	QMessageBox::information(this,"Face Location", "Video rendering completed");
 	ui->stackedWidget->setCurrentIndex(1);
 }
+
+void MainWindow::initList( QListWidget* widgetList, QString filePath )
+{
+	
+		widgetList->setIconSize(QSize(100, 100));
+		widgetList->setSpacing(15);
+		QImage templateImg;
+		for(int i = 1; i <= 100; i++) {
+			QString prefix(filePath);
+			prefix.append(QString::number(i)).append(".JPG");
+			if(templateImg.load(prefix)){
+				QIcon icon(QPixmap::fromImage(templateImg));
+				//icon.actualSize(QSize(100, 100));
+				QListWidgetItem* widgetItem = new QListWidgetItem();
+				widgetItem->setIcon(icon);
+				widgetList->addItem(widgetItem);
+			}else {
+				qDebug(prefix.append(" NOT found").toLocal8Bit());
+				break;
+			}
+		}
+
+
+}
+
+

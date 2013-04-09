@@ -2,6 +2,7 @@
 #include "QFaceModel.h"
 #include <QtGui/QGraphicsScene>
 #include <QtGui/QGraphicsPixmapItem>
+#include <QtGui/QListWidget>
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -41,6 +42,7 @@ private:
 	bool okToContinue();
     void setCurrentFile(const QString &fileName);
 	QString strippedName(const QString &fullFileName);
+	void initList(QListWidget* widgetList, QString filePath);
 	bool isAligned;
 	QImage *image;
 	QGraphicsPixmapItem *imgItem;
