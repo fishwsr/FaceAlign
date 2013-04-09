@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>646</width>
+    <width>684</width>
     <height>458</height>
    </rect>
   </property>
@@ -242,7 +242,7 @@
         <widget class="QTabWidget" name="templateTabWidget">
          <property name="minimumSize">
           <size>
-           <width>120</width>
+           <width>160</width>
            <height>0</height>
           </size>
          </property>
