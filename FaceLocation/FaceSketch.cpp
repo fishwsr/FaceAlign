@@ -19,10 +19,10 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 {
 	string eyeTemplateNumber = "2";
 	string browTemplateNumber = "7";
-	string noseTemplateNumber = "4";
+	string noseTemplateNumber = "1";
 	string mouthTemplateNumber = "31";
 
-	string templatePath = "sketchMode\\" + componetName + "\\";
+	string templatePath = "data\\colorMode\\" + componetName + "\\";
 	string modelPicPath = "";
 	string ptsFilePath = "";
 	
