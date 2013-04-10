@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="2951a798-1119-49e3-b7ae-83226ec00587" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="a502962a-27cc-4331-ab57-83f7d1761233" name="View-Controller Layer">
+      <childLayers>
+        <layer Id="fe5684bb-da85-4b12-ad63-aeb64020b82d" name="Interface">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="84fa696c-e42a-4966-a506-c25614f1fa9b" direction="Forward">
+              <layerMoniker Id="ef0706a0-217b-4346-bd8d-4dced3d15b6e" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="ef0706a0-217b-4346-bd8d-4dced3d15b6e" name="Signals/SLOT mechanism">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="78ba22a9-6c4d-4ed4-bec1-a3dbff70cad1" direction="Forward">
+              <layerMoniker Id="0ce3fd8f-700f-4326-b942-41c69411f828" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="626276b8-e4cc-4c99-9af0-e754cda90835" direction="Forward">
+              <layerMoniker Id="fe5684bb-da85-4b12-ad63-aeb64020b82d" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+      </childLayers>
+    </layer>
+    <layer Id="0ce3fd8f-700f-4326-b942-41c69411f828" name="Model">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="fce49c7d-473c-468d-8d51-b5ed320ed008" direction="Forward">
+          <layerMoniker Id="ef0706a0-217b-4346-bd8d-4dced3d15b6e" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+      <childLayers>
+        <layer Id="81c6f866-9363-4308-966b-d346b0f382c1" name="FaceModel">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="561f16f6-19cc-47ff-b618-6d0d393a76c2" direction="Bidirectional">
+              <layerMoniker Id="70ea27e8-fe6e-4399-ae09-840d046e3fb0" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="4521ce98-7ba8-4698-92d1-c2724f2d5b31" direction="Forward">
+              <layerMoniker Id="41e55c77-5fea-41f4-a6ad-3622c51452fe" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="70ea27e8-fe6e-4399-ae09-840d046e3fb0" name="SketchModel">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="0e875994-6071-4a08-83d4-5ca023590297" direction="Bidirectional">
+              <layerMoniker Id="29511fef-72c7-45bf-ab36-f24b455d3b91" />
+            </dependencyFromLayerToLayer>
+            <dependencyFromLayerToLayer Id="dea2fe3b-e7ba-4211-9972-e7312c1a340d" direction="Forward">
+              <layerMoniker Id="72c0ec63-40e9-4f06-9a86-ba2d36b1babb" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="29511fef-72c7-45bf-ab36-f24b455d3b91" name="VideoSketchModel">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="35373e41-a3ce-4737-a76e-4db055728589" direction="Forward">
+              <layerMoniker Id="373e75e6-c8be-4c1e-98a3-6d6ace920849" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="41e55c77-5fea-41f4-a6ad-3622c51452fe" name="Face Location" />
+        <layer Id="373e75e6-c8be-4c1e-98a3-6d6ace920849" name="Video Process">
+          <childLayers>
+            <layer Id="72c0ec63-40e9-4f06-9a86-ba2d36b1babb" name="Image Process">
+              <childLayers>
+                <layer Id="aa0a46f2-0c3d-4d60-b16d-fd671eb0908e" name="Sketch" />
+                <layer Id="f6c94fa1-bcc2-4ebb-ad94-84a97519c839" name="TPS" />
+              </childLayers>
+            </layer>
+            <layer Id="c22031d6-aa90-4de0-ad3a-b625b95e498e" name="ORB matching" />
+          </childLayers>
+        </layer>
+      </childLayers>
+    </layer>
+  </layers>
+</layerModel>
