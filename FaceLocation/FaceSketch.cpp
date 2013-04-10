@@ -6,8 +6,10 @@
 #include <iostream>
 #include "highgui.h"
 
-CFaceSketch::CFaceSketch(void)
+CFaceSketch::CFaceSketch(int imgwidth, int imgheight)
 {
+	width = imgwidth;
+	height = imgheight;
 }
 
 
@@ -147,10 +149,8 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 	//cv::imwrite(savetemplatePath + "r2.jpg", warpedTemplate2);
 }
 
-void CFaceSketch::sketchFace( QFaceModel* ASMModel, int imgwidth, int imgheight )
+void CFaceSketch::sketchFace( QFaceModel* ASMModel, string srcImgPath )
 {
-	width = imgwidth;
-	height = imgheight;
 	facemodel = ASMModel;
 	componentSketch(LEFTEYE, "leftEye");
 	componentSketch(RIGHTEYE, "rightEye");
@@ -159,6 +159,7 @@ void CFaceSketch::sketchFace( QFaceModel* ASMModel, int imgwidth, int imgheight 
 	componentSketch(NOSE, "nose");
 	componentSketch(MOUTH, "mouth");
 	componentSketch(PROFIILE, "faceContour");
+	backgroudSketch(srcImgPath);
 	combineSketch();
 }
 
@@ -194,10 +195,10 @@ void CFaceSketch::combineSketch()
 	addTopToBottom(wholeFace[RIGHTEYE], face);
 	addTopToBottom(wholeFace[NOSE], face);
 	addTopToBottom(face, wholeFace[PROFIILE]);
-	Mat whole(height, width, CV_8UC3, Scalar::all(255));
-	addTopToBottom(wholeFace[PROFIILE], whole);
+	//Mat whole(height, width, CV_8UC3, Scalar::all(255));
+	addTopToBottom(wholeFace[PROFIILE], bgCurve);
 	
-	cv::imwrite("temp\\wholeSketch.jpg", whole);
+	cv::imwrite("temp\\wholeSketch.jpg", bgCurve);
 }
 
 void CFaceSketch::addTopToBottom( Mat &top, Mat &botom) 
@@ -220,6 +221,15 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 		} 
 	}
 
+}
+
+void CFaceSketch::backgroudSketch( string srcImgPath )
+{
+	Mat srcImg = imread(srcImgPath);
+	Mat tempImg1, tempImg2;
+	Canny(srcImg, tempImg1, 50, 200, 3);
+	//cvNot(&tempImg1, &tempImg2);
+	cvtColor(tempImg1, bgCurve, CV_GRAY2BGR );
 }
 
 

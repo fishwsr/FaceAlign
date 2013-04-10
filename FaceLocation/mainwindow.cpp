@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	imgItem = NULL;
 
 	//debug purpose
-	openImage("./penny.jpg");
+	//openImage("./penny.jpg");
 
 	initList(ui->hairListWidget, QString("data/colorMode/hair/hair"));
 	initList(ui->browListWidget, QString("data/colorMode/leftEyeBrow/leftEyebrow"));
@@ -78,8 +78,8 @@ void MainWindow::on_alignAction_triggered()
 
 void MainWindow::on_sketchAction_triggered()
 {
-	CFaceSketch faceSketch;
-	faceSketch.sketchFace(facemodel, image->width(), image->height());
+	CFaceSketch faceSketch(image->width(), image->height());
+	faceSketch.sketchFace(facemodel,(const char *)curFile.toLocal8Bit());
 
 	QImage* rightImage = new QImage();
 	if(rightImage->load("temp/wholeSketch.jpg"))
