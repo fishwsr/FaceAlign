@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include "highgui.h"
+#include <math.h>
 
 CFaceSketch::CFaceSketch(int imgwidth, int imgheight)
 {
@@ -60,7 +61,7 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 	fin.open(ptsFilePath);
 	if(!fin)
 	{
-		cerr << "File Not Found " << templatePath;
+		std::cerr << "File Not Found " << templatePath;
 		return;
 	}
 	fin >> featurePointsNum;
@@ -177,11 +178,11 @@ QVector<Node*> CFaceSketch::getElementNodes( faceElement element )
 	}
 }
 
-boolean CFaceSketch::isWhite(MatIterator_<Vec3b> point){
+bool CFaceSketch::isWhite(MatIterator_<Vec3b> point){
 	return ((*point)[0] == 255) && ((*point)[1] == 255) && ((*point)[2] == 255);
 }
 
-boolean CFaceSketch::isBackground(MatIterator_<Vec3b> point){
+bool CFaceSketch::isBackground(MatIterator_<Vec3b> point){
 	return ((*point)[0] == 1) && ((*point)[1] == 2) && ((*point)[2] == 3);
 }
 
@@ -212,7 +213,7 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 	for( ;(itOfTop != endOfTop) && (itOfBottom != endOfBottom); ++itOfTop, ++itOfBottom)
 	{
 
-		boolean noPixelOfFace = isBackground(itOfTop) || isWhite(itOfTop);
+		bool noPixelOfFace = isBackground(itOfTop) || isWhite(itOfTop);
 
 		if(!noPixelOfFace){
 			(*itOfBottom)[0] = (*itOfTop)[0];
@@ -226,10 +227,14 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 void CFaceSketch::backgroudSketch( string srcImgPath )
 {
 	Mat srcImg = imread(srcImgPath);
+	if(srcImg.empty()) {
+		qDebug("BackGround File Not Found");
+		return;
+	}
 	Mat tempImg1, tempImg2;
-	Canny(srcImg, tempImg1, 50, 200, 3);
-	//cvNot(&tempImg1, &tempImg2);
-	cvtColor(tempImg1, bgCurve, CV_GRAY2BGR );
+	cv::Canny(srcImg, tempImg1, 50, 200, 3);
+	cvNot(&tempImg1, &tempImg2);
+	cv::cvtColor(tempImg1, bgCurve, CV_GRAY2BGR );
 }
 
 
