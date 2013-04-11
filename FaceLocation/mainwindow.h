@@ -26,7 +26,7 @@ public:
 private slots:
     void on_openAction_triggered();
 	void openImage( QString fileName );
-	
+	void on_thresholdSlider_valueChanged(int value);
 	void on_alignAction_triggered();
 	void on_saveAction_triggered();
 	void on_closeAction_triggered();

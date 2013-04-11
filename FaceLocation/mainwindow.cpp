@@ -73,6 +73,7 @@ void MainWindow::on_alignAction_triggered()
 	isAligned = true;
 	ui->sketchAction->setEnabled(isAligned);
 	setWindowModified(true);
+	ui->alignAction->setDisabled(true);
 	delete[] ptsPos;
 }
 
@@ -99,6 +100,7 @@ void MainWindow::on_sketchAction_triggered()
 		ui->rightGraphicsView->show();
 		ui->rightGraphicsView->setMouseTracking(true);
 		ui->renderAction->setEnabled(true);
+		ui->templateAreaWidget->setEnabled(true);
 		
 	}
 
@@ -260,6 +262,8 @@ void MainWindow::on_renderAction_triggered()
 {
 	QMessageBox::information(this,"Face Location", "Video rendering completed");
 	ui->stackedWidget->setCurrentIndex(1);
+	ui->sketchAction->setDisabled(true);
+	ui->templateAreaWidget->setDisabled(true);
 }
 
 void MainWindow::initList( QListWidget* widgetList, QString filePath )
@@ -286,4 +290,25 @@ void MainWindow::initList( QListWidget* widgetList, QString filePath )
 
 }
 
+void MainWindow::on_thresholdSlider_valueChanged( int value )
+{
+	CFaceSketch faceSketch(image->width(), image->height());
+	faceSketch.updateBackground((const char *)curFile.toLocal8Bit(), value);
+
+	QImage* rightImage = new QImage();
+	if(rightImage->load("temp/wholeSketch.jpg"))
+	{
+		this->rightGraphicsScene->clear();
+		
+		QGraphicsPixmapItem* rightImgItem = new QGraphicsPixmapItem();
+		int width = ui->rightGraphicsView->width();
+		int hight = ui->rightGraphicsView->height();
+		rightImgItem->setPixmap(QPixmap::fromImage(*rightImage));
+		rightGraphicsScene->addItem(rightImgItem);
+		ui->rightGraphicsView->setEnabled(true);
+		ui->rightGraphicsView->setScene(rightGraphicsScene);
+		ui->rightGraphicsView->show();
+		ui->rightGraphicsView->setMouseTracking(true);		
+	}
+}
 

@@ -20,7 +20,7 @@ CFaceSketch::~CFaceSketch(void)
 
 void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 {
-	string eyeTemplateNumber = "2";
+	string eyeTemplateNumber = "1";
 	string browTemplateNumber = "7";
 	string noseTemplateNumber = "1";
 	string mouthTemplateNumber = "31";
@@ -186,7 +186,7 @@ bool CFaceSketch::isBackground(MatIterator_<Vec3b> point){
 	return ((*point)[0] == 1) && ((*point)[1] == 2) && ((*point)[2] == 3);
 }
 
-void CFaceSketch::combineSketch()
+void CFaceSketch::combineComponent()
 {
 	Mat face(height, width, CV_8UC3, Scalar(1,2,3));
 	addTopToBottom(wholeFace[LEFTBROW], face);
@@ -196,9 +196,18 @@ void CFaceSketch::combineSketch()
 	addTopToBottom(wholeFace[RIGHTEYE], face);
 	addTopToBottom(wholeFace[NOSE], face);
 	addTopToBottom(face, wholeFace[PROFIILE]);
-	//Mat whole(height, width, CV_8UC3, Scalar::all(255));
-	addTopToBottom(wholeFace[PROFIILE], bgCurve);
-	
+	Mat facialSetch(height, width, CV_8UC3, Scalar::all(255));
+	addTopToBottom(wholeFace[PROFIILE], facialSetch);
+	cv::imwrite("temp\\wholeFace.jpg",facialSetch);
+}
+void CFaceSketch::combineSketch(bool combineFace)
+{
+	if (combineFace == true)
+	{
+		combineComponent();
+	}
+	Mat facialSketch = imread("temp\\wholeFace.jpg");
+	addTopToBottom(facialSketch, bgCurve);
 	cv::imwrite("temp\\wholeSketch.jpg", bgCurve);
 }
 
@@ -224,7 +233,7 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 
 }
 
-void CFaceSketch::backgroudSketch( string srcImgPath )
+void CFaceSketch::backgroudSketch( string srcImgPath, int thresholdValue)
 {
 	Mat srcImg = imread(srcImgPath);
 	if(srcImg.empty()) {
@@ -232,11 +241,17 @@ void CFaceSketch::backgroudSketch( string srcImgPath )
 		return;
 	}
 	Mat tempImg1, tempImg2;
-	cv::Canny(srcImg, tempImg1, 50, 200, 3);
-	cvNot(&tempImg1, &tempImg2);
-	cv::cvtColor(tempImg1, bgCurve, CV_GRAY2BGR );
+	cv::Canny(srcImg, tempImg1, thresholdValue, thresholdValue*4, 3);
+	
+	cv::bitwise_not(tempImg1, tempImg2);
+	cv::cvtColor(tempImg2, bgCurve, CV_GRAY2BGR );
+
 }
 
-
+void CFaceSketch::updateBackground(string srcImgPath, int thresholdValue )
+{
+	backgroudSketch(srcImgPath, thresholdValue);
+	combineSketch(false);
+}
 
 
