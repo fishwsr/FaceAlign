@@ -285,6 +285,7 @@ void CFaceSketch::updateBackground(cv::Mat srcImg, int thresholdValue )
 	height = srcImg.rows;
 	backgroudSketch(srcImg, thresholdValue);
 	combineSketch(false);
+	imwrite("temp\\wholeSketch.jpg",bgCurve);
 }
 
 std::vector<cv::Point> CFaceSketch::getLocatedFaceContour()
