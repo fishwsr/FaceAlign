@@ -36,3 +36,8 @@ FaceLocation/mainwindow.h.REMOTE
 FaceLocation/mainwindow.h.orig
 
 testpic/res*
+
+FaceLocation/data/colorMode0
+FaceLocation/data/colorMode/faceContour2*
+FaceLocation/temp*
+testpic*/
