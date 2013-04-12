@@ -24,5 +24,6 @@ private:
 	bool isWhite(cv::MatIterator_<cv::Vec3b> point);
 	bool isBackground(cv::MatIterator_<cv::Vec3b> point);
 	void combineComponent();
+	std::vector<cv::Point> getLocatedFaceContour();
 };
 

@@ -3,6 +3,7 @@
 #include <QtGui/QGraphicsScene>
 #include <QtGui/QGraphicsPixmapItem>
 #include <QtGui/QListWidget>
+#include "FaceSketch.h"
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -51,5 +52,6 @@ private:
 	QGraphicsScene *rightGraphicsScene;
 	QFaceModel *facemodel;
 	Ui::MainWindow *ui;
+	CFaceSketch* faceSketch;
 };
 #endif // MAINWINDOW_H

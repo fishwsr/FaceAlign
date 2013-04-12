@@ -196,6 +196,8 @@ void CFaceSketch::combineComponent()
 	addTopToBottom(wholeFace[RIGHTEYE], face);
 	addTopToBottom(wholeFace[NOSE], face);
 	addTopToBottom(face, wholeFace[PROFIILE]);
+
+
 	Mat facialSetch(height, width, CV_8UC3, Scalar::all(255));
 	addTopToBottom(wholeFace[PROFIILE], facialSetch);
 	cv::imwrite("temp\\wholeFace.jpg",facialSetch);
@@ -235,6 +237,8 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 
 void CFaceSketch::backgroudSketch( string srcImgPath, int thresholdValue)
 {
+	vector<Point> faceOutLine = getLocatedFaceContour();
+
 	Mat srcImg = imread(srcImgPath);
 	if(srcImg.empty()) {
 		qDebug("BackGround File Not Found");
@@ -242,16 +246,89 @@ void CFaceSketch::backgroudSketch( string srcImgPath, int thresholdValue)
 	}
 	Mat tempImg1, tempImg2;
 	cv::Canny(srcImg, tempImg1, thresholdValue, thresholdValue*4, 3);
-	
 	cv::bitwise_not(tempImg1, tempImg2);
 	cv::cvtColor(tempImg2, bgCurve, CV_GRAY2BGR );
 
+	int faceThresholdValue = thresholdValue*2;
+	Mat faceTempImg1, faceTempImg2, faceBgCurv;
+	cv::Canny(srcImg, faceTempImg1, faceThresholdValue, faceThresholdValue*4, 3);
+	cv::bitwise_not(faceTempImg1, faceTempImg2);
+	cv::cvtColor(faceTempImg2, faceBgCurv, CV_GRAY2BGR );
+
+	MatIterator_<Vec3b> itOfBg, itOfFace, endOfBg, endOfFace;
+	itOfBg = bgCurve.begin<Vec3b>();
+	endOfBg = bgCurve.end<Vec3b>();
+	itOfFace = faceBgCurv.begin<Vec3b>();
+	endOfFace = faceBgCurv.end<Vec3b>();
+
+	for( ;(itOfBg != endOfBg) && (itOfFace != endOfFace); ++itOfFace, ++itOfBg)
+	{
+		double isFacePoint = pointPolygonTest( faceOutLine, Point2f(itOfBg.pos().x,itOfBg.pos().y), false );
+		
+		if(isFacePoint > 0){
+			(*itOfBg)[0] = (*itOfFace)[0];
+			(*itOfBg)[1] = (*itOfFace)[1];
+			(*itOfBg)[2] = (*itOfFace)[2];
+		} 
+	}
+	
 }
 
 void CFaceSketch::updateBackground(string srcImgPath, int thresholdValue )
 {
 	backgroudSketch(srcImgPath, thresholdValue);
 	combineSketch(false);
+}
+
+std::vector<cv::Point> CFaceSketch::getLocatedFaceContour()
+{
+	
+	QVector<Node*> allQNodes = facemodel->getAllNodes();
+	// get face points
+	std::vector<cv::Point> points;
+	int count = allQNodes.size();
+	for( int i = 0; i < count; i++ )
+	{
+		Point pt;
+		pt.x = allQNodes.at(i)->sceneBoundingRect().center().x();
+		pt.y = allQNodes.at(i)->sceneBoundingRect().center().y();
+
+		points.push_back(pt);
+	}
+
+	//get hull
+	vector<int> hull;
+	convexHull(cv::Mat(points), hull, true);
+
+	Mat img(width, height, CV_8UC1, Scalar::all(0));
+	/*for(int i = 0; i < count; i++ )
+		circle(img, points[i], 3, Scalar(255), CV_FILLED, CV_AA);*/
+
+	int hullcount = (int)hull.size();
+	Point pt0 = points[hull[hullcount-1]];
+
+	for(int i = 0; i < hullcount; i++ )
+	{
+		Point pt = points[hull[i]];
+		line(img, pt0, pt, Scalar( 255), 3, 8);
+		pt0 = pt;
+	}
+
+	/// Get the contours
+	vector<vector<Point> > contours;
+
+	findContours( img.clone(), contours, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
+	
+	Mat img2(width, height, CV_8UC1, Scalar::all(0));
+
+	Point pt00 = contours[0][contours[0].size()-1];
+	for(int i = 0; i <  contours[0].size(); i++) {
+		Point pt = contours[0][i];
+		line(img2, pt00, pt, Scalar(255), 1, CV_AA);
+		pt00 = pt;
+	}
+	
+	return contours[0];
 }
 
 

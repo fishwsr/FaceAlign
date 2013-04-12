@@ -16,6 +16,7 @@ public:
 	QVector<Node*> getNoseNodes();
 	QVector<Node*> getMouthNodes();
 	QVector<Node*> getFaceProfileNodes();
+	QVector<Node*> getAllNodes();
 	void setNodesIdVisible(bool isVisible);
 	void paint();
 private:
