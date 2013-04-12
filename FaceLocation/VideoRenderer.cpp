@@ -65,7 +65,7 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 		}
 		
 		if(isKeyFrame(i)) {
-			currentDst = renderKeyFrame(currentSrc);
+			currentDst = renderKeyFrame(currentSrc,currentFace);
 		} else {
 			currentDst = propagateFromLastFrame(currentSrc, currentFace, lastSrc, lastDst, lastFace);
 		}
@@ -80,7 +80,7 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 	}
 }
 
-cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc)
+cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc, vector<cv::Point> currentFace)
 {
 	cv::imwrite("temp/currentSrcVideoFrame.jpg", currentSrc);
 	CFaceAlign faceAlign;
@@ -88,11 +88,14 @@ cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc)
 	float* ptsPos;
 	ptsPos = faceAlign.procPic("temp/currentSrcVideoFrame.jpg");
 	int pointnum = faceAlign.PointNum();
+	for(int i =0; i<pointnum; i++)
+	{
+		currentFace[i].x = ptsPos[2*i];
+		currentFace[i].y = ptsPos[2*i+1];
+	}
 	QGraphicsPixmapItem imgItem;
 	QFaceModel facemodel(ptsPos,pointnum,&imgItem);
 	return faceSketch.sketchFace(&facemodel,currentSrc);
-	return currentSrc;
-
 }
 
 cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, vector<cv::Point> currentFace, Mat lastSrc, Mat lastDst, vector<cv::Point> lastFace )

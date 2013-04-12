@@ -15,7 +15,7 @@ public:
 	~CVideoRenderer(void);
 	Mat getFirstFrame();
 	void render(std::string renderedVideoPath);
-	Mat renderKeyFrame( Mat currentSrc);
+	Mat renderKeyFrame( Mat currentSrc, vector<cv::Point> currentFace);
 	Mat propagateFromLastFrame( Mat currentSrc, vector<cv::Point> currentFace, Mat lastSrc, Mat lastDst, vector<cv::Point> lastFace );
 private:
 	VideoCapture *srcVideoCapture;
