@@ -112,7 +112,6 @@ void MainWindow::on_sketchAction_triggered()
 		ui->rightGraphicsView->setScene(rightGraphicsScene);
 		ui->rightGraphicsView->show();
 		ui->rightGraphicsView->setMouseTracking(true);
-		ui->renderAction->setEnabled(true);
 		ui->templateAreaWidget->setEnabled(true);
 		
 	}
@@ -358,6 +357,7 @@ void MainWindow::on_openVideoAction_triggered()
 		ui->leftVideoPlayer->load(mediaSource);
 		ui->seekSlider->setMediaObject(ui->leftVideoPlayer->mediaObject());
 		ui->volumeSlider->setAudioOutput(ui->leftVideoPlayer->audioOutput());
+		ui->renderAction->setEnabled(true);
 	}
 
 }
