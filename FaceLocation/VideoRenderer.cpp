@@ -22,7 +22,7 @@ CVideoRenderer::CVideoRenderer(std::string videoFilePath)
 	//imshow("test", firstFrame);
 	frameWidth = firstFrame.cols;
 	frameHeight = firstFrame.rows;
-	interval = 1;
+	interval = 5;
 }
 
 
@@ -91,7 +91,6 @@ cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc)
 	QGraphicsPixmapItem imgItem;
 	QFaceModel facemodel(ptsPos,pointnum,&imgItem);
 	return faceSketch.sketchFace(&facemodel,currentSrc);
-	return currentSrc;
 
 }
 

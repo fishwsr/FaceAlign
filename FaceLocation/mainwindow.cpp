@@ -90,7 +90,8 @@ void MainWindow::on_sketchAction_triggered()
 		qDebug("image file not Found");
 		return;
 	}
-	faceSketch->sketchFace(facemodel,srcImg);
+	Mat sketchedImg = faceSketch->sketchFace(facemodel,srcImg);
+	imwrite("temp/wholeSketch.jpg", sketchedImg);
 
 	QImage* rightImage = new QImage();
 	if(rightImage->load("temp/wholeSketch.jpg"))
