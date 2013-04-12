@@ -1,4 +1,5 @@
 #include "faceAlign.h"
+#include <qt\qdebug.h>
 #pragma comment(lib,"FaceAlignDll.lib")
 using namespace std;
 using namespace Gdiplus; 
@@ -93,6 +94,7 @@ void CFaceAlign::AvgShape( float* pPoints )
 
 float* CFaceAlign::procPic(string strFilePath)
 {
+	double t = (double)getTickCount();
 	ULONG_PTR m_gdiplusToken; 
 	GdiplusStartupInput gdiplusStartupInput;     //ÉùÃ÷
 	GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);    //Æô¶¯
@@ -161,6 +163,8 @@ float* CFaceAlign::procPic(string strFilePath)
 	srcImageFile = "";
 	resImageFile = "";
 	delete wstrFilePath;
+	t = ((double)getTickCount() - t)/getTickFrequency();
+	qDebug("Align -- Times passed in seconds: %f\n", t);
 	return ptsPos1;
 }
 

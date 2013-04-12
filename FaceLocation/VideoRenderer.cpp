@@ -22,7 +22,7 @@ CVideoRenderer::CVideoRenderer(std::string videoFilePath)
 	//imshow("test", firstFrame);
 	frameWidth = firstFrame.cols;
 	frameHeight = firstFrame.rows;
-	interval = 1;
+	interval = 5;
 }
 
 

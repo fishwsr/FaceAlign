@@ -151,6 +151,7 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 
 cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg )
 {
+	double t = (double)getTickCount();
 	facemodel = ASMModel;
 	width = srcImg.cols;
 	height = srcImg.rows;
@@ -163,6 +164,8 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg )
 	componentSketch(PROFIILE, "faceContour");
 	backgroudSketch(srcImg);
 	combineSketch();
+	t = ((double)getTickCount() - t)/getTickFrequency();
+	qDebug("Sketch -- Times passed in seconds: %f\n", t);
 	return bgCurve;
 }
 
