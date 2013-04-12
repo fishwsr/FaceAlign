@@ -61,6 +61,7 @@ void MainWindow::on_openAction_triggered()
                 "Image files (*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm);;All files (*.*)");
     if(!fileName.isEmpty())
     {
+		freeOldResource();
 		openImage(fileName);
     }
 }
@@ -240,7 +241,6 @@ void MainWindow::contextMenuEvent( QContextMenuEvent *event )
 
 void MainWindow::openImage( QString fileName )
 {
-		freeOldResource();
 		setCurrentFile(fileName);
 		if(image->load(fileName))
 		{
@@ -267,6 +267,8 @@ void MainWindow::openImage( QString fileName )
 
 void MainWindow::on_renderAction_triggered()
 {
+	videoRenderer->render("temp/rendered.avi");
+	
 	QMessageBox::information(this,"Face Location", "Video rendering completed");
 	ui->stackedWidget->setCurrentIndex(1);
 	ui->sketchAction->setDisabled(true);
