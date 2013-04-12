@@ -105,3 +105,8 @@ void QFaceModel::setNodesIdVisible( bool isVisible )
 		nodesID[i]->setVisible(isVisible);
 	}
 }
+
+QVector<Node*> QFaceModel::getAllNodes()
+{
+	return nodes;
+}

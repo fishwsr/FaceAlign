@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     setCurrentFile("");
 	isAligned = false;
 	imgItem = NULL;
+	faceSketch = NULL;
 
 	//debug purpose
 	//openImage("./penny.jpg");
@@ -46,6 +47,9 @@ MainWindow::~MainWindow()
 	if(isAligned)
 	{
 		delete facemodel;
+	}
+	if(faceSketch != NULL) {
+		delete faceSketch;
 	}
 }
 
@@ -79,8 +83,8 @@ void MainWindow::on_alignAction_triggered()
 
 void MainWindow::on_sketchAction_triggered()
 {
-	CFaceSketch faceSketch(image->width(), image->height());
-	faceSketch.sketchFace(facemodel,(const char *)curFile.toLocal8Bit());
+	faceSketch = new CFaceSketch(image->width(), image->height());
+	faceSketch->sketchFace(facemodel,(const char *)curFile.toLocal8Bit());
 
 	QImage* rightImage = new QImage();
 	if(rightImage->load("temp/wholeSketch.jpg"))
@@ -148,6 +152,9 @@ void MainWindow::on_closeAction_triggered()
 		ui->alignAction->setDisabled(true);
 		ui->sketchAction->setDisabled(true);
 		ui->renderAction->setDisabled(true);
+	}
+	if(faceSketch != NULL) {
+		delete faceSketch;
 	}
 }
 
@@ -256,6 +263,9 @@ void MainWindow::openImage( QString fileName )
 			this->rightGraphicsScene->clear();
 			ui->stackedWidget->setCurrentIndex(0);
 		}
+		if(faceSketch != NULL) {
+			delete faceSketch;
+		}
 }
 
 void MainWindow::on_renderAction_triggered()
@@ -292,8 +302,11 @@ void MainWindow::initList( QListWidget* widgetList, QString filePath )
 
 void MainWindow::on_thresholdSlider_valueChanged( int value )
 {
-	CFaceSketch faceSketch(image->width(), image->height());
-	faceSketch.updateBackground((const char *)curFile.toLocal8Bit(), value);
+	if(faceSketch == NULL) {
+		qDebug("########################################Sketch Must be Done First!!!");
+		exit(-1);
+	}
+	faceSketch->updateBackground((const char *)curFile.toLocal8Bit(), value);
 
 	QImage* rightImage = new QImage();
 	if(rightImage->load("temp/wholeSketch.jpg"))
