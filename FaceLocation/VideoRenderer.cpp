@@ -99,7 +99,7 @@ cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, vector<cv::Point
 {
 	ORBMatching orb;
 	vector<cv::Point> controlPoint1, controlPoint2;
-	orb.findMatchigPoint(currentSrc, lastSrc, lastFace, controlPoint1, controlPoint2);
+	orb.findMatchigPoint(currentSrc, lastSrc, lastFace,  controlPoint1, controlPoint2);
 	currentFace = controlPoint2;
 
 	controlPoint1.push_back(cvPoint(0,0));
