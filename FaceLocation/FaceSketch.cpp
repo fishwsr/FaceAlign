@@ -235,9 +235,10 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 
 }
 
-void CFaceSketch::backgroudSketch( string srcImgPath, int thresholdValue)
+void CFaceSketch::backgroudSketch2( string srcImgPath, int thresholdValue)
 {
 	vector<Point> faceOutLine = getLocatedFaceContour();
+
 
 	Mat srcImg = imread(srcImgPath);
 	if(srcImg.empty()) {
@@ -331,4 +332,44 @@ std::vector<cv::Point> CFaceSketch::getLocatedFaceContour()
 	return contours[0];
 }
 
+Mat CFaceSketch::getFaceMask()
+{
+	cv::Mat faceMask(height, width,CV_8U, Scalar(0));
+	QVector<Node*> allQNodes = facemodel->getAllNodes();
+	// get face points
+	std::vector<cv::Point> points;
+	int count = allQNodes.size();
+	for( int i = 0; i < count; i++ )
+	{
+		Point pt;
+		pt.x = allQNodes.at(i)->sceneBoundingRect().center().x();
+		pt.y = allQNodes.at(i)->sceneBoundingRect().center().y();
 
+		points.push_back(pt);
+	}
+	Rect bdRect = boundingRect(points);
+	Mat maskROI(faceMask,bdRect);
+	maskROI.setTo(1);
+	return faceMask;
+}
+
+void CFaceSketch::backgroudSketch( string srcImgPath, int thresholdValue)
+{
+	Mat srcImg = imread(srcImgPath);
+	if(srcImg.empty()) {
+		qDebug("BackGround File Not Found");
+		return;
+	}
+	Mat tempImg1, tempImg2;
+	cv::Canny(srcImg, tempImg1, thresholdValue, thresholdValue*4, 3);
+
+	int faceThresholdValue = thresholdValue*1.5;
+	Mat faceBgCurv;
+	cv::Canny(srcImg, faceBgCurv, faceThresholdValue, faceThresholdValue*3, 3);
+
+	Mat faceMask = getFaceMask();
+	//Mat tempImg3 = tempImg1;
+	cv::bitwise_and(tempImg1,faceBgCurv,tempImg1,faceMask);
+	cv::bitwise_not(tempImg1, tempImg2);
+	cv::cvtColor(tempImg2, bgCurve, CV_GRAY2BGR);
+}

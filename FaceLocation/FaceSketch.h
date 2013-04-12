@@ -25,5 +25,7 @@ private:
 	bool isBackground(cv::MatIterator_<cv::Vec3b> point);
 	void combineComponent();
 	std::vector<cv::Point> getLocatedFaceContour();
+	cv::Mat getFaceMask();
+	void CFaceSketch::backgroudSketch2( std::string srcImgPath, int thresholdValue);
 };
 
