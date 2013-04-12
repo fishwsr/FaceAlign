@@ -53,7 +53,6 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 	}
 
 	Mat currentSrc, currentDst, lastSrc, lastDst;
-	vector<cv::Point> currentFace, lastFace;
 	int i = 0;
 
 	for(;;) //Show the image captured in the window and repeat
@@ -68,13 +67,12 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 		if(isKeyFrame(i)) {
 			currentDst = renderKeyFrame(currentSrc);
 		} else {
-			currentDst = propagateFromLastFrame(currentSrc, currentFace, lastSrc, lastDst, lastFace);
+			currentDst = propagateFromLastFrame(currentSrc, lastSrc, lastDst);
 		}
 				
 		outputVideo << currentDst;
 		lastDst = currentDst;
-		lastFace = currentFace;
-
+		lastSrc = currentSrc;
 		i++;
 
 		t = ((double)getTickCount() - t)/getTickFrequency();
@@ -83,7 +81,7 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 	}
 }
 
-cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc)
+cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc )
 {
 	cv::imwrite("temp/currentSrcVideoFrame.jpg", currentSrc);
 	CFaceAlign faceAlign;
@@ -91,17 +89,22 @@ cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc)
 	float* ptsPos;
 	ptsPos = faceAlign.procPic("temp/currentSrcVideoFrame.jpg");
 	int pointnum = faceAlign.PointNum();
+	currentFace.resize(pointnum);
+	for(int i =0; i<pointnum; i++)
+	{
+		currentFace[i].x = ptsPos[2*i];
+		currentFace[i].y = ptsPos[2*i+1];
+	}
 	QGraphicsPixmapItem imgItem;
 	QFaceModel facemodel(ptsPos,pointnum,&imgItem);
 	return faceSketch.sketchFace(&facemodel,currentSrc);
-
 }
 
-cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, vector<cv::Point> currentFace, Mat lastSrc, Mat lastDst, vector<cv::Point> lastFace )
+cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, Mat lastSrc, Mat lastDst )
 {
 	ORBMatching orb;
 	vector<cv::Point> controlPoint1, controlPoint2;
-	orb.findMatchigPoint(currentSrc, lastSrc, lastFace,  controlPoint1, controlPoint2);
+	orb.findMatchigPoint(currentSrc, lastSrc, currentFace,  controlPoint1, controlPoint2);
 	currentFace = controlPoint2;
 
 	controlPoint1.push_back(cvPoint(0,0));
