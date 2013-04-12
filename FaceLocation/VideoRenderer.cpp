@@ -22,6 +22,7 @@ CVideoRenderer::CVideoRenderer(std::string videoFilePath)
 	//imshow("test", firstFrame);
 	frameWidth = firstFrame.cols;
 	frameHeight = firstFrame.rows;
+	interval = 1;
 }
 
 
@@ -54,7 +55,6 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 	Mat currentSrc, currentDst, lastSrc, lastDst;
 	vector<cv::Point> currentFace, lastFace;
 	int i = 0;
-	int j = 1;
 	
 	for(;;) //Show the image captured in the window and repeat
 	{
@@ -64,7 +64,7 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 			break;         // check if at end
 		}
 		
-		if(i % j == 0) {
+		if(isKeyFrame(i)) {
 			currentDst = renderKeyFrame(currentSrc);
 		} else {
 			currentDst = propagateFromLastFrame(currentSrc, currentFace, lastSrc, lastDst, lastFace);
@@ -102,4 +102,17 @@ cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, vector<cv::Point
 	CThinPlateSpline tps(controlPoint1, controlPoint2);
 	tps.warpImage(lastDst,currentDst,0.01,INTER_CUBIC,BACK_WARP);
 	return currentDst;
+}
+
+bool CVideoRenderer::isKeyFrame( int index )
+{
+	if (index % interval == 0)
+	{
+		return true;
+	} 
+	else
+	{
+		return false;
+	}
+
 }

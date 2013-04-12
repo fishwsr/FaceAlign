@@ -17,8 +17,10 @@ public:
 	Mat propagateFromLastFrame( Mat currentSrc, vector<cv::Point> currentFace, Mat lastSrc, Mat lastDst, vector<cv::Point> lastFace );
 private:
 	VideoCapture *srcVideoCapture;
+	int interval;
 	Mat firstFrame;
 	int frameWidth;
     int frameHeight;
+	bool isKeyFrame(int index);
 };
 
