@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 #include "faceAlign.h"
 #include "FaceSketch.h"
+#include "VideoRenderer.h"
 
 using namespace Gdiplus; 
 
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	isAligned = false;
 	imgItem = NULL;
 	faceSketch = NULL;
+	videoRenderer = NULL;
 
 	//debug purpose
 	//openImage("./penny.jpg");
@@ -48,9 +50,7 @@ MainWindow::~MainWindow()
 	{
 		delete facemodel;
 	}
-	if(faceSketch != NULL) {
-		delete faceSketch;
-	}
+	freeOldResource();
 }
 
 void MainWindow::on_openAction_triggered()
@@ -152,9 +152,7 @@ void MainWindow::on_closeAction_triggered()
 		ui->alignAction->setDisabled(true);
 		ui->sketchAction->setDisabled(true);
 		ui->renderAction->setDisabled(true);
-	}
-	if(faceSketch != NULL) {
-		delete faceSketch;
+		freeOldResource();
 	}
 }
 
@@ -242,6 +240,7 @@ void MainWindow::contextMenuEvent( QContextMenuEvent *event )
 
 void MainWindow::openImage( QString fileName )
 {
+		freeOldResource();
 		setCurrentFile(fileName);
 		if(image->load(fileName))
 		{
@@ -263,9 +262,7 @@ void MainWindow::openImage( QString fileName )
 			this->rightGraphicsScene->clear();
 			ui->stackedWidget->setCurrentIndex(0);
 		}
-		if(faceSketch != NULL) {
-			delete faceSketch;
-		}
+		
 }
 
 void MainWindow::on_renderAction_triggered()
@@ -322,6 +319,33 @@ void MainWindow::on_thresholdSlider_valueChanged( int value )
 		ui->rightGraphicsView->setScene(rightGraphicsScene);
 		ui->rightGraphicsView->show();
 		ui->rightGraphicsView->setMouseTracking(true);		
+	}
+}
+
+void MainWindow::on_openVideoAction_triggered()
+{
+	QString videoFileName = QFileDialog::getOpenFileName(
+		this, "open image file",
+		".",
+		"Video files (*.mp4 *.avi);;All files (*.*)");
+	if(!videoFileName.isEmpty())
+	{
+		freeOldResource();
+		videoRenderer = new CVideoRenderer((const char *)videoFileName.toLocal8Bit());
+		Mat firstFrame = videoRenderer->getFirstFrame();
+		imwrite("temp/firstFrame.jpg", firstFrame);
+		openImage("temp/firstFrame.jpg");
+	}
+
+}
+
+void MainWindow::freeOldResource()
+{
+	if(videoRenderer != NULL) {
+		delete videoRenderer;
+	}
+	if(faceSketch != NULL) {
+		delete faceSketch;
 	}
 }
 

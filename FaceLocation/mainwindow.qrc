@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="MainWindow">
+    <file>images/videos-icon.png</file>
     <file>images/chooseTemplate.png</file>
     <file>images/play.png</file>
     <file>images/render.png</file>
