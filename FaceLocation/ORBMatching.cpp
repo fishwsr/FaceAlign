@@ -15,7 +15,7 @@ ORBMatching::~ORBMatching(void)
 {
 }
 
-void ORBMatching::findMatchigPoint( cv::Mat previousFrame, float* facePoint1, cv::Mat currentFrame, std::vector<cv::Point> kp1, std::vector<cv::Point> kp2 )
+void ORBMatching::findMatchigPoint( cv::Mat currentFrame, cv::Mat previousFrame, std::vector<cv::Point> previousFace, std::vector<cv::Point> kp1, std::vector<cv::Point> kp1 )
 {
 	CFaceAlign currentFace;
 	ORB orb;
@@ -24,8 +24,8 @@ void ORBMatching::findMatchigPoint( cv::Mat previousFrame, float* facePoint1, cv
 	keyPoints_1_Orb.resize(currentFace.PointNum());
 	for(int i=0;i<currentFace.PointNum();i++)
 	{
-		keyPoints_1_Orb[i].pt.x = facePoint1[2*i];
-		keyPoints_1_Orb[i].pt.y = facePoint1[2*i+1];
+		keyPoints_1_Orb[i].pt.x = previousFace[i].x;
+		keyPoints_1_Orb[i].pt.y = previousFace[i].y;
 	}
 	
 	RECT rcBox;
@@ -54,5 +54,4 @@ void ORBMatching::findMatchigPoint( cv::Mat previousFrame, float* facePoint1, cv
 		kp1.push_back(keyPoints_1_Orb[k.queryIdx].pt);
 		kp2.push_back(keyPoints_2_Orb[k.trainIdx].pt);
 	}
-
 }

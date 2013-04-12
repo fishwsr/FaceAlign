@@ -1,4 +1,6 @@
 #include "VideoRenderer.h"
+#include "ORBMatching.h"
+#include "CThinPlateSpline.h"
 #include <QtGui>
 
 
@@ -18,7 +20,8 @@ CVideoRenderer::CVideoRenderer(std::string videoFilePath)
 	srcVideoCapture->release();
 	srcVideoCapture->open(videoFilePath);
 	//imshow("test", firstFrame);
-
+	frameWidth = firstFrame.cols;
+	frameHeight = firstFrame.rows;
 }
 
 
@@ -48,7 +51,8 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 		return;
 	}
 
-	Mat currentSrc, currentDst, lastDst;
+	Mat currentSrc, currentDst, lastSrc, lastDst;
+	vector<cv::Point> currentFace, lastFace;
 	int i = 0;
 	int j = 1;
 	
@@ -63,12 +67,13 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 		if(i % j == 0) {
 			currentDst = renderKeyFrame(currentSrc);
 		} else {
-			currentDst = propagateFromLastFrame(currentSrc, lastDst);
+			currentDst = propagateFromLastFrame(currentSrc, currentFace, lastSrc, lastDst, lastFace);
 		}
 				
 		//outputVideo.write(res); //save or
 		outputVideo << currentDst;
 		lastDst = currentDst;
+		lastFace = currentFace;
 	}
 }
 
@@ -77,7 +82,24 @@ cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc )
 	return currentSrc;
 }
 
-cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, Mat lastDst )
+cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, vector<cv::Point> currentFace, Mat lastSrc, Mat lastDst, vector<cv::Point> lastFace )
 {
-	return currentSrc;
+	ORBMatching orb;
+	vector<cv::Point> controlPoint1, controlPoint2;
+	orb.findMatchigPoint(currentSrc, lastSrc, lastFace, controlPoint1, controlPoint2);
+	currentFace = controlPoint2;
+
+	controlPoint1.push_back(cvPoint(0,0));
+	controlPoint2.push_back(cvPoint(0,0));
+	controlPoint1.push_back(cvPoint(frameWidth-1, 0));
+	controlPoint2.push_back(cvPoint(frameWidth-1, 0));
+	controlPoint1.push_back(cvPoint(0, frameHeight-1));
+	controlPoint2.push_back(cvPoint(0, frameHeight-1));
+	controlPoint1.push_back(cvPoint(frameWidth-1, frameHeight-1));
+	controlPoint2.push_back(cvPoint(frameWidth-1, frameHeight-1));
+	
+	Mat currentDst;
+	CThinPlateSpline tps(controlPoint1, controlPoint2);
+	tps.warpImage(lastDst,currentDst,0.01,INTER_CUBIC,BACK_WARP);
+	return currentDst;
 }
