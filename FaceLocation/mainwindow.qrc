@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="MainWindow">
+    <file>images/pause.png</file>
+    <file>images/stop.png</file>
     <file>images/videos-icon.png</file>
     <file>images/chooseTemplate.png</file>
     <file>images/play.png</file>

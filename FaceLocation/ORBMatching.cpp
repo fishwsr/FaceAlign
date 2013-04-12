@@ -5,6 +5,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/nonfree/features2d.hpp>
 #include <opencv2/legacy/legacy.hpp>
+#include <qt\qdebug.h>
 
 ORBMatching::ORBMatching(void)
 {
@@ -17,6 +18,7 @@ ORBMatching::~ORBMatching(void)
 
 void ORBMatching::findMatchigPoint( cv::Mat currentFrame, cv::Mat previousFrame, std::vector<cv::Point> previousFace, std::vector<cv::Point> kp1, std::vector<cv::Point> kp2 )
 {
+	double t = (double)getTickCount();
 	CFaceAlign currentFace;
 	ORB orb;
 	vector<KeyPoint> keyPoints_1_Orb, keyPoints_2_Orb;
@@ -54,5 +56,6 @@ void ORBMatching::findMatchigPoint( cv::Mat currentFrame, cv::Mat previousFrame,
 		kp1.push_back(keyPoints_1_Orb[k.queryIdx].pt);
 		kp2.push_back(keyPoints_2_Orb[k.trainIdx].pt);
 	}
-
+	t = ((double)getTickCount() - t)/getTickFrequency();
+	qDebug("ORB Matching -- Times passed in seconds: %f\n", t);
 }

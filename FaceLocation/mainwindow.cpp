@@ -4,6 +4,7 @@
 #include "faceAlign.h"
 #include "FaceSketch.h"
 #include "VideoRenderer.h"
+#include <Phonon/MediaSource>
 
 using namespace Gdiplus; 
 
@@ -279,6 +280,9 @@ void MainWindow::on_renderAction_triggered()
 	ui->stackedWidget->setCurrentIndex(1);
 	ui->sketchAction->setDisabled(true);
 	ui->templateAreaWidget->setDisabled(true);
+
+	ui->rightVideoPlayer->load(Phonon::MediaSource("temp/rendered.avi"));
+
 }
 
 void MainWindow::initList( QListWidget* widgetList, QString filePath )
@@ -348,6 +352,9 @@ void MainWindow::on_openVideoAction_triggered()
 		Mat firstFrame = videoRenderer->getFirstFrame();
 		imwrite("temp/firstFrame.jpg", firstFrame);
 		openImage("temp/firstFrame.jpg");
+
+		mediaSource = Phonon::MediaSource(videoFileName);
+		ui->leftVideoPlayer->load(mediaSource);
 	}
 
 }

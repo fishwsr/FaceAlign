@@ -5,6 +5,7 @@
 #include <QtGui/QListWidget>
 #include "FaceSketch.h"
 #include "VideoRenderer.h"
+#include <Phonon/MediaSource>
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -57,5 +58,6 @@ private:
 	Ui::MainWindow *ui;
 	CFaceSketch* faceSketch;
 	CVideoRenderer* videoRenderer;
+	Phonon::MediaSource mediaSource;
 };
 #endif // MAINWINDOW_H

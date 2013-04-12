@@ -4,11 +4,12 @@
 *  Created on: 24.01.2010
 *      Author: schmiedm
 */
-
+#include <qt\qdebug.h>
 #include <vector>
 #include <cv.h>
 #include <cxcore.h>
 #include "CThinPlateSpline.h"
+
 using namespace cv;
 
 CThinPlateSpline::CThinPlateSpline() {
@@ -276,6 +277,7 @@ Point CThinPlateSpline::interpolate(const Point& p, const TPS_INTERPOLATION tpsI
 
 void CThinPlateSpline::warpImage(const Mat& src, Mat& dst, float lambda, const int interpolation,const TPS_INTERPOLATION tpsInter)
 {
+	double t = (double)getTickCount();
 	Size size = src.size();
 	dst = Mat(size,src.type());
 
@@ -293,6 +295,8 @@ void CThinPlateSpline::warpImage(const Mat& src, Mat& dst, float lambda, const i
 	computeMaps(size,mapx,mapy);
 
 	remap(src,dst,mapx,mapy,interpolation, 0, Scalar(1,2,3));
+	t = ((double)getTickCount() - t)/getTickFrequency();
+	qDebug("TPS Wrap -- Times passed in seconds: %f\n", t);
 }
 
 void CThinPlateSpline::getMaps(Mat& mx, Mat& my)

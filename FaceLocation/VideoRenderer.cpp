@@ -22,7 +22,7 @@ CVideoRenderer::CVideoRenderer(std::string videoFilePath)
 	//imshow("test", firstFrame);
 	frameWidth = firstFrame.cols;
 	frameHeight = firstFrame.rows;
-	interval = 5;
+	interval = 1;
 }
 
 
@@ -58,6 +58,7 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 
 	for(;;) //Show the image captured in the window and repeat
 	{
+		double t = (double)getTickCount();
 		(*srcVideoCapture) >> currentSrc;           // read
 
 		if (currentSrc.empty() || i == 30 ) {
@@ -75,7 +76,9 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 		lastFace = currentFace;
 
 		i++;
-		qDebug("Runing %d", i);
+
+		t = ((double)getTickCount() - t)/getTickFrequency();
+		qDebug("Frame %d rendered -- Times passed in seconds: %f\n", i, t);
 
 	}
 }
