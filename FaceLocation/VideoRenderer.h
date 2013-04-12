@@ -12,6 +12,9 @@ public:
 	CVideoRenderer(std::string videoFilePath);
 	~CVideoRenderer(void);
 	Mat getFirstFrame();
+	void render(std::string renderedVideoPath);
+	Mat renderKeyFrame( Mat currentSrc );
+	Mat propagateFromLastFrame( Mat currentSrc, Mat lastDst );
 private:
 	VideoCapture *srcVideoCapture;
 	Mat firstFrame;
