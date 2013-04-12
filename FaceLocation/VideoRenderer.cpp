@@ -60,7 +60,7 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 		double t = (double)getTickCount();
 		(*srcVideoCapture) >> currentSrc;           // read
 
-		if (currentSrc.empty() || i == 30 ) {
+		if (currentSrc.empty() || i == 10 ) {
 			break;         // check if at end
 		}
 		

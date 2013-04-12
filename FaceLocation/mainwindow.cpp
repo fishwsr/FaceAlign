@@ -5,6 +5,7 @@
 #include "FaceSketch.h"
 #include "VideoRenderer.h"
 #include <Phonon/MediaSource>
+#include <Phonon/MediaObject>
 
 using namespace Gdiplus; 
 
@@ -355,6 +356,8 @@ void MainWindow::on_openVideoAction_triggered()
 
 		mediaSource = Phonon::MediaSource(videoFileName);
 		ui->leftVideoPlayer->load(mediaSource);
+		ui->seekSlider->setMediaObject(ui->leftVideoPlayer->mediaObject());
+		ui->volumeSlider->setAudioOutput(ui->leftVideoPlayer->audioOutput());
 	}
 
 }
@@ -367,5 +370,32 @@ void MainWindow::freeOldResource()
 	if(faceSketch != NULL) {
 		delete faceSketch;
 	}
+}
+
+void MainWindow::on_playButton_clicked()
+{
+	ui->leftVideoPlayer->play();
+	ui->rightVideoPlayer->play();
+	ui->pauseButton->setEnabled(true);
+	ui->stopButton->setEnabled(true);
+	ui->playButton->setEnabled(false);
+}
+
+void MainWindow::on_pauseButton_clicked()
+{
+	ui->leftVideoPlayer->pause();
+	ui->rightVideoPlayer->pause();
+	ui->pauseButton->setEnabled(false);
+	ui->stopButton->setEnabled(true);
+	ui->playButton->setEnabled(true);
+}
+
+void MainWindow::on_stopButton_clicked()
+{
+	ui->leftVideoPlayer->stop();
+	ui->rightVideoPlayer->stop();
+	ui->pauseButton->setEnabled(false);
+	ui->stopButton->setEnabled(false);
+	ui->playButton->setEnabled(true);
 }
 

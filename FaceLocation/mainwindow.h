@@ -37,6 +37,9 @@ private slots:
 	void on_showNodeIDAction_triggered();
 	void on_renderAction_triggered();
 	void on_openVideoAction_triggered();
+	void on_playButton_clicked();
+	void on_pauseButton_clicked();
+	void on_stopButton_clicked();
 
 protected:
 	bool eventFilter(QObject* object, QEvent* event);

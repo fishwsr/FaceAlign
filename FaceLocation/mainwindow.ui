@@ -745,53 +745,5 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>playButton</sender>
-   <signal>clicked()</signal>
-   <receiver>leftVideoPlayer</receiver>
-   <slot>play()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>32</x>
-     <y>380</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>142</x>
-     <y>218</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>playButton</sender>
-   <signal>clicked()</signal>
-   <receiver>rightVideoPlayer</receiver>
-   <slot>play()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>32</x>
-     <y>380</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>392</x>
-     <y>218</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>playButton</sender>
-   <signal>clicked()</signal>
-   <receiver>playButton</receiver>
-   <slot>toggle()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>32</x>
-     <y>380</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>32</x>
-     <y>380</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
 </ui>
