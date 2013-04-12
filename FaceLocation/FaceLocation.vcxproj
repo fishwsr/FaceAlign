@@ -42,7 +42,7 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OPENCV244_DIR)\build\include\opencv2;$(OPENCV244_DIR)\build\include\opencv;$(OPENCV244_DIR)\build\include;$(QT484_DIR)\include\QtCore;$(QT484_DIR)\include\Qt;$(QT484_DIR)\include\;$(QT484_DIR)\include\QtGui;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OPENCV244_DIR)\build\include\opencv;$(OPENCV244_DIR)\build\include;$(QT484_DIR)\include\QtCore;$(QT484_DIR)\include\Qt;$(QT484_DIR)\include\;$(QT484_DIR)\include\QtGui;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OPENCV244_DIR)\build\x86\vc10\lib;$(QT484_DIR)\lib;$(LibraryPath)</LibraryPath>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
