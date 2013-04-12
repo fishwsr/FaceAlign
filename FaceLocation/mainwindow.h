@@ -4,6 +4,7 @@
 #include <QtGui/QGraphicsPixmapItem>
 #include <QtGui/QListWidget>
 #include "FaceSketch.h"
+#include "VideoRenderer.h"
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -34,10 +35,12 @@ private slots:
 	void on_sketchAction_triggered();
 	void on_showNodeIDAction_triggered();
 	void on_renderAction_triggered();
+	void on_openVideoAction_triggered();
 
 protected:
 	bool eventFilter(QObject* object, QEvent* event);
 	void contextMenuEvent(QContextMenuEvent *event);
+	void freeOldResource();
 
 private:
 	bool okToContinue();
@@ -53,5 +56,6 @@ private:
 	QFaceModel *facemodel;
 	Ui::MainWindow *ui;
 	CFaceSketch* faceSketch;
+	CVideoRenderer* videoRenderer;
 };
 #endif // MAINWINDOW_H

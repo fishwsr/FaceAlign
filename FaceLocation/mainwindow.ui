@@ -478,6 +478,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="openAction"/>
+   <addaction name="openVideoAction"/>
    <addaction name="saveAction"/>
    <addaction name="closeAction"/>
    <addaction name="separator"/>
@@ -629,6 +630,18 @@
    </property>
    <property name="toolTip">
     <string>chooseTemplate</string>
+   </property>
+  </action>
+  <action name="openVideoAction">
+   <property name="icon">
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/images/videos-icon.png</normaloff>:/MainWindow/images/videos-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>openVideo</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Video File</string>
    </property>
   </action>
  </widget>
