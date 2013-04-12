@@ -84,8 +84,13 @@ void MainWindow::on_alignAction_triggered()
 
 void MainWindow::on_sketchAction_triggered()
 {
-	faceSketch = new CFaceSketch(image->width(), image->height());
-	faceSketch->sketchFace(facemodel,(const char *)curFile.toLocal8Bit());
+	faceSketch = new CFaceSketch();
+	Mat srcImg = imread((const char *)curFile.toLocal8Bit());
+	if(srcImg.empty()) {
+		qDebug("image file not Found");
+		return;
+	}
+	faceSketch->sketchFace(facemodel,srcImg);
 
 	QImage* rightImage = new QImage();
 	if(rightImage->load("temp/wholeSketch.jpg"))
@@ -305,7 +310,12 @@ void MainWindow::on_thresholdSlider_valueChanged( int value )
 		qDebug("########################################Sketch Must be Done First!!!");
 		exit(-1);
 	}
-	faceSketch->updateBackground((const char *)curFile.toLocal8Bit(), value);
+	Mat srcImg = imread((const char *)curFile.toLocal8Bit());
+	if(srcImg.empty()) {
+		qDebug("image file not Found");
+		return;
+	}
+	faceSketch->updateBackground(srcImg, value);
 
 	QImage* rightImage = new QImage();
 	if(rightImage->load("temp/wholeSketch.jpg"))

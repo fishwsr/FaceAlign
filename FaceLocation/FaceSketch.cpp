@@ -7,10 +7,9 @@
 #include "highgui.h"
 #include <math.h>
 
-CFaceSketch::CFaceSketch(int imgwidth, int imgheight)
+CFaceSketch::CFaceSketch()
 {
-	width = imgwidth;
-	height = imgheight;
+	
 }
 
 
@@ -150,9 +149,11 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 	//cv::imwrite(savetemplatePath + "r2.jpg", warpedTemplate2);
 }
 
-void CFaceSketch::sketchFace( QFaceModel* ASMModel, string srcImgPath )
+cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg )
 {
 	facemodel = ASMModel;
+	width = srcImg.cols;
+	height = srcImg.rows;
 	componentSketch(LEFTEYE, "leftEye");
 	componentSketch(RIGHTEYE, "rightEye");
 	componentSketch(LEFTBROW, "leftEyeBrow");
@@ -160,8 +161,9 @@ void CFaceSketch::sketchFace( QFaceModel* ASMModel, string srcImgPath )
 	componentSketch(NOSE, "nose");
 	componentSketch(MOUTH, "mouth");
 	componentSketch(PROFIILE, "faceContour");
-	backgroudSketch(srcImgPath);
+	backgroudSketch(srcImg);
 	combineSketch();
+	return bgCurve;
 }
 
 QVector<Node*> CFaceSketch::getElementNodes( faceElement element )
@@ -210,7 +212,6 @@ void CFaceSketch::combineSketch(bool combineFace)
 	}
 	Mat facialSketch = imread("temp\\wholeFace.jpg");
 	addTopToBottom(facialSketch, bgCurve);
-	cv::imwrite("temp\\wholeSketch.jpg", bgCurve);
 }
 
 void CFaceSketch::addTopToBottom( Mat &top, Mat &botom) 
@@ -275,9 +276,11 @@ void CFaceSketch::backgroudSketch2( string srcImgPath, int thresholdValue)
 	
 }
 
-void CFaceSketch::updateBackground(string srcImgPath, int thresholdValue )
+void CFaceSketch::updateBackground(cv::Mat srcImg, int thresholdValue )
 {
-	backgroudSketch(srcImgPath, thresholdValue);
+	width = srcImg.cols;
+	height = srcImg.rows;
+	backgroudSketch(srcImg, thresholdValue);
 	combineSketch(false);
 }
 
@@ -353,13 +356,8 @@ Mat CFaceSketch::getFaceMask()
 	return faceMask;
 }
 
-void CFaceSketch::backgroudSketch( string srcImgPath, int thresholdValue)
+void CFaceSketch::backgroudSketch(cv::Mat srcImg, int thresholdValue)
 {
-	Mat srcImg = imread(srcImgPath);
-	if(srcImg.empty()) {
-		qDebug("BackGround File Not Found");
-		return;
-	}
 	Mat tempImg1, tempImg2;
 	cv::Canny(srcImg, tempImg1, thresholdValue, thresholdValue*4, 3);
 

@@ -51,12 +51,13 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 	Mat currentSrc, currentDst, lastDst;
 	int i = 0;
 	int j = 1;
+
 	
 	for(;;) //Show the image captured in the window and repeat
 	{
 		(*srcVideoCapture) >> currentSrc;           // read
 
-		if (currentSrc.empty()) {
+		if (currentSrc.empty() || i == 30 ) {
 			break;         // check if at end
 		}
 		
@@ -66,18 +67,29 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 			currentDst = propagateFromLastFrame(currentSrc, lastDst);
 		}
 				
-		//outputVideo.write(res); //save or
 		outputVideo << currentDst;
 		lastDst = currentDst;
+		i++;
+		qDebug("Runing %d", i);
 	}
 }
 
-cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc )
+cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc)
 {
+	cv::imwrite("temp/currentSrcVideoFrame.jpg", currentSrc);
+	CFaceAlign faceAlign;
+	CFaceSketch faceSketch;
+	float* ptsPos;
+	ptsPos = faceAlign.procPic("temp/currentSrcVideoFrame.jpg");
+	int pointnum = faceAlign.PointNum();
+	QGraphicsPixmapItem imgItem;
+	QFaceModel facemodel(ptsPos,pointnum,&imgItem);
+	return faceSketch.sketchFace(&facemodel,currentSrc);
 	return currentSrc;
+
 }
 
-cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, Mat lastDst )
+Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, Mat lastDst )
 {
 	return currentSrc;
 }
