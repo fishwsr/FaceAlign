@@ -15,14 +15,15 @@ public:
 	~CVideoRenderer(void);
 	Mat getFirstFrame();
 	void render(std::string renderedVideoPath);
-	Mat renderKeyFrame( Mat currentSrc, vector<cv::Point> currentFace);
-	Mat propagateFromLastFrame( Mat currentSrc, vector<cv::Point> currentFace, Mat lastSrc, Mat lastDst, vector<cv::Point> lastFace );
+	Mat renderKeyFrame( Mat currentSrc );
+	Mat propagateFromLastFrame( Mat currentSrc, Mat lastSrc, Mat lastDst );
 private:
 	VideoCapture *srcVideoCapture;
 	int interval;
 	Mat firstFrame;
 	int frameWidth;
     int frameHeight;
+	vector<cv::Point> currentFace;
 	bool isKeyFrame(int index);
 };
 

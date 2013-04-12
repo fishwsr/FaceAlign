@@ -15,14 +15,14 @@ ORBMatching::~ORBMatching(void)
 {
 }
 
-void ORBMatching::findMatchigPoint( cv::Mat currentFrame, cv::Mat previousFrame, std::vector<cv::Point> previousFace, std::vector<cv::Point> kp1, std::vector<cv::Point> kp2 )
+void ORBMatching::findMatchigPoint( cv::Mat currentFrame, cv::Mat previousFrame, std::vector<cv::Point> previousFace, std::vector<cv::Point> &kp1, std::vector<cv::Point> &kp2 )
 {
 	CFaceAlign currentFace;
 	ORB orb;
 	vector<KeyPoint> keyPoints_1_Orb, keyPoints_2_Orb;
 	Mat descriptors_1_Orb, descriptors_2_Orb;
-	keyPoints_1_Orb.resize(currentFace.PointNum());
-	for(int i=0;i<currentFace.PointNum();i++)
+	keyPoints_1_Orb.resize(previousFace.size());
+	for(int i=0;i<previousFace.size();i++)
 	{
 		keyPoints_1_Orb[i].pt.x = previousFace[i].x;
 		keyPoints_1_Orb[i].pt.y = previousFace[i].y;
