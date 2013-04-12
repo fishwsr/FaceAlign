@@ -111,7 +111,6 @@ void MainWindow::on_sketchAction_triggered()
 		ui->rightGraphicsView->setScene(rightGraphicsScene);
 		ui->rightGraphicsView->show();
 		ui->rightGraphicsView->setMouseTracking(true);
-		ui->renderAction->setEnabled(true);
 		ui->templateAreaWidget->setEnabled(true);
 		
 	}
@@ -355,6 +354,7 @@ void MainWindow::on_openVideoAction_triggered()
 
 		mediaSource = Phonon::MediaSource(videoFileName);
 		ui->leftVideoPlayer->load(mediaSource);
+		ui->renderAction->setEnabled(true);
 	}
 
 }
