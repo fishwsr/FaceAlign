@@ -16,9 +16,13 @@ public:
 	Mat getFirstFrame();
 	void render(std::string renderedVideoPath);
 	Mat renderKeyFrame( Mat currentSrc);
-	Mat propagateFromLastFrame( Mat currentSrc, Mat lastDst );
+	Mat propagateFromLastFrame( Mat currentSrc, vector<cv::Point> currentFace, Mat lastSrc, Mat lastDst, vector<cv::Point> lastFace );
 private:
 	VideoCapture *srcVideoCapture;
+	int interval;
 	Mat firstFrame;
+	int frameWidth;
+    int frameHeight;
+	bool isKeyFrame(int index);
 };
 
