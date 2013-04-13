@@ -21,7 +21,39 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	ui->statusBar->showMessage("Welcome");
 	ui->leftGraphicsView->viewport()->installEventFilter(this);
 	ui->rightGraphicsView->viewport()->installEventFilter(this);
-    setCurrentFile("");
+	QLabel *bgThresholdLabel = new QLabel("threshold1");
+	QLabel *fcThresholdLabel = new QLabel("threshold2");
+	QSlider *bgThresholdSlider=new QSlider(Qt::Horizontal);
+	QSlider *fcThresholdSlider=new QSlider(Qt::Horizontal);
+	QSpinBox *bgThresholdSpinbox=new QSpinBox;
+	QSpinBox *fcThresholdSpinbox=new QSpinBox;
+	bgThresholdSlider->setRange(30,150);
+	fcThresholdSlider->setRange(30,150);
+	bgThresholdSpinbox->setRange(30,150);
+	fcThresholdSpinbox->setRange(30,150);
+	bgThresholdSlider->setValue(60);
+	fcThresholdSlider->setValue(80);
+	bgThresholdSpinbox->setValue(60);
+	fcThresholdSpinbox->setValue(80);
+	ui->rightToolBar->addSeparator();
+	ui->rightToolBar->addWidget(fcThresholdSpinbox);
+	ui->rightToolBar->addWidget(fcThresholdSlider);
+	ui->rightToolBar->addWidget(fcThresholdLabel);
+	ui->rightToolBar->addSeparator();
+	ui->rightToolBar->addWidget(bgThresholdSpinbox);
+	ui->rightToolBar->addWidget(bgThresholdSlider);
+	ui->rightToolBar->addWidget(bgThresholdLabel);
+	QObject::connect(bgThresholdSpinbox,SIGNAL(valueChanged(int)),bgThresholdSlider,SLOT(setValue(int)));
+	QObject::connect(fcThresholdSpinbox,SIGNAL(valueChanged(int)),fcThresholdSlider,SLOT(setValue(int)));
+	QObject::connect(bgThresholdSlider,SIGNAL(valueChanged(int)),bgThresholdSpinbox,SLOT(setValue(int)));
+	QObject::connect(fcThresholdSlider,SIGNAL(valueChanged(int)),fcThresholdSpinbox,SLOT(setValue(int)));
+	QObject::connect(bgThresholdSlider,SIGNAL(valueChanged(int)),this,SLOT(on_bgThresholdSlider_valueChanged(int)));
+	QObject::connect(fcThresholdSlider,SIGNAL(valueChanged(int)),this,SLOT(on_fcThresholdSlider_valueChanged(int)));
+    bgThresholdValue = 60;
+	fcThresholdValue = 80;
+	ui->rightToolBar->setDisabled(true);
+
+	setCurrentFile("");
 	isAligned = false;
 	imgItem = NULL;
 	faceSketch = NULL;
@@ -30,7 +62,6 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	//debug purpose
 	//openImage("./penny.jpg");
 
-	initList(ui->hairListWidget, QString("data/colorMode/hair/hair"));
 	initList(ui->browListWidget, QString("data/colorMode/leftEyeBrow/leftEyebrow"));
 	initList(ui->eyeListWidget, QString("data/colorMode/leftEye/leftEye"));
 	initList(ui->noseListWidget, QString("data/colorMode/nose/nose"));
@@ -113,7 +144,7 @@ void MainWindow::on_sketchAction_triggered()
 		ui->rightGraphicsView->show();
 		ui->rightGraphicsView->setMouseTracking(true);
 		ui->templateAreaWidget->setEnabled(true);
-		
+		ui->rightToolBar->setEnabled(true);
 	}
 
 	//std::vector<QGraphicsTextItem *> cmpnControlPts;
@@ -160,6 +191,7 @@ void MainWindow::on_closeAction_triggered()
 		ui->alignAction->setDisabled(true);
 		ui->sketchAction->setDisabled(true);
 		ui->renderAction->setDisabled(true);
+		ui->rightToolBar->setDisabled(true);
 		freeOldResource();
 	}
 }
@@ -274,7 +306,7 @@ void MainWindow::openImage( QString fileName )
 
 void MainWindow::on_renderAction_triggered()
 {
-	videoRenderer->render("temp/rendered.avi");
+	videoRenderer->render("temp/rendered.avi", bgThresholdValue, fcThresholdValue);
 	
 	QMessageBox::information(this,"Face Location", "Video rendering completed");
 	ui->stackedWidget->setCurrentIndex(1);
@@ -307,36 +339,6 @@ void MainWindow::initList( QListWidget* widgetList, QString filePath )
 		}
 
 
-}
-
-void MainWindow::on_thresholdSlider_valueChanged( int value )
-{
-	if(faceSketch == NULL) {
-		qDebug("########################################Sketch Must be Done First!!!");
-		exit(-1);
-	}
-	Mat srcImg = imread((const char *)curFile.toLocal8Bit());
-	if(srcImg.empty()) {
-		qDebug("image file not Found");
-		return;
-	}
-	faceSketch->updateBackground(srcImg, value);
-
-	QImage* rightImage = new QImage();
-	if(rightImage->load("temp/wholeSketch.jpg"))
-	{
-		this->rightGraphicsScene->clear();
-		
-		QGraphicsPixmapItem* rightImgItem = new QGraphicsPixmapItem();
-		int width = ui->rightGraphicsView->width();
-		int hight = ui->rightGraphicsView->height();
-		rightImgItem->setPixmap(QPixmap::fromImage(*rightImage));
-		rightGraphicsScene->addItem(rightImgItem);
-		ui->rightGraphicsView->setEnabled(true);
-		ui->rightGraphicsView->setScene(rightGraphicsScene);
-		ui->rightGraphicsView->show();
-		ui->rightGraphicsView->setMouseTracking(true);		
-	}
 }
 
 void MainWindow::on_openVideoAction_triggered()
@@ -397,5 +399,47 @@ void MainWindow::on_stopButton_clicked()
 	ui->pauseButton->setEnabled(false);
 	ui->stopButton->setEnabled(false);
 	ui->playButton->setEnabled(true);
+}
+
+void MainWindow::on_bgThresholdSlider_valueChanged( int value )
+{
+	bgThresholdValue = value;
+	updateSketch();
+}
+
+void MainWindow::on_fcThresholdSlider_valueChanged( int value )
+{
+	fcThresholdValue = value;
+	updateSketch();
+}
+
+void MainWindow::updateSketch()
+{
+	if(faceSketch == NULL) {
+		qDebug("########################################Sketch Must be Done First!!!");
+		exit(-1);
+	}
+	Mat srcImg = imread((const char *)curFile.toLocal8Bit());
+	if(srcImg.empty()) {
+		qDebug("image file not Found");
+		return;
+	}
+	faceSketch->updateBackground(srcImg, bgThresholdValue, fcThresholdValue);
+
+	QImage* rightImage = new QImage();
+	if(rightImage->load("temp/wholeSketch.jpg"))
+	{
+		this->rightGraphicsScene->clear();
+
+		QGraphicsPixmapItem* rightImgItem = new QGraphicsPixmapItem();
+		int width = ui->rightGraphicsView->width();
+		int hight = ui->rightGraphicsView->height();
+		rightImgItem->setPixmap(QPixmap::fromImage(*rightImage));
+		rightGraphicsScene->addItem(rightImgItem);
+		ui->rightGraphicsView->setEnabled(true);
+		ui->rightGraphicsView->setScene(rightGraphicsScene);
+		ui->rightGraphicsView->show();
+		ui->rightGraphicsView->setMouseTracking(true);		
+	}
 }
 

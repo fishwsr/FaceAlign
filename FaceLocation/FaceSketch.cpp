@@ -149,7 +149,7 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 	//cv::imwrite(savetemplatePath + "r2.jpg", warpedTemplate2);
 }
 
-cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg )
+cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThresholdValue, int fcThresholdValue )
 {
 	double t = (double)getTickCount();
 	facemodel = ASMModel;
@@ -162,7 +162,7 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg )
 	componentSketch(NOSE, "nose");
 	componentSketch(MOUTH, "mouth");
 	componentSketch(PROFIILE, "faceContour");
-	backgroudSketch(srcImg);
+	backgroudSketch(srcImg, bgThresholdValue, fcThresholdValue);
 	combineSketch();
 	t = ((double)getTickCount() - t)/getTickFrequency();
 	qDebug("Sketch -- Times passed in seconds: %f\n", t);
@@ -239,24 +239,26 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 
 }
 
-void CFaceSketch::backgroudSketch2( string srcImgPath, int thresholdValue)
+void CFaceSketch::updateBackground(cv::Mat srcImg, int bgThresholdValue, int fcThresholdValue )
+{
+	width = srcImg.cols;
+	height = srcImg.rows;
+	backgroudSketch(srcImg, bgThresholdValue, fcThresholdValue);
+	combineSketch(false);
+	imwrite("temp\\wholeSketch.jpg",bgCurve);
+}
+
+void CFaceSketch::backgroudSketch2( cv::Mat srcImg, int bgThresholdValue, int fcThresholdValue )
 {
 	vector<Point> faceOutLine = getLocatedFaceContour();
 
-
-	Mat srcImg = imread(srcImgPath);
-	if(srcImg.empty()) {
-		qDebug("BackGround File Not Found");
-		return;
-	}
 	Mat tempImg1, tempImg2;
-	cv::Canny(srcImg, tempImg1, thresholdValue, thresholdValue*4, 3);
+	cv::Canny(srcImg, tempImg1, bgThresholdValue, bgThresholdValue*3, 3);
 	cv::bitwise_not(tempImg1, tempImg2);
 	cv::cvtColor(tempImg2, bgCurve, CV_GRAY2BGR );
 
-	int faceThresholdValue = thresholdValue*2;
 	Mat faceTempImg1, faceTempImg2, faceBgCurv;
-	cv::Canny(srcImg, faceTempImg1, faceThresholdValue, faceThresholdValue*4, 3);
+	cv::Canny(srcImg, faceTempImg1, fcThresholdValue, fcThresholdValue*3, 3);
 	cv::bitwise_not(faceTempImg1, faceTempImg2);
 	cv::cvtColor(faceTempImg2, faceBgCurv, CV_GRAY2BGR );
 
@@ -279,14 +281,6 @@ void CFaceSketch::backgroudSketch2( string srcImgPath, int thresholdValue)
 	
 }
 
-void CFaceSketch::updateBackground(cv::Mat srcImg, int thresholdValue )
-{
-	width = srcImg.cols;
-	height = srcImg.rows;
-	backgroudSketch(srcImg, thresholdValue);
-	combineSketch(false);
-	imwrite("temp\\wholeSketch.jpg",bgCurve);
-}
 
 std::vector<cv::Point> CFaceSketch::getLocatedFaceContour()
 {
@@ -360,14 +354,13 @@ Mat CFaceSketch::getFaceMask()
 	return faceMask;
 }
 
-void CFaceSketch::backgroudSketch(cv::Mat srcImg, int thresholdValue)
+void CFaceSketch::backgroudSketch(cv::Mat srcImg, int bgThresholdValue, int fcThresholdValue)
 {
 	Mat tempImg1, tempImg2;
-	cv::Canny(srcImg, tempImg1, thresholdValue, thresholdValue*4, 3);
+	cv::Canny(srcImg, tempImg1, bgThresholdValue, bgThresholdValue*3, 3);
 
-	int faceThresholdValue = thresholdValue*1.5;
 	Mat faceBgCurv;
-	cv::Canny(srcImg, faceBgCurv, faceThresholdValue, faceThresholdValue*3, 3);
+	cv::Canny(srcImg, faceBgCurv, fcThresholdValue, fcThresholdValue*3, 3);
 
 	Mat faceMask = getFaceMask();
 	//Mat tempImg3 = tempImg1;

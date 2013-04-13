@@ -38,7 +38,7 @@ cv::Mat CVideoRenderer::getFirstFrame()
 	return firstFrame;
 }
 
-void CVideoRenderer::render( std::string renderedVideoPath )
+void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue, int fcThresholdValue )
 {
 	VideoWriter outputVideo;
 	int ex = static_cast<int>(srcVideoCapture->get(CV_CAP_PROP_FOURCC));
@@ -81,7 +81,7 @@ void CVideoRenderer::render( std::string renderedVideoPath )
 	}
 }
 
-cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc )
+cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc, int bgThresholdValue, int fcThresholdValue )
 {
 	cv::imwrite("temp/currentSrcVideoFrame.jpg", currentSrc);
 	CFaceAlign faceAlign;
@@ -97,7 +97,7 @@ cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc )
 	}
 	QGraphicsPixmapItem imgItem;
 	QFaceModel facemodel(ptsPos,pointnum,&imgItem);
-	return faceSketch.sketchFace(&facemodel,currentSrc);
+	return faceSketch.sketchFace(&facemodel,currentSrc,bgThresholdValue, fcThresholdValue);
 }
 
 cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, Mat lastSrc, Mat lastDst )

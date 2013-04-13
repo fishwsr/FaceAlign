@@ -29,7 +29,8 @@ public:
 private slots:
     void on_openAction_triggered();
 	void openImage( QString fileName );
-	void on_thresholdSlider_valueChanged(int value);
+	void on_bgThresholdSlider_valueChanged(int value);
+	void on_fcThresholdSlider_valueChanged(int value);
 	void on_alignAction_triggered();
 	void on_saveAction_triggered();
 	void on_closeAction_triggered();
@@ -47,6 +48,8 @@ protected:
 	void freeOldResource();
 
 private:
+	int bgThresholdValue;
+	int fcThresholdValue;
 	bool okToContinue();
     void setCurrentFile(const QString &fileName);
 	QString strippedName(const QString &fullFileName);
@@ -62,5 +65,6 @@ private:
 	CFaceSketch* faceSketch;
 	CVideoRenderer* videoRenderer;
 	Phonon::MediaSource mediaSource;
+	void updateSketch();
 };
 #endif // MAINWINDOW_H
