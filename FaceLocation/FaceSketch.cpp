@@ -9,7 +9,9 @@
 
 CFaceSketch::CFaceSketch()
 {
-	
+	bgThresholdValue = 60;
+	fcThresholdValue = 80;
+	qDebug("FaceSketch Created. FaceSketch Created. FaceSketch Created.\n");
 }
 
 
@@ -149,12 +151,15 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 	//cv::imwrite(savetemplatePath + "r2.jpg", warpedTemplate2);
 }
 
-cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThresholdValue, int fcThresholdValue )
+cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg)
 {
 	double t = (double)getTickCount();
+	qDebug("Face Threshold %i, BG Threshold %i", fcThresholdValue, bgThresholdValue);
 	facemodel = ASMModel;
 	width = srcImg.cols;
 	height = srcImg.rows;
+	wholeFace.clear();
+	
 	componentSketch(LEFTEYE, "leftEye");
 	componentSketch(RIGHTEYE, "rightEye");
 	componentSketch(LEFTBROW, "leftEyeBrow");
@@ -162,7 +167,7 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThr
 	componentSketch(NOSE, "nose");
 	componentSketch(MOUTH, "mouth");
 	componentSketch(PROFIILE, "faceContour");
-	backgroudSketch(srcImg, bgThresholdValue, fcThresholdValue);
+	backgroudSketch(srcImg);
 	combineSketch();
 	t = ((double)getTickCount() - t)/getTickFrequency();
 	qDebug("Sketch -- Times passed in seconds: %f\n", t);
@@ -202,7 +207,6 @@ void CFaceSketch::combineComponent()
 	addTopToBottom(wholeFace[NOSE], face);
 	addTopToBottom(face, wholeFace[PROFIILE]);
 
-
 	Mat facialSetch(height, width, CV_8UC3, Scalar::all(255));
 	addTopToBottom(wholeFace[PROFIILE], facialSetch);
 	cv::imwrite("temp\\wholeFace.jpg",facialSetch);
@@ -241,14 +245,16 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 
 void CFaceSketch::updateBackground(cv::Mat srcImg, int bgThresholdValue, int fcThresholdValue )
 {
+	this->bgThresholdValue = bgThresholdValue;
+	this->fcThresholdValue = fcThresholdValue;
 	width = srcImg.cols;
 	height = srcImg.rows;
-	backgroudSketch(srcImg, bgThresholdValue, fcThresholdValue);
+	backgroudSketch(srcImg);
 	combineSketch(false);
 	imwrite("temp\\wholeSketch.jpg",bgCurve);
 }
 
-void CFaceSketch::backgroudSketch2( cv::Mat srcImg, int bgThresholdValue, int fcThresholdValue )
+void CFaceSketch::backgroudSketch2( cv::Mat srcImg)
 {
 	vector<Point> faceOutLine = getLocatedFaceContour();
 
@@ -354,7 +360,7 @@ Mat CFaceSketch::getFaceMask()
 	return faceMask;
 }
 
-void CFaceSketch::backgroudSketch(cv::Mat srcImg, int bgThresholdValue, int fcThresholdValue)
+void CFaceSketch::backgroudSketch(cv::Mat srcImg)
 {
 	Mat tempImg1, tempImg2;
 	cv::Canny(srcImg, tempImg1, bgThresholdValue, bgThresholdValue*3, 3);

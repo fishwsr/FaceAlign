@@ -4,7 +4,7 @@
 #include <QtGui>
 
 
-CVideoRenderer::CVideoRenderer(std::string videoFilePath)
+CVideoRenderer::CVideoRenderer(std::string videoFilePath, CFaceSketch* faceSketch)
 {
 	srcVideoCapture = new VideoCapture(videoFilePath);
 	if (!srcVideoCapture->isOpened())
@@ -22,7 +22,8 @@ CVideoRenderer::CVideoRenderer(std::string videoFilePath)
 	//imshow("test", firstFrame);
 	frameWidth = firstFrame.cols;
 	frameHeight = firstFrame.rows;
-	interval = 3;
+	interval = 1;
+	this->faceSketch = faceSketch;
 }
 
 
@@ -55,12 +56,14 @@ void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue
 	Mat currentSrc, currentDst, lastSrc, lastDst;
 	int i = 0;
 
+	namedWindow("test", CV_WINDOW_AUTOSIZE);
+	cvMoveWindow("test", S.width, 0);
 	for(;;) //Show the image captured in the window and repeat
 	{
 		double t = (double)getTickCount();
 		(*srcVideoCapture) >> currentSrc;           // read
 
-		if (currentSrc.empty()) {
+		if (currentSrc.empty() || i == 10) {
 			break;         // check if at end
 		}
 		
@@ -69,6 +72,9 @@ void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue
 		} else {
 			currentDst = propagateFromLastFrame(currentSrc, lastSrc, lastDst);
 		}
+
+		
+		imshow("test", currentDst);
 				
 		outputVideo << currentDst;
 		lastDst = currentDst;
@@ -77,6 +83,7 @@ void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue
 
 		t = ((double)getTickCount() - t)/getTickFrequency();
 		qDebug("Frame %d rendered -- Times passed in seconds: %f\n", i, t);
+		cvWaitKey();
 
 	}
 }
@@ -85,7 +92,6 @@ cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc, int bgThresholdValue, in
 {
 	cv::imwrite("temp/currentSrcVideoFrame.jpg", currentSrc);
 	CFaceAlign faceAlign;
-	CFaceSketch faceSketch;
 	float* ptsPos;
 	ptsPos = faceAlign.procPic("temp/currentSrcVideoFrame.jpg");
 	int pointnum = faceAlign.PointNum();
@@ -97,7 +103,7 @@ cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc, int bgThresholdValue, in
 	}
 	QGraphicsPixmapItem imgItem;
 	QFaceModel facemodel(ptsPos,pointnum,&imgItem);
-	return faceSketch.sketchFace(&facemodel,currentSrc,bgThresholdValue, fcThresholdValue);
+	return faceSketch->sketchFace(&facemodel,currentSrc);
 }
 
 cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, Mat lastSrc, Mat lastDst )

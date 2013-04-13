@@ -52,12 +52,12 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     bgThresholdValue = 60;
 	fcThresholdValue = 80;
 	ui->rightToolBar->setDisabled(true);
-
+	
 	setCurrentFile("");
 	isAligned = false;
 	imgItem = NULL;
-	faceSketch = NULL;
 	videoRenderer = NULL;
+	faceSketch = NULL;
 
 	//debug purpose
 	//openImage("./penny.jpg");
@@ -95,6 +95,7 @@ void MainWindow::on_openAction_triggered()
     if(!fileName.isEmpty())
     {
 		freeOldResource();
+		faceSketch = new CFaceSketch();
 		openImage(fileName);
     }
 }
@@ -117,7 +118,6 @@ void MainWindow::on_alignAction_triggered()
 
 void MainWindow::on_sketchAction_triggered()
 {
-	faceSketch = new CFaceSketch();
 	Mat srcImg = imread((const char *)curFile.toLocal8Bit());
 	if(srcImg.empty()) {
 		qDebug("image file not Found");
@@ -350,7 +350,8 @@ void MainWindow::on_openVideoAction_triggered()
 	if(!videoFileName.isEmpty())
 	{
 		freeOldResource();
-		videoRenderer = new CVideoRenderer((const char *)videoFileName.toLocal8Bit());
+		faceSketch = new CFaceSketch();
+		videoRenderer = new CVideoRenderer((const char *)videoFileName.toLocal8Bit(), faceSketch);
 		Mat firstFrame = videoRenderer->getFirstFrame();
 		imwrite("temp/firstFrame.jpg", firstFrame);
 		openImage("temp/firstFrame.jpg");

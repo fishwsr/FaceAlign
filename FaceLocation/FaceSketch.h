@@ -8,10 +8,13 @@ class CFaceSketch
 public:
 	CFaceSketch();
 	~CFaceSketch(void);
-	cv::Mat sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThresholdValue= 60, int fcThresholdValue = 80);
+	cv::Mat sketchFace( QFaceModel* ASMModel, cv::Mat srcImg);
 	void updateBackground(cv::Mat srcImg, int bgThresholdValue, int faceThresholdValue);
+	
 private:
 	int width, height;
+	int bgThresholdValue;
+	int fcThresholdValue;
 	QFaceModel* facemodel;
 	cv::Mat bgCurve;
 	std::vector<cv::Mat> wholeFace;
@@ -24,8 +27,8 @@ private:
 	bool isBackground(cv::MatIterator_<cv::Vec3b> point);
 	void combineComponent();
 	std::vector<cv::Point> getLocatedFaceContour();
-	void backgroudSketch(cv::Mat srcImg, int bgThresholdValue = 60, int fcThresholdValue = 80);
+	void backgroudSketch(cv::Mat srcImg);
 	cv::Mat getFaceMask();
-	void backgroudSketch2( cv::Mat srcImg, int bgThresholdValue= 60, int fcThresholdValue = 80);
+	void backgroudSketch2( cv::Mat srcImg);
 };
 
