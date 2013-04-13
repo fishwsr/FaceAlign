@@ -1,11 +1,11 @@
 #include "ORBMatching.h"
-#include "faceAlign.h"
 #include <cxcore.hpp>
 #include <opencv2/features2d/features2d.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/nonfree/features2d.hpp>
 #include <opencv2/legacy/legacy.hpp>
 #include <qt\qdebug.h>
+
 
 ORBMatching::ORBMatching(void)
 {
@@ -19,7 +19,7 @@ ORBMatching::~ORBMatching(void)
 void ORBMatching::findMatchigPoint( cv::Mat currentFrame, cv::Mat previousFrame, std::vector<cv::Point> previousFace, std::vector<cv::Point> &kp1, std::vector<cv::Point> &kp2 )
 {
 	double t = (double)getTickCount();
-	CFaceAlign currentFace;
+	
 	ORB orb;
 	vector<KeyPoint> keyPoints_1_Orb, keyPoints_2_Orb;
 	Mat descriptors_1_Orb, descriptors_2_Orb;
@@ -31,7 +31,7 @@ void ORBMatching::findMatchigPoint( cv::Mat currentFrame, cv::Mat previousFrame,
 	}
 	
 	RECT rcBox;
-	currentFace.detectAndDisplay(currentFrame, &rcBox); 
+	faceDetect.detectAndDisplay(currentFrame, &rcBox); 
 	int rcNum = (rcBox.right-rcBox.left) * (rcBox.bottom-rcBox.top);
 	keyPoints_2_Orb.resize(rcNum);
 	for(int i=rcBox.left, k=0; i<rcBox.right; i++)

@@ -5,6 +5,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core/core.hpp>
 #include "FaceSketch.h"
+#include "ORBMatching.h"
 
 using namespace cv;
 
@@ -25,5 +26,6 @@ private:
     int frameHeight;
 	vector<cv::Point> currentFace;
 	bool isKeyFrame(int index);
+	ORBMatching orb;
 };
 
