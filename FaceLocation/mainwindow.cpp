@@ -114,10 +114,22 @@ void MainWindow::on_alignAction_triggered()
 	setWindowModified(true);
 	ui->alignAction->setDisabled(true);
 	delete[] ptsPos;
+	ui->templateAreaWidget->setEnabled(true);
+	ui->browListWidget->setCurrentRow(faceSketch->getBrowIndex()-1);
+	ui->eyeListWidget->setCurrentRow(faceSketch->getEyeIndex()-1);
+	ui->noseListWidget->setCurrentRow(faceSketch->getNoseIndex()-1);
+	ui->mouthListWidget->setCurrentRow(faceSketch->getMouthIndex()-1);
+	ui->faceContourListWidget->setCurrentRow(faceSketch->getFaceIndex()-1);
 }
 
 void MainWindow::on_sketchAction_triggered()
 {
+	faceSketch->setBrowIndex(ui->browListWidget->currentRow() + 1);
+	faceSketch->setEyeIndex(ui->eyeListWidget->currentRow()+1);
+	faceSketch->setNoseIndex(ui->noseListWidget->currentRow()+1);
+	faceSketch->setMouthIndex(ui->mouthListWidget->currentRow()+1);
+	faceSketch->setFaceIndex(ui->faceContourListWidget->currentRow()+1);
+
 	Mat srcImg = imread((const char *)curFile.toLocal8Bit());
 	if(srcImg.empty()) {
 		qDebug("image file not Found");
@@ -143,7 +155,6 @@ void MainWindow::on_sketchAction_triggered()
 		ui->rightGraphicsView->setScene(rightGraphicsScene);
 		ui->rightGraphicsView->show();
 		ui->rightGraphicsView->setMouseTracking(true);
-		ui->templateAreaWidget->setEnabled(true);
 		ui->rightToolBar->setEnabled(true);
 	}
 
@@ -306,6 +317,7 @@ void MainWindow::openImage( QString fileName )
 
 void MainWindow::on_renderAction_triggered()
 {
+	ui->templateAreaWidget->setDisabled(true);
 	videoRenderer->render("temp/rendered.avi", bgThresholdValue, fcThresholdValue);
 	
 	QMessageBox::information(this,"Face Location", "Video rendering completed");

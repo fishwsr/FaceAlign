@@ -10,6 +10,16 @@ public:
 	~CFaceSketch(void);
 	cv::Mat sketchFace( QFaceModel* ASMModel, cv::Mat srcImg);
 	void updateBackground(cv::Mat srcImg, int bgThresholdValue, int faceThresholdValue);
+	int getMouthIndex() const { return mouthIndex; }
+	void setMouthIndex(int val) { mouthIndex = val; }
+	int getNoseIndex() const { return noseIndex; }
+	void setNoseIndex(int val) { noseIndex = val; }
+	int getFaceIndex() const { return faceIndex; }
+	void setFaceIndex(int val) { faceIndex = val; }
+	int getEyeIndex() const { return eyeIndex; }
+	void setEyeIndex(int val) { eyeIndex = val; }
+	int getBrowIndex() const { return browIndex; }
+	void setBrowIndex(int val) { browIndex = val; }
 	
 private:
 	int width, height;
@@ -18,6 +28,7 @@ private:
 	QFaceModel* facemodel;
 	cv::Mat bgCurve;
 	std::vector<cv::Mat> wholeFace;
+	int browIndex, eyeIndex, noseIndex, mouthIndex, faceIndex;
 	enum faceElement{NOSE, LEFTEYE, RIGHTEYE, LEFTBROW, RIGHTBROW, MOUTH, PROFIILE};
 	void componentSketch(faceElement element, std::string componetName);
 	QVector<Node*> getElementNodes(faceElement element);

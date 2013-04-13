@@ -22,7 +22,7 @@ CVideoRenderer::CVideoRenderer(std::string videoFilePath, CFaceSketch* faceSketc
 	//imshow("test", firstFrame);
 	frameWidth = firstFrame.cols;
 	frameHeight = firstFrame.rows;
-	interval = 1;
+	interval = 3;
 	this->faceSketch = faceSketch;
 }
 
@@ -56,14 +56,14 @@ void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue
 	Mat currentSrc, currentDst, lastSrc, lastDst;
 	int i = 0;
 
-	namedWindow("test", CV_WINDOW_AUTOSIZE);
-	cvMoveWindow("test", S.width, 0);
+	//namedWindow("test", CV_WINDOW_AUTOSIZE);
+	//cvMoveWindow("test", S.width, 0);
 	for(;;) //Show the image captured in the window and repeat
 	{
 		double t = (double)getTickCount();
 		(*srcVideoCapture) >> currentSrc;           // read
 
-		if (currentSrc.empty() || i == 10) {
+		if (currentSrc.empty()) {
 			break;         // check if at end
 		}
 		
@@ -74,7 +74,7 @@ void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue
 		}
 
 		
-		imshow("test", currentDst);
+		//imshow("test", currentDst);
 				
 		outputVideo << currentDst;
 		lastDst = currentDst;
@@ -83,7 +83,7 @@ void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue
 
 		t = ((double)getTickCount() - t)/getTickFrequency();
 		qDebug("Frame %d rendered -- Times passed in seconds: %f\n", i, t);
-		cvWaitKey();
+		//cvWaitKey();
 
 	}
 }

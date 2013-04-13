@@ -11,6 +11,11 @@ CFaceSketch::CFaceSketch()
 {
 	bgThresholdValue = 60;
 	fcThresholdValue = 80;
+	eyeIndex = 1;
+	browIndex = 7;
+	noseIndex = 1;
+	mouthIndex = 31;
+	faceIndex = 1;
 	qDebug("FaceSketch Created. FaceSketch Created. FaceSketch Created.\n");
 }
 
@@ -21,10 +26,11 @@ CFaceSketch::~CFaceSketch(void)
 
 void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 {
-	string eyeTemplateNumber = "1";
-	string browTemplateNumber = "7";
-	string noseTemplateNumber = "1";
-	string mouthTemplateNumber = "31";
+	string eyeTemplateNumber = QString::number(eyeIndex).toLocal8Bit();
+	string browTemplateNumber = QString::number(browIndex).toLocal8Bit();
+	string noseTemplateNumber = QString::number(noseIndex).toLocal8Bit();
+	string mouthTemplateNumber = QString::number(mouthIndex).toLocal8Bit();
+	string faceTempalteNumber = QString::number(faceIndex).toLocal8Bit();
 
 	string templatePath = "data\\colorMode\\" + componetName + "\\";
 	string modelPicPath = "";
@@ -44,8 +50,8 @@ void CFaceSketch::componentSketch(faceElement element, std::string componetName)
 		modelPicPath = templatePath + componetName + mouthTemplateNumber + ".jpg";
 		ptsFilePath = templatePath + componetName + mouthTemplateNumber + ".pts";
 	} else {
-		modelPicPath = templatePath + componetName + "1.jpg";
-		ptsFilePath = templatePath + componetName + "1.pts";
+		modelPicPath = templatePath + componetName + faceTempalteNumber + ".jpg";
+		ptsFilePath = templatePath + componetName +  faceTempalteNumber + ".pts";
 	}
 	
 	cv::Mat templateImg = cv::imread(modelPicPath, -1);
