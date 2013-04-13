@@ -73,7 +73,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="picWidget">
        <property name="sizePolicy">
@@ -306,26 +306,6 @@
          <property name="currentIndex">
           <number>0</number>
          </property>
-         <widget class="QWidget" name="hairTab">
-          <attribute name="title">
-           <string>Hair</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="hairLayout">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QListWidget" name="hairListWidget">
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
          <widget class="QWidget" name="browTab">
           <attribute name="title">
            <string>Brow</string>

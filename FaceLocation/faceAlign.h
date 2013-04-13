@@ -8,6 +8,7 @@
 #include <cxcore.h>
 #include <highgui.h>
 #include "FaceAlignDll.h"
+#include "FaceDetect.h"
 
 using namespace cv;
 
@@ -20,13 +21,10 @@ public:
 	CFaceAlign();
 	~CFaceAlign();
 	float* procPic(string strFilePath);
-	void detectAndDisplay(Mat& image, RECT* dectBox);
 	int PointNum();
 private:
 	CFaceAlignDll* g_pAlign;
-	static CascadeClassifier cascade;
-	const char* FACE_CASCADE_NAME;
-
+	CFaceDetect faceDetect;
 	bool ConvertToGrayBits(BYTE* pOrgBits, int width, int height, int nChannels, BYTE* pGrayBits, int nOrgStride, int nGrayStride);
 	void DestroyAlign();
 	HRESULT InitAlign(const WCHAR* wzModelFile);

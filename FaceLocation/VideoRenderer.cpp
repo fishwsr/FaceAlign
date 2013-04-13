@@ -22,7 +22,7 @@ CVideoRenderer::CVideoRenderer(std::string videoFilePath)
 	//imshow("test", firstFrame);
 	frameWidth = firstFrame.cols;
 	frameHeight = firstFrame.rows;
-	interval = 1;
+	interval = 3;
 }
 
 
@@ -60,7 +60,7 @@ void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue
 		double t = (double)getTickCount();
 		(*srcVideoCapture) >> currentSrc;           // read
 
-		if (currentSrc.empty() || i == 10 ) {
+		if (currentSrc.empty()) {
 			break;         // check if at end
 		}
 		
@@ -102,7 +102,6 @@ cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc, int bgThresholdValue, in
 
 cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, Mat lastSrc, Mat lastDst )
 {
-	ORBMatching orb;
 	vector<cv::Point> controlPoint1, controlPoint2;
 	orb.findMatchigPoint(currentSrc, lastSrc, currentFace,  controlPoint1, controlPoint2);
 	currentFace = controlPoint2;

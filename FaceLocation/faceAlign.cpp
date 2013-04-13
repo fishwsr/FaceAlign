@@ -5,14 +5,14 @@ using namespace std;
 using namespace Gdiplus; 
 using namespace cv;
 
-CascadeClassifier CFaceAlign::cascade;
-
 CFaceAlign::CFaceAlign()
 {
-	FACE_CASCADE_NAME = "haarcascade_frontalface_alt2.xml";
+	double t = (double)getTickCount();
 	const WCHAR configpath[]=L"casm.bin";
 	g_pAlign = NULL;
 	InitAlign(configpath); //input file path of casm.bin
+	t = ((double)getTickCount() - t)/getTickFrequency();
+	qDebug("Align Init Model -- Times passed in seconds: %f\n", t);
 }
 
 CFaceAlign::~CFaceAlign()
@@ -138,12 +138,7 @@ float* CFaceAlign::procPic(string strFilePath)
 		rcBoundBox.bottom = srcImg.GetHeight();
 		if(!image.empty())
 		{
-			if( !cascade.load( FACE_CASCADE_NAME ) )
-			{ 
-				fprintf( stderr, "ERROR: Could not load classifier cascade\n" ); 
-				exit(0); 
-			}
-			detectAndDisplay(image, &rcBoundBox); 
+			faceDetect.detectAndDisplay(image, &rcBoundBox); 
 		}
 
 		Align(reinterpret_cast<BYTE *>(lkData.Scan0), srcImg.GetWidth(), srcImg.GetHeight(), lkData.Stride, rcBoundBox, ptsPos1);
@@ -205,37 +200,6 @@ float* CFaceAlign::procPic(string strFilePath)
 //	fileFinder.Close();
 //}
 
-void CFaceAlign::detectAndDisplay(Mat& img, RECT* detectBox) 
-{ 
-	double scale=1.2;
-	Mat small_img(cvRound (img.rows/scale), cvRound(img.cols/scale), CV_8UC1);
-	Mat gray(cvRound (img.rows/scale),cvRound(img.cols/scale),8,1);
-	cvtColor(img, gray, CV_BGR2GRAY);
-	resize(gray, small_img, small_img.size(), 0, 0, INTER_LINEAR);
-	equalizeHist(small_img,small_img); //Ö±·½Í¼¾ùºâ
-
-	//Detect the biggest face
-	double t = (double)cvGetTickCount(); 
-	std::vector<cv::Rect> faces; 
-	cascade.detectMultiScale(small_img, faces, 1.1, 2, CV_HAAR_FIND_BIGGEST_OBJECT, cvSize(30, 30)); 
-	t = (double)cvGetTickCount() - t; 
-	printf( "detection time = %gms\n", t/((double)cvGetTickFrequency()*1000.) );
-
-	//found objects and draw boxes around them 
-	if(faces.size() == 1)
-	{
-		(*detectBox).left = faces[0].x * scale;
-		(*detectBox).right = (faces[0].x + faces[0].width) * scale;		
-		(*detectBox).top = faces[0].y * scale + 10;
-		(*detectBox).bottom = (faces[0].y + faces[0].height) * scale + 10;
-		rectangle(img, cvPoint((*detectBox).left,(*detectBox).top), cvPoint((*detectBox).right,(*detectBox).bottom), Scalar( 255, 0, 0 ));
-	}
-	else
-	{
-		printf("Fail to detect faces.\n");
-	}
-	return;
-}
 
 void CFaceAlign::showAlignedFace(Mat& img, float* ptsPos, int ptsNum)
 {
