@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	//debug purpose
 	//openImage("./penny.jpg");
 
-	initList(ui->hairListWidget, QString("data/colorMode/hair/hair"));
 	initList(ui->browListWidget, QString("data/colorMode/leftEyeBrow/leftEyebrow"));
 	initList(ui->eyeListWidget, QString("data/colorMode/leftEye/leftEye"));
 	initList(ui->noseListWidget, QString("data/colorMode/nose/nose"));
