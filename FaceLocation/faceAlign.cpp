@@ -9,10 +9,13 @@ CascadeClassifier CFaceAlign::cascade;
 
 CFaceAlign::CFaceAlign()
 {
+	double t = (double)getTickCount();
 	FACE_CASCADE_NAME = "haarcascade_frontalface_alt2.xml";
 	const WCHAR configpath[]=L"casm.bin";
 	g_pAlign = NULL;
 	InitAlign(configpath); //input file path of casm.bin
+	t = ((double)getTickCount() - t)/getTickFrequency();
+	qDebug("Align Init Model -- Times passed in seconds: %f\n", t);
 }
 
 CFaceAlign::~CFaceAlign()
