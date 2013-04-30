@@ -9,5 +9,6 @@ public:
 protected:
 	std::vector<cv::Point> getTemplatePointsFromFile(std::ifstream* fin);
 	std::vector<cv::Point> CRightBrowComponent::getLocatedPoints();
+	virtual QVector<Node*> getLocatedNodes();
 };
 

@@ -7,5 +7,6 @@ public:
 	~CLeftBrowComponent(void);
 protected:
 	std::vector<cv::Point> getLocatedPoints();
+	virtual QVector<Node*> getLocatedNodes();
 };
 

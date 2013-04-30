@@ -38,4 +38,9 @@ std::vector<cv::Point> CLeftBrowComponent::getLocatedPoints(){
 
 }
 
+QVector<Node*> CLeftBrowComponent::getLocatedNodes()
+{
+	return faceModel->getLeftBrowNodes();
+}
+
 

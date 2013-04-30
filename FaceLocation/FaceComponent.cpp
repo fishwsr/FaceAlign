@@ -76,8 +76,20 @@ std::vector<cv::Point> CFaceComponent::getTemplatePointsFromFile(std::ifstream* 
 
 std::vector<cv::Point> CFaceComponent::getLocatedPoints()
 {
-	std::vector<cv::Point> pts;
-	return pts;
+	QVector<Node*> locatedNodes = getLocatedNodes();
+	std::vector<cv::Point> locatedPointsToUse;
+	locatedPointsToUse.resize(actualComponentPtsNum);
+	for(int i = 0; i<actualComponentPtsNum; i++) {
+		locatedPointsToUse[i].x = locatedNodes[i]->sceneBoundingRect().center().x();
+		locatedPointsToUse[i].y = locatedNodes[i]->sceneBoundingRect().center().y();
+	}
+
+	return locatedPointsToUse;
+}
+
+QVector<Node*> CFaceComponent::getLocatedNodes()
+{
+	return QVector<Node*>();
 }
 
 

@@ -13,6 +13,7 @@ public:
 protected:
 	virtual std::vector<cv::Point> getTemplatePointsFromFile(std::ifstream* fin);
 	virtual std::vector<cv::Point> getLocatedPoints();
+	virtual QVector<Node*> getLocatedNodes();
 	int templateIndex;
 	std::string templatePath;
 	std::string folderName;

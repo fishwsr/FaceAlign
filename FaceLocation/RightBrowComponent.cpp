@@ -55,3 +55,8 @@ std::vector<cv::Point> CRightBrowComponent::getTemplatePointsFromFile( std::ifst
 	return templatePoints;
 }
 
+QVector<Node*> CRightBrowComponent::getLocatedNodes()
+{
+	return faceModel->getRightBrowNodes();
+}
+

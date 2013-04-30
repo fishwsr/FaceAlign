@@ -8,6 +8,7 @@
 #include <math.h>
 #include "LeftBrowComponent.h"
 #include "RightBrowComponent.h"
+#include "LeftEyeComponent.h"
 
 CFaceSketch::CFaceSketch()
 {
@@ -168,7 +169,10 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg)
 	height = srcImg.rows;
 	wholeFace.clear();
 	
-	componentSketch(LEFTEYE, "leftEye");
+	CLeftEyeComponent leftEyeComponent(eyeIndex, facemodel);
+	Mat leftEye = leftEyeComponent.wrapTemplate(width, height);
+	wholeFace.push_back(leftEye);
+	
 	componentSketch(RIGHTEYE, "rightEye");
 	
 	CLeftBrowComponent leftBrowComponent(browIndex, facemodel);
