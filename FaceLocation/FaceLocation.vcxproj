@@ -85,6 +85,7 @@
     <ClCompile Include="CThinPlateSpline.cpp" />
     <ClCompile Include="faceAlign.cpp" />
     <ClCompile Include="FaceComponent.cpp" />
+    <ClCompile Include="FaceContourComponent.cpp" />
     <ClCompile Include="FaceDetect.cpp" />
     <ClCompile Include="FaceSketch.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_mainwindow.cpp">
@@ -148,6 +149,7 @@
     <ClInclude Include="faceAlign.h" />
     <ClInclude Include="FaceAlignDll.h" />
     <ClInclude Include="FaceComponent.h" />
+    <ClInclude Include="FaceContourComponent.h" />
     <ClInclude Include="FaceDetect.h" />
     <ClInclude Include="FaceSketch.h" />
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h" />

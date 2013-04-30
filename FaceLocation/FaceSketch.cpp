@@ -12,6 +12,7 @@
 #include "RightEyeComponent.h"
 #include "NoseComponent.h"
 #include "MouthComponent.h"
+#include "FaceContourComponent.h"
 
 CFaceSketch::CFaceSketch()
 {
@@ -196,7 +197,10 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg)
 	Mat mouth = mouthComp.wrapTemplate(width, height);
 	wholeFace.push_back(mouth);
 
-	componentSketch(PROFIILE, "faceContour");
+	CFaceContourComponent faceContourComp(faceIndex, facemodel);
+	Mat faceContour = faceContourComp.wrapTemplate(width, height);
+	wholeFace.push_back(faceContour);
+
 	backgroudSketch(srcImg);
 	combineSketch();
 	t = ((double)getTickCount() - t)/getTickFrequency();
