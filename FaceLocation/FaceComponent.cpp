@@ -3,7 +3,7 @@
 #include "CThinPlateSpline.h"
 #include <QString>
 #include <opencv2\highgui\highgui.hpp>
-#include <fstream>
+
 
 CFaceComponent::CFaceComponent(int templateIndex, QFaceModel* faceModel)
 {
@@ -32,7 +32,7 @@ cv::Mat CFaceComponent::wrapTemplate(int width, int height)
 cv::Mat CFaceComponent::getTemplateImage(std::string templateIndexString, int width, int height)
 {
 	std::string modelPicPath = templatePath + folderName + "//" + picNamePrefix +  templateIndexString + ".jpg";
-	cv::Mat templateImg = cv::imread(modelPicPath, -1);
+	templateImg = cv::imread(modelPicPath, -1);
 	if(templateImg.empty()){
 		qDebug("Template Image can not be found");
 		exit(-1);
@@ -53,20 +53,24 @@ std::vector<cv::Point> CFaceComponent::getTemplatePoints(std::string templateInd
 		qDebug("PTS File Not Found ");
 		exit(-1);
 	}
+	
+	return getTemplatePointsFromFile(&fin);
+}
 
+std::vector<cv::Point> CFaceComponent::getTemplatePointsFromFile(std::ifstream* fin)
+{
 	int ptsNumInFile;
-	fin >> ptsNumInFile;
+	*fin >> ptsNumInFile;
 
 	std::vector<cv::Point> templatePoints;
 	templatePoints.resize(actualComponentPtsNum);
 
 	for (int i = 0; i < ptsNumInFile; i++) {
 		double ptsX, ptsY;
-		fin >> ptsX >>ptsY;
+		*fin >> ptsX >>ptsY;
 		templatePoints[i].x = ptsX;
 		templatePoints[i].y = ptsY;
 	}
-
 	return templatePoints;
 }
 
@@ -75,4 +79,6 @@ std::vector<cv::Point> CFaceComponent::getLocatedPoints()
 	std::vector<cv::Point> pts;
 	return pts;
 }
+
+
 

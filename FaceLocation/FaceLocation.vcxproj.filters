@@ -104,6 +104,9 @@
     <ClCompile Include="LeftBrowComponent.cpp">
       <Filter>Source Files\FaceComponent</Filter>
     </ClCompile>
+    <ClCompile Include="RightBrowComponent.cpp">
+      <Filter>Source Files\FaceComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -160,6 +163,9 @@
       <Filter>Header Files\FaceComponent</Filter>
     </ClInclude>
     <ClInclude Include="LeftBrowComponent.h">
+      <Filter>Header Files\FaceComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="RightBrowComponent.h">
       <Filter>Header Files\FaceComponent</Filter>
     </ClInclude>
   </ItemGroup>

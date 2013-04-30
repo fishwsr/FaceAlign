@@ -1,7 +1,8 @@
 #pragma once
+
 #include <opencv2\core\core.hpp>
 #include "QFaceModel.h"
-#include <iostream>
+#include <fstream>
 
 class CFaceComponent
 {
@@ -10,8 +11,7 @@ public:
 	~CFaceComponent(void);
 	cv::Mat wrapTemplate(int width, int height);
 protected:
-	cv::Mat getTemplateImage(std::string templateIndexString, int width, int height);
-	std::vector<cv::Point> getTemplatePoints(std::string templateIndexString);
+	virtual std::vector<cv::Point> getTemplatePointsFromFile(std::ifstream* fin);
 	virtual std::vector<cv::Point> getLocatedPoints();
 	int templateIndex;
 	std::string templatePath;
@@ -20,5 +20,9 @@ protected:
 	std::string ptsNamePrefix;
 	QFaceModel* faceModel;
 	int actualComponentPtsNum;
+	cv::Mat templateImg;
+private:
+	cv::Mat getTemplateImage(std::string templateIndexString, int width, int height);
+	std::vector<cv::Point> getTemplatePoints(std::string templateIndexString);
 };
 

@@ -7,6 +7,7 @@
 #include "highgui.h"
 #include <math.h>
 #include "LeftBrowComponent.h"
+#include "RightBrowComponent.h"
 
 CFaceSketch::CFaceSketch()
 {
@@ -169,11 +170,15 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg)
 	
 	componentSketch(LEFTEYE, "leftEye");
 	componentSketch(RIGHTEYE, "rightEye");
-	//componentSketch(LEFTBROW, "leftEyeBrow");
-	CLeftBrowComponent browComponent(browIndex, facemodel);
-	Mat leftBrow = browComponent.wrapTemplate(width, height);
+	
+	CLeftBrowComponent leftBrowComponent(browIndex, facemodel);
+	Mat leftBrow = leftBrowComponent.wrapTemplate(width, height);
 	wholeFace.push_back(leftBrow);
-	componentSketch(RIGHTBROW, "rightEyeBrow");
+
+	CRightBrowComponent rightBrowComp(browIndex, facemodel);
+	Mat rightBrow = rightBrowComp.wrapTemplate(width, height);
+	wholeFace.push_back(rightBrow);
+
 	componentSketch(NOSE, "nose");
 	componentSketch(MOUTH, "mouth");
 	componentSketch(PROFIILE, "faceContour");
