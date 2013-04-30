@@ -87,10 +87,5 @@ std::vector<cv::Point> CFaceComponent::getLocatedPoints()
 	return locatedPointsToUse;
 }
 
-QVector<Node*> CFaceComponent::getLocatedNodes()
-{
-	return QVector<Node*>();
-}
-
 
 

@@ -29,9 +29,7 @@ private:
 	cv::Mat bgCurve;
 	std::vector<cv::Mat> wholeFace;
 	int browIndex, eyeIndex, noseIndex, mouthIndex, faceIndex;
-	enum faceElement{NOSE, LEFTEYE, RIGHTEYE, LEFTBROW, RIGHTBROW, MOUTH, PROFIILE};
-	void componentSketch(faceElement element, std::string componetName);
-	QVector<Node*> getElementNodes(faceElement element);
+	enum faceElement{LEFTEYE, RIGHTEYE, LEFTBROW, RIGHTBROW, NOSE, MOUTH, PROFIILE};
 	void combineSketch(bool combineFace = true);
 	void addTopToBottom( cv::Mat &top, cv::Mat &botom);
 	bool isWhite(cv::MatIterator_<cv::Vec3b> point);

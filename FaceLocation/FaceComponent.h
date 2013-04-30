@@ -9,11 +9,11 @@ class CFaceComponent
 public:
 	CFaceComponent(int templateIndex, QFaceModel* faceModel);
 	~CFaceComponent(void);
-	cv::Mat wrapTemplate(int width, int height);
+	virtual cv::Mat wrapTemplate(int width, int height);
 protected:
 	virtual std::vector<cv::Point> getTemplatePointsFromFile(std::ifstream* fin);
 	virtual std::vector<cv::Point> getLocatedPoints();
-	virtual QVector<Node*> getLocatedNodes();
+	virtual QVector<Node*> getLocatedNodes() = 0;
 	int templateIndex;
 	std::string templatePath;
 	std::string folderName;
