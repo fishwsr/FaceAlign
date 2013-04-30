@@ -10,6 +10,7 @@
 #include "RightBrowComponent.h"
 #include "LeftEyeComponent.h"
 #include "RightEyeComponent.h"
+#include "NoseComponent.h"
 
 CFaceSketch::CFaceSketch()
 {
@@ -186,7 +187,10 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg)
 	Mat rightBrow = rightBrowComp.wrapTemplate(width, height);
 	wholeFace.push_back(rightBrow);
 
-	componentSketch(NOSE, "nose");
+	CNoseComponent noseComp(noseIndex, facemodel);
+	Mat nose = noseComp.wrapTemplate(width, height);
+	wholeFace.push_back(nose);
+
 	componentSketch(MOUTH, "mouth");
 	componentSketch(PROFIILE, "faceContour");
 	backgroudSketch(srcImg);

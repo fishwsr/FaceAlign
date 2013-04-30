@@ -105,6 +105,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="NoseComponent.cpp" />
     <ClCompile Include="ORBMatching.cpp" />
     <ClCompile Include="QFaceModel.cpp" />
     <ClCompile Include="RightBrowComponent.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="LeftEyeComponent.h" />
     <ClInclude Include="Link.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="NoseComponent.h" />
     <ClInclude Include="ORBMatching.h" />
     <ClInclude Include="QFaceModel.h" />
     <ClInclude Include="RightBrowComponent.h" />
