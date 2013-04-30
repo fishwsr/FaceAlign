@@ -9,6 +9,7 @@
 #include "LeftBrowComponent.h"
 #include "RightBrowComponent.h"
 #include "LeftEyeComponent.h"
+#include "RightEyeComponent.h"
 
 CFaceSketch::CFaceSketch()
 {
@@ -172,8 +173,10 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg)
 	CLeftEyeComponent leftEyeComponent(eyeIndex, facemodel);
 	Mat leftEye = leftEyeComponent.wrapTemplate(width, height);
 	wholeFace.push_back(leftEye);
-	
-	componentSketch(RIGHTEYE, "rightEye");
+
+	CRightEyeComponent rightEyeComponent(eyeIndex, facemodel);
+	Mat rightEye = rightEyeComponent.wrapTemplate(width, height);
+	wholeFace.push_back(rightEye);
 	
 	CLeftBrowComponent leftBrowComponent(browIndex, facemodel);
 	Mat leftBrow = leftBrowComponent.wrapTemplate(width, height);
