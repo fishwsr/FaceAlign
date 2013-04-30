@@ -104,6 +104,7 @@
     <ClCompile Include="Link.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="MouthComponent.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NoseComponent.cpp" />
     <ClCompile Include="ORBMatching.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="LeftBrowComponent.h" />
     <ClInclude Include="LeftEyeComponent.h" />
     <ClInclude Include="Link.h" />
+    <ClInclude Include="MouthComponent.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NoseComponent.h" />
     <ClInclude Include="ORBMatching.h" />

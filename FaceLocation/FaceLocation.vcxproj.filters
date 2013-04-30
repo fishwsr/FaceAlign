@@ -116,6 +116,9 @@
     <ClCompile Include="NoseComponent.cpp">
       <Filter>Source Files\FaceComponent</Filter>
     </ClCompile>
+    <ClCompile Include="MouthComponent.cpp">
+      <Filter>Source Files\FaceComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -184,6 +187,9 @@
       <Filter>Header Files\FaceComponent</Filter>
     </ClInclude>
     <ClInclude Include="NoseComponent.h">
+      <Filter>Header Files\FaceComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="MouthComponent.h">
       <Filter>Header Files\FaceComponent</Filter>
     </ClInclude>
   </ItemGroup>
