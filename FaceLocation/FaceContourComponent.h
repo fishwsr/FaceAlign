@@ -8,5 +8,6 @@ public:
 	~CFaceContourComponent(void);
 protected:
 	virtual QVector<Node*> getLocatedNodes();
+	virtual std::vector<cv::Point> filterPoints(std::vector<cv::Point> points);
 };
 

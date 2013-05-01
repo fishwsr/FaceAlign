@@ -21,8 +21,9 @@ cv::Mat CFaceComponent::wrapTemplate(int width, int height)
 {
 	std::string templateIndexString = QString::number(templateIndex).toLocal8Bit();
 	cv::Mat templateMat = getTemplateImage(templateIndexString, width, height);
-	std::vector<cv::Point> templatePoints = getTemplatePoints(templateIndexString);
-	std::vector<cv::Point> locatedPoints = getLocatedPoints();
+	std::vector<cv::Point> templatePoints = filterPoints(getTemplatePoints(templateIndexString));
+	std::vector<cv::Point> locatedPoints = filterPoints(getLocatedPoints());
+
 	CThinPlateSpline tps(templatePoints,locatedPoints);
 	Mat warpedTemplate;
 	tps.warpImage(templateMat, warpedTemplate,0.01,INTER_CUBIC,BACK_WARP);
@@ -85,6 +86,18 @@ std::vector<cv::Point> CFaceComponent::getLocatedPoints()
 	}
 
 	return locatedPointsToUse;
+}
+
+std::vector<cv::Point> CFaceComponent::filterPoints( std::vector<cv::Point> points )
+{
+	std::vector<cv::Point> filteredPoints;
+
+	for(int i = 0; i < points.size(); i++){
+		if(i%2 == 0) {
+			filteredPoints.push_back(points.at(i));
+		}
+	}
+	return filteredPoints;
 }
 
 

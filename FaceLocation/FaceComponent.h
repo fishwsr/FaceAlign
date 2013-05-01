@@ -14,6 +14,7 @@ protected:
 	virtual std::vector<cv::Point> getTemplatePointsFromFile(std::ifstream* fin);
 	virtual std::vector<cv::Point> getLocatedPoints();
 	virtual QVector<Node*> getLocatedNodes() = 0;
+	virtual std::vector<cv::Point> filterPoints(std::vector<cv::Point> points);
 	int templateIndex;
 	std::string templatePath;
 	std::string folderName;
