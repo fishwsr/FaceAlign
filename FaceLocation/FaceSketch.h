@@ -27,6 +27,7 @@ private:
 	int fcThresholdValue;
 	QFaceModel* facemodel;
 	cv::Mat bgCurve;
+	cv::Mat bgColor;
 	std::vector<cv::Mat> wholeFace;
 	int browIndex, eyeIndex, noseIndex, mouthIndex, faceIndex;
 	enum faceElement{LEFTEYE, RIGHTEYE, LEFTBROW, RIGHTBROW, NOSE, MOUTH, PROFIILE};
@@ -38,6 +39,8 @@ private:
 	std::vector<cv::Point> getLocatedFaceContour();
 	void backgroudSketch(cv::Mat srcImg);
 	cv::Mat getFaceMask();
-	void backgroudSketch2( cv::Mat srcImg);
+	void backgroudSketch2(cv::Mat srcImg);
+	void backgroundColor(cv::Mat srcImg);
+	void colorQuantization();
 };
 
