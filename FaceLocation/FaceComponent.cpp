@@ -8,7 +8,7 @@
 CFaceComponent::CFaceComponent(int templateIndex, QFaceModel* faceModel)
 {
 	this->templateIndex = templateIndex;
-	this->templatePath = "data\\colorMode\\";
+	this->templatePath = "data\\sketchMode\\";
 	this->faceModel = faceModel;
 }
 
@@ -32,7 +32,7 @@ cv::Mat CFaceComponent::wrapTemplate(int width, int height)
 
 cv::Mat CFaceComponent::getTemplateImage(std::string templateIndexString, int width, int height)
 {
-	std::string modelPicPath = templatePath + folderName + "//" + picNamePrefix +  templateIndexString + ".jpg";
+	std::string modelPicPath = templatePath + folderName + "\\" + picNamePrefix +  templateIndexString + ".jpg";
 	templateImg = cv::imread(modelPicPath, -1);
 	if(templateImg.empty()){
 		qDebug("Template Image can not be found");
@@ -45,7 +45,7 @@ cv::Mat CFaceComponent::getTemplateImage(std::string templateIndexString, int wi
 
 std::vector<cv::Point> CFaceComponent::getTemplatePoints(std::string templateIndexString)
 {
-	std::string ptsFilePath = templatePath + folderName + "//" + ptsNamePrefix +  templateIndexString + ".pts";
+	std::string ptsFilePath = templatePath + folderName + "\\" + ptsNamePrefix +  templateIndexString + ".pts";
 	std::ifstream fin;
 
 	fin.open(ptsFilePath);

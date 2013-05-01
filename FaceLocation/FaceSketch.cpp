@@ -71,7 +71,7 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg)
 }
 
 bool CFaceSketch::isWhite(MatIterator_<Vec3b> point){
-	return ((*point)[0] == 255) && ((*point)[1] == 255) && ((*point)[2] == 255);
+	return ((*point)[0] > 150) && ((*point)[1] > 150) && ((*point)[2] > 150);
 }
 
 bool CFaceSketch::isBackground(MatIterator_<Vec3b> point){
@@ -101,8 +101,8 @@ void CFaceSketch::combineSketch(bool combineFace)
 		combineComponent();
 	}
 	Mat facialSketch = imread("temp\\wholeFace.jpg");
-	addTopToBottom(facialSketch, bgCurve);
-	addTopToBottom(bgCurve, bgColor);
+	addTopToBottom(facialSketch, bgColor);
+	//addTopToBottom(bgCurve, bgColor);
 }
 
 void CFaceSketch::addTopToBottom( Mat &top, Mat &botom) 

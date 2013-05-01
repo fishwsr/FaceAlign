@@ -62,11 +62,11 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	//debug purpose
 	//openImage("./penny.jpg");
 
-	initList(ui->browListWidget, QString("data/colorMode/leftEyeBrow/leftEyebrow"));
+	initList(ui->browListWidget, QString("data/sketchMode/leftEyeBrow/leftEyebrow"));
 	initList(ui->eyeListWidget, QString("data/colorMode/leftEye/leftEye"));
-	initList(ui->noseListWidget, QString("data/colorMode/nose/nose"));
-	initList(ui->mouthListWidget, QString("data/colorMode/mouth/mouth"));
-	initList(ui->faceContourListWidget, QString("data/colorMode/faceContour/faceContour"));
+	initList(ui->noseListWidget, QString("data/sketchMode/nose/nose"));
+	initList(ui->mouthListWidget, QString("data/sketchMode/mouth/mouth"));
+	initList(ui->faceContourListWidget, QString("data/sketchMode/faceContour/faceContour"));
 
 }
 
