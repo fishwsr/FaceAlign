@@ -10,6 +10,7 @@ public:
 	CFaceComponent(int templateIndex, QFaceModel* faceModel);
 	~CFaceComponent(void);
 	virtual cv::Mat wrapTemplate(int width, int height);
+	std::vector<cv::Point> getLocatedPointsToWrap();
 protected:
 	virtual std::vector<cv::Point> getTemplatePointsFromFile(std::ifstream* fin);
 	virtual std::vector<cv::Point> getLocatedPoints();
@@ -23,6 +24,7 @@ protected:
 	QFaceModel* faceModel;
 	int actualComponentPtsNum;
 	cv::Mat templateImg;
+	std::vector<cv::Point> locatedPointsToWrap;
 private:
 	cv::Mat getTemplateImage(std::string templateIndexString, int width, int height);
 	std::vector<cv::Point> getTemplatePoints(std::string templateIndexString);
