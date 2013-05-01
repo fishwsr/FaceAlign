@@ -106,8 +106,8 @@ void CFaceSketch::combineSketch(bool combineFace)
 		combineComponent();
 	}
 	Mat facialSketch = imread("temp\\wholeFace.jpg");
-	addTopToBottom(facialSketch, bgColor);
-	//addTopToBottom(bgCurve, bgColor);
+	addTopToBottom(facialSketch, bgCurve);
+	addTopToBottom(bgCurve, bgColor);
 }
 
 void CFaceSketch::addTopToBottom( Mat &top, Mat &botom) 
