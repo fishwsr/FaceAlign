@@ -46,15 +46,15 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg)
 	faceComps.push_back(&leftEyeComp);
 	CRightEyeComponent rightEyeComp(eyeIndex, facemodel);
 	faceComps.push_back(&rightEyeComp);
-	CLeftBrowComponent leftBrowComp(eyeIndex, facemodel);
+	CLeftBrowComponent leftBrowComp(browIndex, facemodel);
 	faceComps.push_back(&leftBrowComp);
-	CRightBrowComponent rightBrowComp(eyeIndex, facemodel);
+	CRightBrowComponent rightBrowComp(browIndex, facemodel);
 	faceComps.push_back(&rightBrowComp);
-	CNoseComponent noseComp(eyeIndex, facemodel);
+	CNoseComponent noseComp(noseIndex, facemodel);
 	faceComps.push_back(&noseComp);
-	CMouthComponent mouthComp(eyeIndex, facemodel);
+	CMouthComponent mouthComp(mouthIndex, facemodel);
 	faceComps.push_back(&mouthComp);
-	CFaceContourComponent faceContourComp(eyeIndex, facemodel);
+	CFaceContourComponent faceContourComp(faceIndex, facemodel);
 	faceComps.push_back(&faceContourComp);
 
 	for(int i = 0; i < faceComps.size(); i++) {
