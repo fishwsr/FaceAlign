@@ -9,6 +9,7 @@ public:
 	CFaceSketch();
 	~CFaceSketch(void);
 	cv::Mat sketchFace( QFaceModel* ASMModel, cv::Mat srcImg);
+	std::vector<cv::Point> const getPointsToWrap(){return pointsToWrap;}
 	void updateBackground(cv::Mat srcImg, int bgThresholdValue, int faceThresholdValue);
 	int getMouthIndex() const { return mouthIndex; }
 	void setMouthIndex(int val) { mouthIndex = val; }
@@ -29,6 +30,7 @@ private:
 	cv::Mat bgCurve;
 	cv::Mat bgColor;
 	std::vector<cv::Mat> wholeFace;
+	std::vector<cv::Point> pointsToWrap;
 	int browIndex, eyeIndex, noseIndex, mouthIndex, faceIndex;
 	enum faceElement{LEFTEYE, RIGHTEYE, LEFTBROW, RIGHTBROW, NOSE, MOUTH, PROFIILE};
 	void combineSketch(bool combineFace = true);

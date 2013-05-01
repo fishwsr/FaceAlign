@@ -57,9 +57,14 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg)
 	CFaceContourComponent faceContourComp(faceIndex, facemodel);
 	faceComps.push_back(&faceContourComp);
 
+	pointsToWrap.clear();
 	for(int i = 0; i < faceComps.size(); i++) {
 		Mat compMat = faceComps[i]->wrapTemplate(width, height);
 		wholeFace.push_back(compMat);
+		std::vector<cv::Point> pts = faceComps[i]->getLocatedPointsToWrap();
+		for(int j = 0; j < pts.size(); j++) {
+			pointsToWrap.push_back(pts[j]);
+		}
 	}
 
 	backgroudSketch(srcImg);

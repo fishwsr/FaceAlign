@@ -95,15 +95,12 @@ cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc, int bgThresholdValue, in
 	float* ptsPos;
 	ptsPos = faceAlign.procPic("temp/currentSrcVideoFrame.jpg");
 	int pointnum = faceAlign.PointNum();
-	currentFace.resize(pointnum);
-	for(int i =0; i<pointnum; i++)
-	{
-		currentFace[i].x = ptsPos[2*i];
-		currentFace[i].y = ptsPos[2*i+1];
-	}
+
 	QGraphicsPixmapItem imgItem;
 	QFaceModel facemodel(ptsPos,pointnum,&imgItem);
-	return faceSketch->sketchFace(&facemodel,currentSrc);
+	cv::Mat sketchedFace = faceSketch->sketchFace(&facemodel,currentSrc);
+	currentFace = faceSketch->getPointsToWrap();
+	return sketchedFace;
 }
 
 cv::Mat CVideoRenderer::propagateFromLastFrame( Mat currentSrc, Mat lastSrc, Mat lastDst )
