@@ -174,10 +174,11 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg)
 	componentSketch(MOUTH, "mouth");
 	componentSketch(PROFIILE, "faceContour");
 	backgroudSketch(srcImg);
+	backgroundColor(srcImg);
 	combineSketch();
 	t = ((double)getTickCount() - t)/getTickFrequency();
 	qDebug("Sketch -- Times passed in seconds: %f\n", t);
-	return bgCurve;
+	return bgColor;
 }
 
 QVector<Node*> CFaceSketch::getElementNodes( faceElement element )
@@ -217,6 +218,7 @@ void CFaceSketch::combineComponent()
 	addTopToBottom(wholeFace[PROFIILE], facialSetch);
 	cv::imwrite("temp\\wholeFace.jpg",facialSetch);
 }
+
 void CFaceSketch::combineSketch(bool combineFace)
 {
 	if (combineFace == true)
@@ -225,6 +227,7 @@ void CFaceSketch::combineSketch(bool combineFace)
 	}
 	Mat facialSketch = imread("temp\\wholeFace.jpg");
 	addTopToBottom(facialSketch, bgCurve);
+	addTopToBottom(bgCurve, bgColor);
 }
 
 void CFaceSketch::addTopToBottom( Mat &top, Mat &botom) 
@@ -256,8 +259,9 @@ void CFaceSketch::updateBackground(cv::Mat srcImg, int bgThresholdValue, int fcT
 	width = srcImg.cols;
 	height = srcImg.rows;
 	backgroudSketch(srcImg);
+	backgroundColor(srcImg);
 	combineSketch(false);
-	imwrite("temp\\wholeSketch.jpg",bgCurve);
+	imwrite("temp\\wholeSketch.jpg",bgColor);
 }
 
 void CFaceSketch::backgroudSketch2( cv::Mat srcImg)
@@ -379,4 +383,44 @@ void CFaceSketch::backgroudSketch(cv::Mat srcImg)
 	cv::bitwise_and(tempImg1,faceBgCurv,tempImg1,faceMask);
 	cv::bitwise_not(tempImg1, tempImg2);
 	cv::cvtColor(tempImg2, bgCurve, CV_GRAY2BGR);
+}
+
+void CFaceSketch::backgroundColor( cv::Mat srcImg )
+{
+	bgColor = srcImg.clone();
+	for (int i = 0; i < 8; i++)
+	{
+		swap(srcImg, bgColor);
+		bilateralFilter(srcImg, bgColor, 5, 150, 150);		
+	}
+	colorQuantization();
+}
+
+void CFaceSketch::colorQuantization()
+{
+	double q = 25, qFy = 4;
+	double qNearest;
+	double luminNow;
+	double quantization;
+	for(int j = 0; j < bgColor.rows; j++)
+	{
+		uchar *data = bgColor.ptr<uchar>(j);
+		for(int i = 0; i < bgColor.cols; i++)
+		{		
+			luminNow = (double)(*data)*100/255;
+			qNearest = floor(luminNow/q) * q;
+			quantization = qNearest + (double)(q/2)*tanh(qFy*(luminNow-qNearest));
+
+			if(quantization > 100)
+			{
+				*data = 255;
+			}
+			else
+			{
+				int a = (int)quantization*255/100;
+				*data = a;
+			}
+			data = data + 3;
+		}
+	}
 }
