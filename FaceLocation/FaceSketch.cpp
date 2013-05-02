@@ -144,7 +144,7 @@ void CFaceSketch::updateBackground(cv::Mat srcImg, int bgThresholdValue, int fcT
 	imwrite("temp\\wholeSketch.jpg",bgColor);
 }
 
-void CFaceSketch::backgroudSketch2( cv::Mat srcImg)
+void CFaceSketch::backgroudSketch( cv::Mat srcImg)
 {
 	vector<Point> faceOutLine = getLocatedFaceContour();
 
@@ -157,7 +157,10 @@ void CFaceSketch::backgroudSketch2( cv::Mat srcImg)
 	cv::Canny(srcImg, faceTempImg1, fcThresholdValue, fcThresholdValue*3, 3);
 	cv::bitwise_not(faceTempImg1, faceTempImg2);
 	cv::cvtColor(faceTempImg2, faceBgCurv, CV_GRAY2BGR );
-
+	
+	//remove the following statement to get the curve on the face
+	faceBgCurv.setTo(255);
+	
 	MatIterator_<Vec3b> itOfBg, itOfFace, endOfBg, endOfFace;
 	itOfBg = bgCurve.begin<Vec3b>();
 	endOfBg = bgCurve.end<Vec3b>();
@@ -250,7 +253,7 @@ Mat CFaceSketch::getFaceMask()
 	return faceMask;
 }
 
-void CFaceSketch::backgroudSketch(cv::Mat srcImg)
+void CFaceSketch::backgroudSketch2(cv::Mat srcImg)
 {
 	Mat tempImg1, tempImg2;
 	cv::Canny(srcImg, tempImg1, bgThresholdValue, bgThresholdValue*3, 3);
@@ -260,6 +263,7 @@ void CFaceSketch::backgroudSketch(cv::Mat srcImg)
 
 	Mat faceMask = getFaceMask();
 	//Mat tempImg3 = tempImg1;
+	//faceBgCurv.setTo(1);
 	cv::bitwise_and(tempImg1,faceBgCurv,tempImg1,faceMask);
 	cv::bitwise_not(tempImg1, tempImg2);
 	cv::cvtColor(tempImg2, bgCurve, CV_GRAY2BGR);
@@ -268,17 +272,22 @@ void CFaceSketch::backgroudSketch(cv::Mat srcImg)
 void CFaceSketch::backgroundColor( cv::Mat srcImg )
 {
 	bgColor = srcImg.clone();
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		swap(srcImg, bgColor);
 		bilateralFilter(srcImg, bgColor, 5, 150, 150);		
 	}
+	Mat temp;
+	temp = bgColor.clone();
+	cvtColor(temp, bgColor, CV_RGB2Lab);
 	colorQuantization();
+	temp = bgColor.clone();
+	cvtColor(temp, bgColor, CV_Lab2RGB);
 }
 
 void CFaceSketch::colorQuantization()
 {
-	double q = 25, qFy = 4;
+	double q = 15, qFy = 4;
 	double qNearest;
 	double luminNow;
 	double quantization;
