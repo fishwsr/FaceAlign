@@ -21,36 +21,37 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	ui->statusBar->showMessage("Welcome");
 	ui->leftGraphicsView->viewport()->installEventFilter(this);
 	ui->rightGraphicsView->viewport()->installEventFilter(this);
-	QLabel *bgThresholdLabel = new QLabel("threshold1");
-	QLabel *fcThresholdLabel = new QLabel("threshold2");
+	QLabel *bgThresholdLabel = new QLabel("Curve");
+	QLabel *fcThresholdLabel = new QLabel("Quantization");
 	QSlider *bgThresholdSlider=new QSlider(Qt::Horizontal);
-	QSlider *fcThresholdSlider=new QSlider(Qt::Horizontal);
+	QSlider *qtzThresholdSlider=new QSlider(Qt::Horizontal);
 	QSpinBox *bgThresholdSpinbox=new QSpinBox;
-	QSpinBox *fcThresholdSpinbox=new QSpinBox;
+	QSpinBox *qtzThresholdSpinbox=new QSpinBox;
 	bgThresholdSlider->setRange(30,150);
-	fcThresholdSlider->setRange(30,150);
+	qtzThresholdSlider->setRange(1,50);
 	bgThresholdSpinbox->setRange(30,150);
-	fcThresholdSpinbox->setRange(30,150);
+	qtzThresholdSpinbox->setRange(1,50);
 	bgThresholdSlider->setValue(60);
-	fcThresholdSlider->setValue(80);
+	qtzThresholdSlider->setValue(15);
 	bgThresholdSpinbox->setValue(60);
-	fcThresholdSpinbox->setValue(80);
+	qtzThresholdSpinbox->setValue(15);
 	ui->rightToolBar->addSeparator();
-	ui->rightToolBar->addWidget(fcThresholdSpinbox);
-	ui->rightToolBar->addWidget(fcThresholdSlider);
+	ui->rightToolBar->addWidget(qtzThresholdSpinbox);
+	ui->rightToolBar->addWidget(qtzThresholdSlider);
 	ui->rightToolBar->addWidget(fcThresholdLabel);
 	ui->rightToolBar->addSeparator();
 	ui->rightToolBar->addWidget(bgThresholdSpinbox);
 	ui->rightToolBar->addWidget(bgThresholdSlider);
 	ui->rightToolBar->addWidget(bgThresholdLabel);
 	QObject::connect(bgThresholdSpinbox,SIGNAL(valueChanged(int)),bgThresholdSlider,SLOT(setValue(int)));
-	QObject::connect(fcThresholdSpinbox,SIGNAL(valueChanged(int)),fcThresholdSlider,SLOT(setValue(int)));
+	QObject::connect(qtzThresholdSpinbox,SIGNAL(valueChanged(int)),qtzThresholdSlider,SLOT(setValue(int)));
 	QObject::connect(bgThresholdSlider,SIGNAL(valueChanged(int)),bgThresholdSpinbox,SLOT(setValue(int)));
-	QObject::connect(fcThresholdSlider,SIGNAL(valueChanged(int)),fcThresholdSpinbox,SLOT(setValue(int)));
+	QObject::connect(qtzThresholdSlider,SIGNAL(valueChanged(int)),qtzThresholdSpinbox,SLOT(setValue(int)));
 	QObject::connect(bgThresholdSlider,SIGNAL(valueChanged(int)),this,SLOT(on_bgThresholdSlider_valueChanged(int)));
-	QObject::connect(fcThresholdSlider,SIGNAL(valueChanged(int)),this,SLOT(on_fcThresholdSlider_valueChanged(int)));
+	QObject::connect(qtzThresholdSlider,SIGNAL(valueChanged(int)),this,SLOT(on_qtzThresholdSlider_valueChanged(int)));
     bgThresholdValue = 60;
 	fcThresholdValue = 80;
+	qtzThresholdValue = 15;
 	ui->rightToolBar->setDisabled(true);
 	
 	setCurrentFile("");
@@ -420,9 +421,9 @@ void MainWindow::on_bgThresholdSlider_valueChanged( int value )
 	updateSketch();
 }
 
-void MainWindow::on_fcThresholdSlider_valueChanged( int value )
+void MainWindow::on_qtzThresholdSlider_valueChanged( int value )
 {
-	fcThresholdValue = value;
+	qtzThresholdValue = value;
 	updateSketch();
 }
 
@@ -437,7 +438,7 @@ void MainWindow::updateSketch()
 		qDebug("image file not Found");
 		return;
 	}
-	faceSketch->updateBackground(srcImg, bgThresholdValue, fcThresholdValue);
+	faceSketch->updateBackground(srcImg, bgThresholdValue, qtzThresholdValue);
 
 	QImage* rightImage = new QImage();
 	if(rightImage->load("temp/wholeSketch.jpg"))

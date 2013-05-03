@@ -18,6 +18,7 @@ CFaceSketch::CFaceSketch()
 {
 	bgThresholdValue = 60;
 	fcThresholdValue = 80;
+	qtzThresholdValue = 15;
 	eyeIndex = 1;
 	browIndex = 7;
 	noseIndex = 1;
@@ -132,10 +133,10 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 
 }
 
-void CFaceSketch::updateBackground(cv::Mat srcImg, int bgThresholdValue, int fcThresholdValue )
+void CFaceSketch::updateBackground(cv::Mat srcImg, int bgThresholdValue, int qtzThresholdValue )
 {
 	this->bgThresholdValue = bgThresholdValue;
-	this->fcThresholdValue = fcThresholdValue;
+	this->qtzThresholdValue = qtzThresholdValue;
 	width = srcImg.cols;
 	height = srcImg.rows;
 	backgroudSketch(srcImg);
@@ -146,6 +147,8 @@ void CFaceSketch::updateBackground(cv::Mat srcImg, int bgThresholdValue, int fcT
 
 void CFaceSketch::backgroudSketch( cv::Mat srcImg)
 {
+	//set faceCurevOn true to get the curve on the face
+	bool faceCurveOn = false;
 	vector<Point> faceOutLine = getLocatedFaceContour();
 
 	Mat tempImg1, tempImg2;
@@ -153,14 +156,14 @@ void CFaceSketch::backgroudSketch( cv::Mat srcImg)
 	cv::bitwise_not(tempImg1, tempImg2);
 	cv::cvtColor(tempImg2, bgCurve, CV_GRAY2BGR );
 
-	Mat faceTempImg1, faceTempImg2, faceBgCurv;
+	Mat  faceTempImg1, faceTempImg2, faceBgCurv;
 	cv::Canny(srcImg, faceTempImg1, fcThresholdValue, fcThresholdValue*3, 3);
 	cv::bitwise_not(faceTempImg1, faceTempImg2);
 	cv::cvtColor(faceTempImg2, faceBgCurv, CV_GRAY2BGR );
-	
-	//remove the following statement to get the curve on the face
-	faceBgCurv.setTo(255);
-	
+	if(!faceCurveOn)
+	{
+		faceBgCurv.setTo(255);
+	}
 	MatIterator_<Vec3b> itOfBg, itOfFace, endOfBg, endOfFace;
 	itOfBg = bgCurve.begin<Vec3b>();
 	endOfBg = bgCurve.end<Vec3b>();
@@ -287,7 +290,7 @@ void CFaceSketch::backgroundColor( cv::Mat srcImg )
 
 void CFaceSketch::colorQuantization()
 {
-	double q = 15, qFy = 4;
+	double q = qtzThresholdValue, qFy = 4;
 	double qNearest;
 	double luminNow;
 	double quantization;

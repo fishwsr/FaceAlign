@@ -30,7 +30,7 @@ private slots:
     void on_openAction_triggered();
 	void openImage( QString fileName );
 	void on_bgThresholdSlider_valueChanged(int value);
-	void on_fcThresholdSlider_valueChanged(int value);
+	void on_qtzThresholdSlider_valueChanged(int value);
 	void on_alignAction_triggered();
 	void on_saveAction_triggered();
 	void on_closeAction_triggered();
@@ -50,6 +50,7 @@ protected:
 private:
 	int bgThresholdValue;
 	int fcThresholdValue;
+	int qtzThresholdValue;
 	bool okToContinue();
     void setCurrentFile(const QString &fileName);
 	QString strippedName(const QString &fullFileName);

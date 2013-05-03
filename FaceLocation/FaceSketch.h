@@ -26,6 +26,7 @@ private:
 	int width, height;
 	int bgThresholdValue;
 	int fcThresholdValue;
+	int qtzThresholdValue;
 	QFaceModel* facemodel;
 	cv::Mat bgCurve;
 	cv::Mat bgColor;
