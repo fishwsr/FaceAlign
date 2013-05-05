@@ -382,9 +382,11 @@ void MainWindow::freeOldResource()
 {
 	if(videoRenderer != NULL) {
 		delete videoRenderer;
+		videoRenderer = NULL;
 	}
 	if(faceSketch != NULL) {
 		delete faceSketch;
+		faceSketch = NULL;
 	}
 }
 
