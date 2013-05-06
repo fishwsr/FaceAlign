@@ -98,6 +98,7 @@ void MainWindow::on_openAction_triggered()
 		freeOldResource();
 		faceSketch = new CFaceSketch();
 		openImage(fileName);
+		setCurrentFile(fileName);
     }
 }
 
@@ -106,7 +107,7 @@ void MainWindow::on_alignAction_triggered()
 	CFaceAlign face;
 	int pointnum = face.PointNum();
 	float *ptsPos;
-	ptsPos = face.procPic((const char *)curFile.toLocal8Bit());
+	ptsPos = face.procPic((const char *)curImg.toLocal8Bit());
 	//ptsPos = face.procPic("temp/resizedPic.jpg");
 	facemodel = new QFaceModel(ptsPos,pointnum,imgItem);
 	ui->leftGraphicsView->show();
@@ -131,7 +132,7 @@ void MainWindow::on_sketchAction_triggered()
 	faceSketch->setMouthIndex(ui->mouthListWidget->currentRow()+1);
 	faceSketch->setFaceIndex(ui->faceContourListWidget->currentRow()+1);
 
-	Mat srcImg = imread((const char *)curFile.toLocal8Bit());
+	Mat srcImg = imread((const char *)curImg.toLocal8Bit());
 	if(srcImg.empty()) {
 		qDebug("image file not Found");
 		return;
@@ -252,7 +253,7 @@ bool MainWindow::okToContinue()
 //    return true;
 //}
 //
-void MainWindow::setCurrentFile(const QString &fileName)
+void MainWindow::setCurrentFile(const QString &fileName, const QString &imgName)
 {
     curFile = fileName;
     setWindowModified(false);
@@ -262,6 +263,14 @@ void MainWindow::setCurrentFile(const QString &fileName)
         shownName = strippedName(curFile);
     }
     setWindowTitle(tr("%1 - %2[*]").arg(tr("FaceAlign")).arg(shownName));
+	if (imgName == NULL)
+	{
+		curImg = curFile;
+	}
+	else
+	{
+		curImg = imgName;
+	}
 }
 
 QString MainWindow::strippedName(const QString &fullFileName)
@@ -292,7 +301,6 @@ void MainWindow::contextMenuEvent( QContextMenuEvent *event )
 
 void MainWindow::openImage( QString fileName )
 {
-		setCurrentFile(fileName);
 		if(image->load(fileName))
 		{
 			this->leftGraphicsScene->clear();	
@@ -312,21 +320,21 @@ void MainWindow::openImage( QString fileName )
 			ui->alignAction->setEnabled(true);
 			this->rightGraphicsScene->clear();
 			ui->stackedWidget->setCurrentIndex(0);
-		}
-		
+		}		
 }
 
 void MainWindow::on_renderAction_triggered()
 {
 	ui->templateAreaWidget->setDisabled(true);
-	videoRenderer->render("temp/rendered.avi", bgThresholdValue, fcThresholdValue);
+	QString renderedVideoPath = "temp//"+ strippedName(curFile);
+	videoRenderer->render(renderedVideoPath.toStdString(), bgThresholdValue, qtzThresholdValue);
 	
 	QMessageBox::information(this,"Face Location", "Video rendering completed");
 	ui->stackedWidget->setCurrentIndex(1);
 	ui->sketchAction->setDisabled(true);
 	ui->templateAreaWidget->setDisabled(true);
 
-	ui->rightVideoPlayer->load(Phonon::MediaSource("temp/rendered.avi"));
+	ui->rightVideoPlayer->load(Phonon::MediaSource(renderedVideoPath));
 
 }
 
@@ -357,18 +365,18 @@ void MainWindow::initList( QListWidget* widgetList, QString filePath )
 void MainWindow::on_openVideoAction_triggered()
 {
 	QString videoFileName = QFileDialog::getOpenFileName(
-		this, "open image file",
+		this, "open video file",
 		".",
 		"Video files (*.mp4 *.avi);;All files (*.*)");
 	if(!videoFileName.isEmpty())
 	{
 		freeOldResource();
+		setCurrentFile(videoFileName, "temp/firstFrame.jpg");
 		faceSketch = new CFaceSketch();
 		videoRenderer = new CVideoRenderer((const char *)videoFileName.toLocal8Bit(), faceSketch);
 		Mat firstFrame = videoRenderer->getFirstFrame();
-		imwrite("temp/firstFrame.jpg", firstFrame);
-		openImage("temp/firstFrame.jpg");
-
+		imwrite(curImg.toStdString(), firstFrame);
+		openImage(curImg);
 		mediaSource = Phonon::MediaSource(videoFileName);
 		ui->leftVideoPlayer->load(mediaSource);
 		ui->seekSlider->setMediaObject(ui->leftVideoPlayer->mediaObject());
@@ -435,7 +443,7 @@ void MainWindow::updateSketch()
 		qDebug("########################################Sketch Must be Done First!!!");
 		exit(-1);
 	}
-	Mat srcImg = imread((const char *)curFile.toLocal8Bit());
+	Mat srcImg = imread((const char *)curImg.toLocal8Bit());
 	if(srcImg.empty()) {
 		qDebug("image file not Found");
 		return;

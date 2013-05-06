@@ -52,13 +52,14 @@ private:
 	int fcThresholdValue;
 	int qtzThresholdValue;
 	bool okToContinue();
-    void setCurrentFile(const QString &fileName);
+    void setCurrentFile(const QString &fileName, const QString &imgName = NULL);
 	QString strippedName(const QString &fullFileName);
 	void initList(QListWidget* widgetList, QString filePath);
 	bool isAligned;
 	QImage *image;
 	QGraphicsPixmapItem *imgItem;
     QString curFile;
+	QString curImg;
 	QGraphicsScene *leftGraphicsScene;
 	QGraphicsScene *rightGraphicsScene;
 	QFaceModel *facemodel;
