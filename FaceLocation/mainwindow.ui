@@ -32,8 +32,8 @@
    <string>MainWindow</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>images/myappicon.png</normaloff>images/myappicon.png</iconset>
+   <iconset resource="mainwindow.qrc">
+    <normaloff>:/MainWindow/icon/iMovie.png</normaloff>:/MainWindow/icon/iMovie.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -200,9 +200,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset>
-              <normalon>:/MainWindow/images/play.png</normalon>
-             </iconset>
+             <iconset resource="mainwindow.qrc">
+              <normaloff>:/MainWindow/icon/play.png</normaloff>:/MainWindow/icon/play.png</iconset>
             </property>
            </widget>
           </item>
@@ -215,9 +214,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset>
-              <normalon>:/MainWindow/images/pause.png</normalon>
-             </iconset>
+             <iconset resource="mainwindow.qrc">
+              <normaloff>:/MainWindow/icon/pause.png</normaloff>:/MainWindow/icon/pause.png</iconset>
             </property>
            </widget>
           </item>
@@ -230,9 +228,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset>
-              <normalon>:/MainWindow/images/stop.png</normalon>
-             </iconset>
+             <iconset resource="mainwindow.qrc">
+              <normaloff>:/MainWindow/icon/stop.png</normaloff>:/MainWindow/icon/stop.png</iconset>
             </property>
            </widget>
           </item>
@@ -475,7 +472,7 @@
   <action name="openAction">
    <property name="icon">
     <iconset>
-     <normaloff>images/open.png</normaloff>images/open.png</iconset>
+     <normaloff>icon/TOON-XP Icons (V1c) Icon 29.png</normaloff>icon/TOON-XP Icons (V1c) Icon 29.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Open</string>
@@ -492,8 +489,8 @@
   </action>
   <action name="closeAction">
    <property name="icon">
-    <iconset>
-     <normaloff>images/clear.png</normaloff>images/clear.png</iconset>
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 42.png</normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 42.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Close</string>
@@ -509,8 +506,8 @@
   </action>
   <action name="saveAction">
    <property name="icon">
-    <iconset>
-     <normaloff>images/save.png</normaloff>images/save.png</iconset>
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 48.png</normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 48.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Save</string>
@@ -527,8 +524,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>images/find.png</normaloff>images/find.png</iconset>
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 88.png</normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 88.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Align</string>
@@ -545,8 +542,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>images/TOON-XP Icons (V1c) Icon 67.png</normaloff>images/TOON-XP Icons (V1c) Icon 67.png</iconset>
+    <iconset resource="mainwindow.qrc">
+     <normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 67.png</normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 67.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Sketch</string>
@@ -572,7 +569,7 @@
    </property>
    <property name="icon">
     <iconset resource="mainwindow.qrc">
-     <normaloff>:/MainWindow/images/render.png</normaloff>:/MainWindow/images/render.png</iconset>
+     <normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 102.png</normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 102.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Render</string>
@@ -584,7 +581,7 @@
   <action name="chooseTemplateAction">
    <property name="icon">
     <iconset resource="mainwindow.qrc">
-     <normaloff>:/MainWindow/images/chooseTemplate.png</normaloff>:/MainWindow/images/chooseTemplate.png</iconset>
+     <normaloff>:/MainWindow/icon/package_toys.png</normaloff>:/MainWindow/icon/package_toys.png</iconset>
    </property>
    <property name="text">
     <string>chooseTemplate</string>
@@ -596,7 +593,7 @@
   <action name="openVideoAction">
    <property name="icon">
     <iconset resource="mainwindow.qrc">
-     <normaloff>:/MainWindow/images/videos-icon.png</normaloff>:/MainWindow/images/videos-icon.png</iconset>
+     <normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 30.png</normaloff>:/MainWindow/icon/TOON-XP Icons (V1c) Icon 30.png</iconset>
    </property>
    <property name="text">
     <string>openVideo</string>

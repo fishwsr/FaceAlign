@@ -99,6 +99,7 @@ void MainWindow::on_openAction_triggered()
 		faceSketch = new CFaceSketch();
 		openImage(fileName);
 		setCurrentFile(fileName);
+		ui->stackedWidget->setCurrentIndex(0);
     }
 }
 
@@ -262,7 +263,7 @@ void MainWindow::setCurrentFile(const QString &fileName, const QString &imgName)
     if (!curFile.isEmpty()) {
         shownName = strippedName(curFile);
     }
-    setWindowTitle(tr("%1 - %2[*]").arg(tr("FaceAlign")).arg(shownName));
+    setWindowTitle(tr("%1 - %2[*]").arg(tr("FaceLocation")).arg(shownName));
 	if (imgName == NULL)
 	{
 		curImg = curFile;
@@ -319,23 +320,19 @@ void MainWindow::openImage( QString fileName )
 			ui->leftGraphicsView->setMouseTracking(true);
 			ui->alignAction->setEnabled(true);
 			this->rightGraphicsScene->clear();
-			ui->stackedWidget->setCurrentIndex(0);
 		}		
 }
 
 void MainWindow::on_renderAction_triggered()
 {
 	ui->templateAreaWidget->setDisabled(true);
-	QString renderedVideoPath = "temp//"+ strippedName(curFile);
+	QString renderedVideoPath = "temp/"+ QFileInfo(curFile).baseName() + ".avi";
 	videoRenderer->render(renderedVideoPath.toStdString(), bgThresholdValue, qtzThresholdValue);
-	
 	QMessageBox::information(this,"Face Location", "Video rendering completed");
 	ui->stackedWidget->setCurrentIndex(1);
 	ui->sketchAction->setDisabled(true);
 	ui->templateAreaWidget->setDisabled(true);
-
 	ui->rightVideoPlayer->load(Phonon::MediaSource(renderedVideoPath));
-
 }
 
 void MainWindow::initList( QListWidget* widgetList, QString filePath )

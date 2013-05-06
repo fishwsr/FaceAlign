@@ -1,10 +1,18 @@
 <RCC>
   <qresource prefix="MainWindow">
-    <file>images/pause.png</file>
-    <file>images/stop.png</file>
-    <file>images/videos-icon.png</file>
-    <file>images/chooseTemplate.png</file>
-    <file>images/play.png</file>
-    <file>images/render.png</file>
+    <file>icon/iMovie.png</file>
+    <file>icon/package_toys.png</file>
+    <file>icon/pause.png</file>
+    <file>icon/play.png</file>
+    <file>icon/stop.png</file>
+    <file>icon/TOON-XP Icons (V1c) Icon 08.png</file>
+    <file>icon/TOON-XP Icons (V1c) Icon 29.png</file>
+    <file>icon/TOON-XP Icons (V1c) Icon 30.png</file>
+    <file>icon/TOON-XP Icons (V1c) Icon 42.png</file>
+    <file>icon/TOON-XP Icons (V1c) Icon 48.png</file>
+    <file>icon/TOON-XP Icons (V1c) Icon 67.png</file>
+    <file>icon/TOON-XP Icons (V1c) Icon 88.png</file>
+    <file>icon/TOON-XP Icons (V1c) Icon 102.png</file>
+    <file>icon/trashcan_full.png</file>
   </qresource>
 </RCC>
