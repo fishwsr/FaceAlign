@@ -33,10 +33,13 @@ CFaceSketch::~CFaceSketch(void)
 }
 
 
-cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg)
+cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThresholdValue, int faceThresholdValue)
 {
 	double t = (double)getTickCount();
 	qDebug("Face Threshold %i, BG Threshold %i", fcThresholdValue, bgThresholdValue);
+	this->bgThresholdValue = bgThresholdValue;
+	this->qtzThresholdValue = qtzThresholdValue;
+
 	facemodel = ASMModel;
 	width = srcImg.cols;
 	height = srcImg.rows;
@@ -309,8 +312,8 @@ void CFaceSketch::colorQuantization()
 			}
 			else
 			{
-				int a = (int)quantization*255/100;
-				*data = a;
+				int a = (int)quantization*255/100*1.2;
+				*data = (a>255)?255:a;
 			}
 			data = data + 3;
 		}

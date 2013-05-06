@@ -22,7 +22,7 @@ CVideoRenderer::CVideoRenderer(std::string videoFilePath, CFaceSketch* faceSketc
 	//imshow("test", firstFrame);
 	frameWidth = firstFrame.cols;
 	frameHeight = firstFrame.rows;
-	interval = 3;
+	interval = 1;
 	this->faceSketch = faceSketch;
 }
 
@@ -39,7 +39,7 @@ cv::Mat CVideoRenderer::getFirstFrame()
 	return firstFrame;
 }
 
-void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue, int fcThresholdValue )
+void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue, int qtzThresholdValue )
 {
 	VideoWriter outputVideo;
 	int ex = static_cast<int>(srcVideoCapture->get(CV_CAP_PROP_FOURCC));
@@ -68,7 +68,7 @@ void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue
 		}
 		
 		if(isKeyFrame(i)) {
-			currentDst = renderKeyFrame(currentSrc);
+			currentDst = renderKeyFrame(currentSrc, bgThresholdValue, qtzThresholdValue);
 		} else {
 			currentDst = propagateFromLastFrame(currentSrc, lastSrc, lastDst);
 		}
@@ -88,7 +88,7 @@ void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue
 	}
 }
 
-cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc, int bgThresholdValue, int fcThresholdValue )
+cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc, int bgThresholdValue, int qtzThresholdValue )
 {
 	cv::imwrite("temp/currentSrcVideoFrame.jpg", currentSrc);
 	CFaceAlign faceAlign;
@@ -98,7 +98,7 @@ cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc, int bgThresholdValue, in
 
 	QGraphicsPixmapItem imgItem;
 	QFaceModel facemodel(ptsPos,pointnum,&imgItem);
-	cv::Mat sketchedFace = faceSketch->sketchFace(&facemodel,currentSrc);
+	cv::Mat sketchedFace = faceSketch->sketchFace(&facemodel,currentSrc, bgThresholdValue, bgThresholdValue);
 	currentFace = faceSketch->getPointsToWrap();
 	return sketchedFace;
 }

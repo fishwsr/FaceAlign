@@ -15,7 +15,7 @@ public:
 	CVideoRenderer(std::string videoFilePath, CFaceSketch* faceSketch);
 	~CVideoRenderer(void);
 	Mat getFirstFrame();
-	void render(std::string renderedVideoPath, int bgThresholdValue, int fcThresholdValue);
+	void render(std::string renderedVideoPath, int bgThresholdValue, int qtzThresholdValue);
 private:
 	VideoCapture *srcVideoCapture;
 	int interval;
@@ -26,7 +26,7 @@ private:
 	CFaceSketch* faceSketch;
 	vector<cv::Point> currentFace;
 	bool isKeyFrame(int index);
-	Mat renderKeyFrame( Mat currentSrc, int bgThresholdValue= 60, int fcThresholdValue = 80 );
+	Mat renderKeyFrame( Mat currentSrc, int bgThresholdValue= 60, int qtzThresholdValue = 15 );
 	Mat propagateFromLastFrame( Mat currentSrc, Mat lastSrc, Mat lastDst );
 };
 

@@ -8,7 +8,7 @@ class CFaceSketch
 public:
 	CFaceSketch();
 	~CFaceSketch(void);
-	cv::Mat sketchFace( QFaceModel* ASMModel, cv::Mat srcImg);
+	cv::Mat sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThresholdValue = 60, int faceThresholdValue = 15);
 	std::vector<cv::Point> const getPointsToWrap(){return pointsToWrap;}
 	void updateBackground(cv::Mat srcImg, int bgThresholdValue, int faceThresholdValue);
 	int getMouthIndex() const { return mouthIndex; }
