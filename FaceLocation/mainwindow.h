@@ -52,6 +52,7 @@ private:
 	int bgThresholdValue;
 	int fcThresholdValue;
 	int qtzThresholdValue;
+	bool canTriggerSketch;
 	bool okToContinue();
     void setCurrentFile(const QString &fileName, const QString &imgName = NULL);
 	QString strippedName(const QString &fullFileName);
