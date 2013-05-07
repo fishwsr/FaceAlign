@@ -120,15 +120,20 @@ void MainWindow::on_alignAction_triggered()
 	ui->alignAction->setDisabled(true);
 	delete[] ptsPos;
 	ui->templateAreaWidget->setEnabled(true);
+	canTriggerSketch = false;
 	ui->browListWidget->setCurrentRow(faceSketch->getBrowIndex()-1);
 	ui->eyeListWidget->setCurrentRow(faceSketch->getEyeIndex()-1);
 	ui->noseListWidget->setCurrentRow(faceSketch->getNoseIndex()-1);
 	ui->mouthListWidget->setCurrentRow(faceSketch->getMouthIndex()-1);
 	ui->faceContourListWidget->setCurrentRow(faceSketch->getFaceIndex()-1);
+	canTriggerSketch = true;
 }
 
 void MainWindow::on_sketchAction_triggered()
 {
+	if(!canTriggerSketch){
+		return;
+	}
 	faceSketch->setBrowIndex(ui->browListWidget->currentRow() + 1);
 	faceSketch->setEyeIndex(ui->eyeListWidget->currentRow()+1);
 	faceSketch->setNoseIndex(ui->noseListWidget->currentRow()+1);

@@ -133,6 +133,9 @@
     <CustomBuild Include="mainwindow.qrc">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="modalProgressDialog.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
@@ -197,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="FaceContourComponent.h">
       <Filter>Header Files\FaceComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_modalProgressDialog.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
