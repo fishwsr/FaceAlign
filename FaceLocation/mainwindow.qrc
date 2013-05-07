@@ -1,6 +1,10 @@
 <RCC>
   <qresource prefix="MainWindow">
+    <file>image/lliella_Waiting4Santa_paper12.jpg</file>
+    <file>image/lliella_WCheer_paper5.jpg</file>
+    <file>image/lliella_WCheer_paper10.jpg</file>
     <file>icon/iMovie.png</file>
+    <file>image/Background_Series_ Brush_Works_BS08017_wallcoo.com.jpg</file>
     <file>icon/package_toys.png</file>
     <file>icon/pause.png</file>
     <file>icon/play.png</file>

@@ -21,8 +21,10 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	ui->statusBar->showMessage("Welcome");
 	ui->leftGraphicsView->viewport()->installEventFilter(this);
 	ui->rightGraphicsView->viewport()->installEventFilter(this);
-	QLabel *bgThresholdLabel = new QLabel("Curve");
-	QLabel *fcThresholdLabel = new QLabel("Quantization");
+	QLabel *bgThresholdLabel = new QLabel("Curve ");
+	bgThresholdLabel->setFont(QFont("Century Gothic"));
+	QLabel *fcThresholdLabel = new QLabel("Quantization ");
+	fcThresholdLabel->setFont(QFont("Century Gothic"));
 	QSlider *bgThresholdSlider=new QSlider(Qt::Horizontal);
 	QSlider *qtzThresholdSlider=new QSlider(Qt::Horizontal);
 	QSpinBox *bgThresholdSpinbox=new QSpinBox;
@@ -263,7 +265,7 @@ void MainWindow::setCurrentFile(const QString &fileName, const QString &imgName)
     if (!curFile.isEmpty()) {
         shownName = strippedName(curFile);
     }
-    setWindowTitle(tr("%1 - %2[*]").arg(tr("FaceLocation")).arg(shownName));
+    setWindowTitle(tr("%1 - %2[*]").arg(tr("iRender")).arg(shownName));
 	if (imgName == NULL)
 	{
 		curImg = curFile;

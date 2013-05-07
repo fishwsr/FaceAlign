@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>763</width>
-    <height>470</height>
+    <width>753</width>
+    <height>492</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -28,12 +28,20 @@
     <height>16777215</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Century Gothic</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="windowIcon">
    <iconset resource="mainwindow.qrc">
     <normaloff>:/MainWindow/icon/iMovie.png</normaloff>:/MainWindow/icon/iMovie.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#MainWindow{background-image: url(:/MainWindow/image/lliella_WCheer_paper5.jpg)};</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -47,6 +55,17 @@
      <width>495</width>
      <height>350</height>
     </size>
+   </property>
+   <property name="font">
+    <font>
+     <family>Century Gothic</family>
+    </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#centralWidget{background-image: url(:/MainWindow/image/lliella_WCheer_paper5.jpg)};</string>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <property name="sizeConstraint">
@@ -73,7 +92,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="picWidget">
        <property name="sizePolicy">
@@ -267,6 +286,15 @@
     </item>
     <item>
      <widget class="Line" name="line">
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 3px dotted white;</string>
+      </property>
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
@@ -295,11 +323,16 @@
         <height>16777215</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>Century Gothic</family>
+       </font>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QTabWidget" name="templateTabWidget">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -310,6 +343,73 @@
            <height>0</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <family>Century Gothic</family>
+           <weight>50</weight>
+           <italic>true</italic>
+           <bold>false</bold>
+           <stylestrategy>PreferDefault</stylestrategy>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"> QTabWidget::pane { /* The tab widget frame */
+     border-right: 0px solid #C2C7CB;
+ }
+
+ QTabWidget::tab-bar {
+     top: 0px; /* move to the right by 5px */
+ }
+
+ /* Style the tab using the tab sub-control. Note that
+     it reads QTabBar _not_ QTabWidget */
+ QTabBar::tab {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+     border: 2px solid #C4C4C3;
+     border-left-color: #C2C7CB; /* same as the pane color */
+     border-top-right-radius: 6px;
+     border-bottom-right-radius: 6px;
+     min-height: 15ex;
+	 min-width: 8ex;
+     padding: 2px;
+ }
+
+ QTabBar::tab:selected, QTabBar::tab:hover {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #fafafa, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+ }
+
+ QTabBar::tab:selected {
+     border-color: #9B9B9B;
+     border-left-color: #C2C7CB; /* same as pane color */
+ }
+
+ QTabBar::tab:!selected {
+     margin-bottom: 2px; /* make non-selected tabs look smaller */
+ }
+
+ /* make use of negative margins for overlapping tabs */
+ QTabBar::tab:selected {
+     /* expand/overlap to the left and right by 4px */
+     margin-top: -4px;
+     margin-bottom: -4px;
+ }
+
+ QTabBar::tab:first:selected {
+     margin-top: 0; /* the first selected tab has nothing to overlap with on the left */
+ }
+
+ QTabBar::tab:last:selected {
+     margin-bottom: 0; /* the last selected tab has nothing to overlap with on the right */
+ }
+
+ QTabBar::tab:only-one {
+     margin: 0; /* if there is only one tab, we don't want overlapping margins */
+ }</string>
+         </property>
          <property name="tabPosition">
           <enum>QTabWidget::East</enum>
          </property>
@@ -317,6 +417,19 @@
           <number>0</number>
          </property>
          <widget class="QWidget" name="browTab">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Century Gothic</family>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <attribute name="title">
            <string>Brow</string>
           </attribute>
@@ -331,6 +444,9 @@
             <widget class="QListWidget" name="browListWidget">
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
              </property>
             </widget>
            </item>
@@ -352,6 +468,9 @@
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
              </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
             </widget>
            </item>
           </layout>
@@ -371,6 +490,9 @@
             <widget class="QListWidget" name="noseListWidget">
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
              </property>
             </widget>
            </item>
@@ -392,6 +514,9 @@
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
              </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
             </widget>
            </item>
           </layout>
@@ -412,6 +537,9 @@
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
              </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
             </widget>
            </item>
           </layout>
@@ -429,6 +557,11 @@
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
+   </property>
+   <property name="font">
+    <font>
+     <family>Century Gothic</family>
+    </font>
    </property>
    <property name="toolTip">
     <string/>
@@ -457,13 +590,24 @@
    <addaction name="sketchAction"/>
    <addaction name="renderAction"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="font">
+    <font>
+     <family>Century Gothic</family>
+    </font>
+   </property>
+  </widget>
   <widget class="QToolBar" name="rightToolBar">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
+   </property>
+   <property name="font">
+    <font>
+     <family>Century Gothic</family>
+    </font>
    </property>
    <property name="windowTitle">
     <string>toolBar</string>
@@ -508,8 +652,11 @@
    <property name="text">
     <string>&amp;Close</string>
    </property>
+   <property name="toolTip">
+    <string>Close file</string>
+   </property>
    <property name="statusTip">
-    <string>Close the image</string>
+    <string>Close file</string>
    </property>
   </action>
   <action name="exitAction">
@@ -562,10 +709,10 @@
     <string>&amp;Sketch</string>
    </property>
    <property name="toolTip">
-    <string>sketch face</string>
+    <string>Sketch face</string>
    </property>
    <property name="statusTip">
-    <string>sketch face</string>
+    <string>Sketch face</string>
    </property>
   </action>
   <action name="showNodeIDAction">
@@ -590,6 +737,9 @@
    <property name="toolTip">
     <string>Render Video</string>
    </property>
+   <property name="statusTip">
+    <string>Render Video</string>
+   </property>
   </action>
   <action name="chooseTemplateAction">
    <property name="icon">
@@ -612,7 +762,10 @@
     <string>openVideo</string>
    </property>
    <property name="toolTip">
-    <string>Open Video File</string>
+    <string>Open a video File</string>
+   </property>
+   <property name="statusTip">
+    <string>Open a video File</string>
    </property>
   </action>
  </widget>
