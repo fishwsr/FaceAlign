@@ -41,6 +41,7 @@ private slots:
 	void on_playButton_clicked();
 	void on_pauseButton_clicked();
 	void on_stopButton_clicked();
+	void on_chooseTemplateAction_triggered();
 
 protected:
 	bool eventFilter(QObject* object, QEvent* event);

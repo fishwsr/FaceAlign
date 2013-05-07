@@ -464,3 +464,16 @@ void MainWindow::updateSketch()
 	}
 }
 
+void MainWindow::on_chooseTemplateAction_triggered()
+{
+	if(ui->stackedWidget->currentIndex() == 0)
+	{
+		ui->stackedWidget->setCurrentIndex(1);
+		ui->leftGraphicsView->setDisabled(true);
+	}
+	else
+	{
+		ui->stackedWidget->setCurrentIndex(0);
+		ui->leftGraphicsView->setEnabled(true);
+	}
+}

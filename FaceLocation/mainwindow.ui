@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>737</width>
-    <height>434</height>
+    <width>763</width>
+    <height>470</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -73,7 +73,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="picWidget">
        <property name="sizePolicy">
@@ -89,6 +89,9 @@
         </size>
        </property>
        <layout class="QVBoxLayout" name="piclLayout">
+        <property name="spacing">
+         <number>5</number>
+        </property>
         <item>
          <layout class="QHBoxLayout" name="picToplLayout">
           <item>
@@ -143,6 +146,9 @@
        <layout class="QVBoxLayout" name="videoLayout">
         <item>
          <layout class="QHBoxLayout" name="videoToplLayout" stretch="0,0">
+          <property name="spacing">
+           <number>5</number>
+          </property>
           <item>
            <widget class="Phonon::VideoPlayer" name="leftVideoPlayer">
             <property name="sizePolicy">
@@ -257,6 +263,13 @@
         </item>
        </layout>
       </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
      </widget>
     </item>
     <item>
@@ -425,8 +438,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>30</width>
-     <height>30</height>
+     <width>35</width>
+     <height>35</height>
     </size>
    </property>
    <attribute name="toolBarArea">
