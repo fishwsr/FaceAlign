@@ -807,5 +807,85 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>browListWidget</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>sketchAction</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>627</x>
+     <y>257</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>376</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>eyeListWidget</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>sketchAction</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>627</x>
+     <y>257</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>noseListWidget</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>sketchAction</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>627</x>
+     <y>257</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mouthListWidget</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>sketchAction</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>627</x>
+     <y>257</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>faceContourListWidget</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>sketchAction</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>627</x>
+     <y>257</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>
