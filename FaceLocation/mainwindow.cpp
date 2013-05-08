@@ -6,6 +6,9 @@
 #include "VideoRenderer.h"
 #include <Phonon/MediaSource>
 #include <Phonon/MediaObject>
+#include "ModalProgressDialog.h"
+#include <QThread>
+#include "RenderWorker.h"
 
 using namespace Gdiplus; 
 
@@ -332,15 +335,27 @@ void MainWindow::openImage( QString fileName )
 
 void MainWindow::on_renderAction_triggered()
 {
+	QThread* renderThread = new QThread(this);
+	CRenderWorker* worker = new CRenderWorker(videoRenderer, &curFile, bgThresholdValue, qtzThresholdValue);
+	ModalProgressDialog progressDiag(this);
+
+	connect(renderThread, SIGNAL(started()), worker, SLOT(renderVideo()));
+	connect(renderThread, SIGNAL(finished()), &progressDiag, SLOT(done()));
+	worker->moveToThread(renderThread);
+	renderThread->start();
+
+	progressDiag.open();
+	progressDiag.exec();
+	
 	ui->templateAreaWidget->setDisabled(true);
-	QString renderedVideoPath = "temp/"+ QFileInfo(curFile).baseName() + ".avi";
-	videoRenderer->render(renderedVideoPath.toStdString(), bgThresholdValue, qtzThresholdValue);
-	QMessageBox::information(this,"Face Location", "Video rendering completed");
+	
+	//QMessageBox::information(this,"Face Location", "Video rendering completed");
 	ui->stackedWidget->setCurrentIndex(1);
 	ui->sketchAction->setDisabled(true);
 	ui->templateAreaWidget->setDisabled(true);
-	ui->rightVideoPlayer->load(Phonon::MediaSource(renderedVideoPath));
+	//ui->rightVideoPlayer->load(Phonon::MediaSource(renderedVideoPath));
 }
+
 
 void MainWindow::initList( QListWidget* widgetList, QString filePath )
 {
