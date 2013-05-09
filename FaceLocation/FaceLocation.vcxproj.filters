@@ -54,6 +54,9 @@
     <Filter Include="Header Files\Worker">
       <UniqueIdentifier>{e0e68749-65e3-425c-901b-3af91df06481}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Worker">
+      <UniqueIdentifier>{752083a6-438b-43db-a140-8db49e3bccd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,13 +131,19 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_ModalProgressDialog.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="RenderWorker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_RenderWorker.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_RenderWorker.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderWorker.cpp">
+      <Filter>Source Files\Worker</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_VideoRenderer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_VideoRenderer.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,6 +164,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="RenderWorker.h">
+      <Filter>Header Files\Worker</Filter>
+    </CustomBuild>
+    <CustomBuild Include="VideoRenderer.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -190,9 +202,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ORBMatching.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VideoRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FaceDetect.h">

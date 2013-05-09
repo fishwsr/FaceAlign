@@ -4,9 +4,10 @@
 #include <QtGui>
 
 
-CVideoRenderer::CVideoRenderer(std::string videoFilePath, CFaceSketch* faceSketch)
+CVideoRenderer::CVideoRenderer(QString* videoFilePath, CFaceSketch* faceSketch)
 {
-	srcVideoCapture = new VideoCapture(videoFilePath);
+	std::string filePathAsString = (const char *)videoFilePath->toLocal8Bit();
+	srcVideoCapture = new VideoCapture(filePathAsString);
 	if (!srcVideoCapture->isOpened())
 	{
 		qDebug("Could not open reference %s\n", videoFilePath);
@@ -18,12 +19,14 @@ CVideoRenderer::CVideoRenderer(std::string videoFilePath, CFaceSketch* faceSketc
 	*srcVideoCapture >> frame;
 	firstFrame = frame.clone();
 	srcVideoCapture->release();
-	srcVideoCapture->open(videoFilePath);
+	srcVideoCapture->open(filePathAsString);
+	frameCount = srcVideoCapture->get(CV_CAP_PROP_FRAME_COUNT);
 	//imshow("test", firstFrame);
 	frameWidth = firstFrame.cols;
 	frameHeight = firstFrame.rows;
 	interval = 1;
 	this->faceSketch = faceSketch;
+	renderedVideoPath = "temp/"+ QFileInfo(*videoFilePath).baseName() + ".avi";
 }
 
 
@@ -39,13 +42,13 @@ cv::Mat CVideoRenderer::getFirstFrame()
 	return firstFrame;
 }
 
-void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue, int qtzThresholdValue )
+void CVideoRenderer::render(int bgThresholdValue, int qtzThresholdValue )
 {
 	VideoWriter outputVideo;
 	int ex = static_cast<int>(srcVideoCapture->get(CV_CAP_PROP_FOURCC));
 	Size S = Size((int) srcVideoCapture->get(CV_CAP_PROP_FRAME_WIDTH),    // Acquire input size
 		(int) srcVideoCapture->get(CV_CAP_PROP_FRAME_HEIGHT));
-	outputVideo.open(renderedVideoPath, ex, srcVideoCapture->get(CV_CAP_PROP_FPS), S, true);
+	outputVideo.open((const char *)renderedVideoPath.toLocal8Bit(), ex, srcVideoCapture->get(CV_CAP_PROP_FPS), S, true);
 
 	if (!outputVideo.isOpened())
 	{
@@ -55,7 +58,7 @@ void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue
 
 	Mat currentSrc, currentDst, lastSrc, lastDst;
 	int i = 0;
-
+	emit progressChanged(0.0f);
 	//namedWindow("test", CV_WINDOW_AUTOSIZE);
 	//cvMoveWindow("test", S.width, 0);
 	for(;;) //Show the image captured in the window and repeat
@@ -80,12 +83,16 @@ void CVideoRenderer::render( std::string renderedVideoPath, int bgThresholdValue
 		lastDst = currentDst;
 		lastSrc = currentSrc;
 		i++;
-
+		emit progressChanged((float)i/frameCount);
 		t = ((double)getTickCount() - t)/getTickFrequency();
 		qDebug("Frame %d rendered -- Times passed in seconds: %f\n", i, t);
 		//cvWaitKey();
 
 	}
+}
+
+QString CVideoRenderer::getRenderedVideoPath(){
+	return this->renderedVideoPath;
 }
 
 cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc, int bgThresholdValue, int qtzThresholdValue )

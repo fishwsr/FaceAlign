@@ -9,19 +9,25 @@
 
 using namespace cv;
 
-class CVideoRenderer
+class CVideoRenderer: public QObject
 {
+	Q_OBJECT
 public:
-	CVideoRenderer(std::string videoFilePath, CFaceSketch* faceSketch);
+	CVideoRenderer(QString* videoFilePath, CFaceSketch* faceSketch);
 	~CVideoRenderer(void);
 	Mat getFirstFrame();
-	void render(std::string renderedVideoPath, int bgThresholdValue, int qtzThresholdValue);
+	void render(int bgThresholdValue, int qtzThresholdValue);
+	QString getRenderedVideoPath();
+signals:
+	void progressChanged(float percent);
 private:
 	VideoCapture *srcVideoCapture;
+	QString renderedVideoPath;
 	int interval;
 	Mat firstFrame;
 	int frameWidth;
     int frameHeight;
+	int frameCount;
     ORBMatching orb;
 	CFaceSketch* faceSketch;
 	vector<cv::Point> currentFace;

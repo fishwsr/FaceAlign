@@ -10,3 +10,7 @@ ModalProgressDialog::ModalProgressDialog(QWidget *parent):QDialog(parent)
 ModalProgressDialog::~ModalProgressDialog(void)
 {
 }
+
+void ModalProgressDialog::setProgress(float percent){
+	ui.progressBar->setValue(100*percent);
+}

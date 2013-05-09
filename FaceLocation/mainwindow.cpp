@@ -336,24 +336,27 @@ void MainWindow::openImage( QString fileName )
 void MainWindow::on_renderAction_triggered()
 {
 	QThread* renderThread = new QThread(this);
-	CRenderWorker* worker = new CRenderWorker(videoRenderer, &curFile, bgThresholdValue, qtzThresholdValue);
+	CRenderWorker* worker = new CRenderWorker(videoRenderer, bgThresholdValue, qtzThresholdValue);
 	ModalProgressDialog progressDiag(this);
 
 	connect(renderThread, SIGNAL(started()), worker, SLOT(renderVideo()));
-	connect(renderThread, SIGNAL(finished()), &progressDiag, SLOT(done()));
+	connect(videoRenderer, SIGNAL(progressChanged(float)), &progressDiag, SLOT(setProgress(float)));
+	connect(renderThread, SIGNAL(finished()), &progressDiag, SLOT(accept()));
+	
 	worker->moveToThread(renderThread);
 	renderThread->start();
 
-	progressDiag.open();
-	progressDiag.exec();
+	bool isFinished = renderThread->isFinished();
+	int diagCode = progressDiag.exec();
 	
-	ui->templateAreaWidget->setDisabled(true);
-	
-	//QMessageBox::information(this,"Face Location", "Video rendering completed");
-	ui->stackedWidget->setCurrentIndex(1);
-	ui->sketchAction->setDisabled(true);
-	ui->templateAreaWidget->setDisabled(true);
-	//ui->rightVideoPlayer->load(Phonon::MediaSource(renderedVideoPath));
+	isFinished = renderThread->isFinished();
+	if(diagCode = QDialog::Accepted) {
+		ui->templateAreaWidget->setDisabled(true);
+		ui->stackedWidget->setCurrentIndex(1);
+		ui->sketchAction->setDisabled(true);
+		ui->templateAreaWidget->setDisabled(true);
+		ui->rightVideoPlayer->load(Phonon::MediaSource(videoRenderer->getRenderedVideoPath()));
+	}
 }
 
 
@@ -392,7 +395,7 @@ void MainWindow::on_openVideoAction_triggered()
 		freeOldResource();
 		setCurrentFile(videoFileName, "temp/firstFrame.jpg");
 		faceSketch = new CFaceSketch();
-		videoRenderer = new CVideoRenderer((const char *)videoFileName.toLocal8Bit(), faceSketch);
+		videoRenderer = new CVideoRenderer(&videoFileName, faceSketch);
 		Mat firstFrame = videoRenderer->getFirstFrame();
 		imwrite(curImg.toStdString(), firstFrame);
 		openImage(curImg);

@@ -8,6 +8,8 @@ class ModalProgressDialog :	public QDialog
 public:
 	ModalProgressDialog(QWidget *parent = 0);
 	~ModalProgressDialog(void);
+public slots:
+	void setProgress(float percent);
 private:
 	Ui::ModalProgressDialog ui;
 };
