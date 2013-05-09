@@ -61,12 +61,13 @@ void CVideoRenderer::render(int bgThresholdValue, int qtzThresholdValue )
 	emit progressChanged(0.0f);
 	//namedWindow("test", CV_WINDOW_AUTOSIZE);
 	//cvMoveWindow("test", S.width, 0);
+	isStop = false;
 	for(;;) //Show the image captured in the window and repeat
 	{
 		double t = (double)getTickCount();
 		(*srcVideoCapture) >> currentSrc;           // read
 
-		if (currentSrc.empty()) {
+		if (isStop || currentSrc.empty()) {
 			break;         // check if at end
 		}
 		
@@ -89,6 +90,10 @@ void CVideoRenderer::render(int bgThresholdValue, int qtzThresholdValue )
 		//cvWaitKey();
 
 	}
+}
+
+void CVideoRenderer::stopRender(){
+	isStop = true;
 }
 
 QString CVideoRenderer::getRenderedVideoPath(){

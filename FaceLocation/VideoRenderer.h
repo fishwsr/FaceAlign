@@ -18,6 +18,8 @@ public:
 	Mat getFirstFrame();
 	void render(int bgThresholdValue, int qtzThresholdValue);
 	QString getRenderedVideoPath();
+public slots:
+	void stopRender();
 signals:
 	void progressChanged(float percent);
 private:
@@ -28,6 +30,7 @@ private:
 	int frameWidth;
     int frameHeight;
 	int frameCount;
+	bool isStop;
     ORBMatching orb;
 	CFaceSketch* faceSketch;
 	vector<cv::Point> currentFace;

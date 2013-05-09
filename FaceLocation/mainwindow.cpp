@@ -342,6 +342,7 @@ void MainWindow::on_renderAction_triggered()
 	connect(renderThread, SIGNAL(started()), worker, SLOT(renderVideo()));
 	connect(videoRenderer, SIGNAL(progressChanged(float)), &progressDiag, SLOT(setProgress(float)));
 	connect(renderThread, SIGNAL(finished()), &progressDiag, SLOT(accept()));
+	connect(&progressDiag, SIGNAL(rejected()), videoRenderer, SLOT(stopRender()));
 	
 	worker->moveToThread(renderThread);
 	renderThread->start();
