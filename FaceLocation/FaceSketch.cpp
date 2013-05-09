@@ -154,13 +154,21 @@ void CFaceSketch::backgroudSketch( cv::Mat srcImg)
 	bool faceCurveOn = false;
 	vector<Point> faceOutLine = getLocatedFaceContour();
 
+	Mat tempImg0;
+	tempImg0 = srcImg.clone();
+	for (int i = 0; i < 2; i++)
+	{
+		swap(srcImg, tempImg0);
+		bilateralFilter(srcImg, tempImg0, 5, 150, 150);		
+	}
+
 	Mat tempImg1, tempImg2;
-	cv::Canny(srcImg, tempImg1, bgThresholdValue, bgThresholdValue*3, 3);
+	cv::Canny(tempImg0, tempImg1, bgThresholdValue, bgThresholdValue*3, 3);
 	cv::bitwise_not(tempImg1, tempImg2);
 	cv::cvtColor(tempImg2, bgCurve, CV_GRAY2BGR );
 
 	Mat  faceTempImg1, faceTempImg2, faceBgCurv;
-	cv::Canny(srcImg, faceTempImg1, fcThresholdValue, fcThresholdValue*3, 3);
+	cv::Canny(tempImg0, faceTempImg1, fcThresholdValue, fcThresholdValue*3, 3);
 	cv::bitwise_not(faceTempImg1, faceTempImg2);
 	cv::cvtColor(faceTempImg2, faceBgCurv, CV_GRAY2BGR );
 	if(!faceCurveOn)
