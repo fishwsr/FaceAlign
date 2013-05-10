@@ -89,6 +89,7 @@ bool CFaceSketch::isBackground(MatIterator_<Vec3b> point){
 
 void CFaceSketch::combineComponent()
 {
+	bool sketchProfile = false;
 	Mat face(height, width, CV_8UC3, Scalar(1,2,3));
 	addTopToBottom(wholeFace[LEFTBROW], face);
 	addTopToBottom(wholeFace[RIGHTBROW], face);
@@ -96,10 +97,13 @@ void CFaceSketch::combineComponent()
 	addTopToBottom(wholeFace[LEFTEYE], face);
 	addTopToBottom(wholeFace[RIGHTEYE], face);
 	addTopToBottom(wholeFace[NOSE], face);
-	addTopToBottom(face, wholeFace[PROFIILE]);
-
+	if(sketchProfile)
+	{
+		addTopToBottom(face, wholeFace[PROFIILE]);
+		face = wholeFace[PROFIILE].clone();
+	}
 	Mat facialSetch(height, width, CV_8UC3, Scalar::all(255));
-	addTopToBottom(wholeFace[PROFIILE], facialSetch);
+	addTopToBottom(face, facialSetch);
 	cv::imwrite("temp\\wholeFace.jpg",facialSetch);
 }
 
