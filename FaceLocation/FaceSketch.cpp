@@ -154,13 +154,9 @@ void CFaceSketch::backgroudSketch( cv::Mat srcImg)
 	bool faceCurveOn = false;
 	vector<Point> faceOutLine = getLocatedFaceContour();
 
+	backgroundSmooth(srcImg);
 	Mat tempImg0;
-	tempImg0 = srcImg.clone();
-	for (int i = 0; i < 2; i++)
-	{
-		swap(srcImg, tempImg0);
-		bilateralFilter(srcImg, tempImg0, 5, 150, 150);		
-	}
+	tempImg0 = bgColor.clone();
 
 	Mat tempImg1, tempImg2;
 	cv::Canny(tempImg0, tempImg1, bgThresholdValue, bgThresholdValue*3, 3);
@@ -285,12 +281,6 @@ void CFaceSketch::backgroudSketch2(cv::Mat srcImg)
 
 void CFaceSketch::backgroundColor( cv::Mat srcImg )
 {
-	bgColor = srcImg.clone();
-	for (int i = 0; i < 2; i++)
-	{
-		swap(srcImg, bgColor);
-		bilateralFilter(srcImg, bgColor, 5, 150, 150);		
-	}
 	Mat temp;
 	temp = bgColor.clone();
 	cvtColor(temp, bgColor, CV_RGB2Lab);
@@ -301,7 +291,7 @@ void CFaceSketch::backgroundColor( cv::Mat srcImg )
 
 void CFaceSketch::colorQuantization()
 {
-	double q = qtzThresholdValue, qFy = 4;
+	double dq = qtzThresholdValue, qFy = 4;
 	double qNearest;
 	double luminNow;
 	double quantization;
@@ -311,8 +301,8 @@ void CFaceSketch::colorQuantization()
 		for(int i = 0; i < bgColor.cols; i++)
 		{		
 			luminNow = (double)(*data)*100/255;
-			qNearest = floor(luminNow/q) * q;
-			quantization = qNearest + (double)(q/2)*tanh(qFy*(luminNow-qNearest));
+			qNearest = floor(luminNow/dq) * dq;
+			quantization = qNearest + (double)(dq/2)*tanh(qFy*(luminNow-qNearest));
 
 			if(quantization > 100)
 			{
@@ -325,5 +315,15 @@ void CFaceSketch::colorQuantization()
 			}
 			data = data + 3;
 		}
+	}
+}
+
+void CFaceSketch::backgroundSmooth( cv::Mat &srcImg ) 
+{
+	bgColor = srcImg.clone();
+	for (int i = 0; i < 2; i++)
+	{
+		swap(srcImg, bgColor);
+		bilateralFilter(srcImg, bgColor, 5, 150, 150);		
 	}
 }

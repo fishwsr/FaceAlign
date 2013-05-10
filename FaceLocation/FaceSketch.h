@@ -44,6 +44,7 @@ private:
 	cv::Mat getFaceMask();
 	void backgroudSketch2(cv::Mat srcImg);
 	void backgroundColor(cv::Mat srcImg);
+	void backgroundSmooth( cv::Mat &srcImg );
 	void colorQuantization();
 };
 
