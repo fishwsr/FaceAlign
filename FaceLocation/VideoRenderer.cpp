@@ -45,6 +45,7 @@ cv::Mat CVideoRenderer::getFirstFrame()
 void CVideoRenderer::render(int bgThresholdValue, int qtzThresholdValue )
 {
 	VideoWriter outputVideo;
+	CFaceAlign faceAlign;
 	int ex = static_cast<int>(srcVideoCapture->get(CV_CAP_PROP_FOURCC));
 	Size S = Size((int) srcVideoCapture->get(CV_CAP_PROP_FRAME_WIDTH),    // Acquire input size
 		(int) srcVideoCapture->get(CV_CAP_PROP_FRAME_HEIGHT));
@@ -72,7 +73,7 @@ void CVideoRenderer::render(int bgThresholdValue, int qtzThresholdValue )
 		}
 		
 		if(isKeyFrame(i)) {
-			currentDst = renderKeyFrame(currentSrc, bgThresholdValue, qtzThresholdValue);
+			currentDst = renderKeyFrame(faceAlign, currentSrc, bgThresholdValue, qtzThresholdValue);
 		} else {
 			currentDst = propagateFromLastFrame(currentSrc, lastSrc, lastDst);
 		}
@@ -100,10 +101,9 @@ QString CVideoRenderer::getRenderedVideoPath(){
 	return this->renderedVideoPath;
 }
 
-cv::Mat CVideoRenderer::renderKeyFrame( Mat currentSrc, int bgThresholdValue, int qtzThresholdValue )
+cv::Mat CVideoRenderer::renderKeyFrame( CFaceAlign faceAlign, Mat currentSrc, int bgThresholdValue, int qtzThresholdValue )
 {
 	cv::imwrite("temp/currentSrcVideoFrame.jpg", currentSrc);
-	CFaceAlign faceAlign;
 	float* ptsPos;
 	ptsPos = faceAlign.procPic("temp/currentSrcVideoFrame.jpg");
 	int pointnum = faceAlign.PointNum();

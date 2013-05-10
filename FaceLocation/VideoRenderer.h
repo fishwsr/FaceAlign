@@ -35,7 +35,7 @@ private:
 	CFaceSketch* faceSketch;
 	vector<cv::Point> currentFace;
 	bool isKeyFrame(int index);
-	Mat renderKeyFrame( Mat currentSrc, int bgThresholdValue= 60, int qtzThresholdValue = 15 );
+	Mat renderKeyFrame( CFaceAlign faceAlign, Mat currentSrc, int bgThresholdValue= 60, int qtzThresholdValue = 15 );
 	Mat propagateFromLastFrame( Mat currentSrc, Mat lastSrc, Mat lastDst );
 };
 
