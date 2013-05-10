@@ -45,7 +45,7 @@ cv::Mat CVideoRenderer::getFirstFrame()
 void CVideoRenderer::render(int bgThresholdValue, int qtzThresholdValue )
 {
 	VideoWriter outputVideo;
-	CFaceAlign faceAlign;
+	CFaceAlign* faceAlign = new CFaceAlign();
 	int ex = static_cast<int>(srcVideoCapture->get(CV_CAP_PROP_FOURCC));
 	Size S = Size((int) srcVideoCapture->get(CV_CAP_PROP_FRAME_WIDTH),    // Acquire input size
 		(int) srcVideoCapture->get(CV_CAP_PROP_FRAME_HEIGHT));
@@ -91,6 +91,7 @@ void CVideoRenderer::render(int bgThresholdValue, int qtzThresholdValue )
 		//cvWaitKey();
 
 	}
+	delete faceAlign;
 }
 
 void CVideoRenderer::stopRender(){
@@ -101,12 +102,12 @@ QString CVideoRenderer::getRenderedVideoPath(){
 	return this->renderedVideoPath;
 }
 
-cv::Mat CVideoRenderer::renderKeyFrame( CFaceAlign faceAlign, Mat currentSrc, int bgThresholdValue, int qtzThresholdValue )
+cv::Mat CVideoRenderer::renderKeyFrame( CFaceAlign* faceAlign, Mat currentSrc, int bgThresholdValue, int qtzThresholdValue )
 {
 	cv::imwrite("temp/currentSrcVideoFrame.jpg", currentSrc);
 	float* ptsPos;
-	ptsPos = faceAlign.procPic("temp/currentSrcVideoFrame.jpg");
-	int pointnum = faceAlign.PointNum();
+	int pointnum = faceAlign->PointNum();
+	ptsPos = faceAlign->procPic("temp/currentSrcVideoFrame.jpg");
 
 	QGraphicsPixmapItem imgItem;
 	QFaceModel facemodel(ptsPos,pointnum,&imgItem);

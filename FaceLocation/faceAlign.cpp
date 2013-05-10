@@ -9,7 +9,7 @@ CFaceAlign::CFaceAlign()
 {
 	double t = (double)getTickCount();
 	const WCHAR configpath[]=L"casm.bin";
-	g_pAlign = NULL;
+	g_pAlign = new CFaceAlignDll();
 	InitAlign(configpath); //input file path of casm.bin
 	t = ((double)getTickCount() - t)/getTickFrequency();
 	qDebug("Align Init Model -- Times passed in seconds: %f\n", t);
@@ -32,7 +32,7 @@ void CFaceAlign::DestroyAlign()
  HRESULT CFaceAlign::InitAlign(const WCHAR* wzModelFile)
 {
 
-	g_pAlign = new CFaceAlignDll();
+	//g_pAlign = new CFaceAlignDll();
 
 
 	if( !g_pAlign )
