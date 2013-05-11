@@ -30,7 +30,7 @@ private:
 	QFaceModel* facemodel;
 	cv::Mat bgCurve;
 	cv::Mat bgColor;
-	std::vector<cv::Mat> wholeFace;
+	QMap<int, cv::Mat> wrappedFaceCompMap;
 	std::vector<cv::Point> pointsToWrap;
 	int browIndex, eyeIndex, noseIndex, mouthIndex, faceIndex;
 	enum faceElement{LEFTEYE, RIGHTEYE, LEFTBROW, RIGHTBROW, NOSE, MOUTH, PROFIILE};

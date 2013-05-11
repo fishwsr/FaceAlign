@@ -13,6 +13,8 @@
 #include "NoseComponent.h"
 #include "MouthComponent.h"
 #include "FaceContourComponent.h"
+#include <omp.h>
+#include <QMap>
 
 CFaceSketch::CFaceSketch()
 {
@@ -43,7 +45,7 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThr
 	facemodel = ASMModel;
 	width = srcImg.cols;
 	height = srcImg.rows;
-	wholeFace.clear();
+	wrappedFaceCompMap.clear();
 
 	std::vector<CFaceComponent*> faceComps;
 	CLeftEyeComponent leftEyeComp(eyeIndex, facemodel);
@@ -62,9 +64,12 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThr
 	faceComps.push_back(&faceContourComp);
 
 	pointsToWrap.clear();
+	#pragma omp parallel for
 	for(int i = 0; i < faceComps.size(); i++) {
 		Mat compMat = faceComps[i]->wrapTemplate(width, height);
-		wholeFace.push_back(compMat);
+
+		wrappedFaceCompMap.insert(i, compMat);
+
 		std::vector<cv::Point> pts = faceComps[i]->getLocatedPointsToWrap();
 		for(int j = 0; j < pts.size(); j++) {
 			pointsToWrap.push_back(pts[j]);
@@ -91,16 +96,16 @@ void CFaceSketch::combineComponent()
 {
 	bool sketchProfile = false;
 	Mat face(height, width, CV_8UC3, Scalar(1,2,3));
-	addTopToBottom(wholeFace[LEFTBROW], face);
-	addTopToBottom(wholeFace[RIGHTBROW], face);
-	addTopToBottom(wholeFace[MOUTH], face);
-	addTopToBottom(wholeFace[LEFTEYE], face);
-	addTopToBottom(wholeFace[RIGHTEYE], face);
-	addTopToBottom(wholeFace[NOSE], face);
+	addTopToBottom(wrappedFaceCompMap[LEFTBROW], face);
+	addTopToBottom(wrappedFaceCompMap[RIGHTBROW], face);
+	addTopToBottom(wrappedFaceCompMap[MOUTH], face);
+	addTopToBottom(wrappedFaceCompMap[LEFTEYE], face);
+	addTopToBottom(wrappedFaceCompMap[RIGHTEYE], face);
+	addTopToBottom(wrappedFaceCompMap[NOSE], face);
 	if(sketchProfile)
 	{
-		addTopToBottom(face, wholeFace[PROFIILE]);
-		face = wholeFace[PROFIILE].clone();
+		addTopToBottom(face, wrappedFaceCompMap[PROFIILE]);
+		face = wrappedFaceCompMap[PROFIILE].clone();
 	}
 	Mat facialSetch(height, width, CV_8UC3, Scalar::all(255));
 	addTopToBottom(face, facialSetch);
