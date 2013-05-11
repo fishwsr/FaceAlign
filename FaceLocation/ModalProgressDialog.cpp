@@ -4,6 +4,7 @@
 ModalProgressDialog::ModalProgressDialog(QWidget *parent):QDialog(parent)
 {
 	ui.setupUi(this);
+	ui.progressBar->setValue(0);
 }
 
 

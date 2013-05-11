@@ -104,7 +104,6 @@ void MainWindow::on_openAction_triggered()
 		faceSketch = new CFaceSketch();
 		openImage(fileName);
 		setCurrentFile(fileName);
-		ui->stackedWidget->setCurrentIndex(0);
     }
 }
 
@@ -314,6 +313,7 @@ void MainWindow::openImage( QString fileName )
 {
 		if(image->load(fileName))
 		{
+			ui->stackedWidget->setCurrentIndex(0);
 			this->leftGraphicsScene->clear();	
 			imgItem = new QGraphicsPixmapItem();
 			/*int width = ui->leftGraphicsView->width();
@@ -354,7 +354,7 @@ void MainWindow::on_renderAction_triggered()
 	if(diagCode = QDialog::Accepted) {
 		double totalTime = videoRenderer->getRenderTimeInSeconds();
 		int totalFrame = videoRenderer->getFrameCount();
-		QString dialogText = QString("Render completed. \nTotal Time Cost: %1 Seconds. \nTotal Frames: %2. \nAverage Time Cost: %3 seconds/frame").arg(totalTime).arg(totalFrame).arg(totalTime/totalFrame);
+		QString dialogText = QString("Render completed. \nTotal Time Cost: %1 Seconds \nTotal Frames: %2 \nAverage Time Cost: %3 seconds/frame").arg(totalTime).arg(totalFrame).arg(totalTime/totalFrame);
 		QMessageBox::information(this,"Render Completed", dialogText);
 		ui->templateAreaWidget->setDisabled(true);
 		ui->stackedWidget->setCurrentIndex(1);
