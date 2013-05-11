@@ -107,8 +107,14 @@ void CFaceSketch::combineComponent()
 		addTopToBottom(face, wrappedFaceCompMap[PROFIILE]);
 		face = wrappedFaceCompMap[PROFIILE].clone();
 	}
+
 	Mat facialSetch(height, width, CV_8UC3, Scalar::all(255));
 	addTopToBottom(face, facialSetch);
+
+	/*int size = 1;
+	Mat element = getStructuringElement( MORPH_RECT,	Size( 2*size+1, 2*size+1 ),Point( size, size ) );
+	erode(facialSetch, facialSetch, element);*/
+
 	cv::imwrite("temp\\wholeFace.jpg",facialSetch);
 }
 
