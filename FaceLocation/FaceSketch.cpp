@@ -21,6 +21,7 @@ CFaceSketch::CFaceSketch()
 	bgThresholdValue = 60;
 	fcThresholdValue = 80;
 	qtzThresholdValue = 15;
+	hasColor = true;
 	eyeIndex = 1;
 	browIndex = 7;
 	noseIndex = 1;
@@ -94,7 +95,6 @@ bool CFaceSketch::isBackground(MatIterator_<Vec3b> point){
 
 void CFaceSketch::combineComponent()
 {
-	bool sketchProfile = false;
 	Mat face(height, width, CV_8UC3, Scalar(1,2,3));
 	addTopToBottom(wrappedFaceCompMap[LEFTBROW], face);
 	addTopToBottom(wrappedFaceCompMap[RIGHTBROW], face);
@@ -102,7 +102,7 @@ void CFaceSketch::combineComponent()
 	addTopToBottom(wrappedFaceCompMap[LEFTEYE], face);
 	addTopToBottom(wrappedFaceCompMap[RIGHTEYE], face);
 	addTopToBottom(wrappedFaceCompMap[NOSE], face);
-	if(sketchProfile)
+	if(!hasColor)
 	{
 		addTopToBottom(face, wrappedFaceCompMap[PROFIILE]);
 		face = wrappedFaceCompMap[PROFIILE].clone();
@@ -145,15 +145,16 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 
 }
 
-void CFaceSketch::updateBackground(cv::Mat srcImg, int bgThresholdValue, int qtzThresholdValue )
+void CFaceSketch::updateBackground(cv::Mat srcImg, int bgThresholdValue, int qtzThresholdValue, bool hasColor)
 {
 	this->bgThresholdValue = bgThresholdValue;
 	this->qtzThresholdValue = qtzThresholdValue;
+	this->hasColor = hasColor;
 	width = srcImg.cols;
 	height = srcImg.rows;
 	backgroudSketch(srcImg);
 	backgroundColor(srcImg);
-	combineSketch(false);
+	combineSketch();
 	imwrite("temp\\wholeSketch.jpg",bgColor);
 }
 
@@ -290,6 +291,10 @@ void CFaceSketch::backgroudSketch2(cv::Mat srcImg)
 
 void CFaceSketch::backgroundColor( cv::Mat srcImg )
 {
+	if(!hasColor){
+		bgColor.setTo(255);
+		return;
+	}
 	Mat temp;
 	temp = bgColor.clone();
 	cvtColor(temp, bgColor, CV_RGB2Lab);

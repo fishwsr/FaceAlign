@@ -10,7 +10,7 @@ public:
 	~CFaceSketch(void);
 	cv::Mat sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThresholdValue = 60, int faceThresholdValue = 15);
 	std::vector<cv::Point> const getPointsToWrap(){return pointsToWrap;}
-	void updateBackground(cv::Mat srcImg, int bgThresholdValue, int faceThresholdValue);
+	void updateBackground(cv::Mat srcImg, int bgThresholdValue, int faceThresholdValue, bool hasColor);
 	int getMouthIndex() const { return mouthIndex; }
 	void setMouthIndex(int val) { mouthIndex = val; }
 	int getNoseIndex() const { return noseIndex; }
@@ -27,6 +27,7 @@ private:
 	int bgThresholdValue;
 	int fcThresholdValue;
 	int qtzThresholdValue;
+	bool hasColor;
 	QFaceModel* facemodel;
 	cv::Mat bgCurve;
 	cv::Mat bgColor;

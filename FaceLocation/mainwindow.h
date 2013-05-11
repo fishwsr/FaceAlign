@@ -6,6 +6,7 @@
 #include "FaceSketch.h"
 #include "VideoRenderer.h"
 #include <Phonon/MediaSource>
+#include <QCheckBox>
 
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
@@ -42,6 +43,7 @@ private slots:
 	void on_pauseButton_clicked();
 	void on_stopButton_clicked();
 	void on_chooseTemplateAction_triggered();
+	void on_colorCheckBox_stateChanged(int value);
 
 protected:
 	bool eventFilter(QObject* object, QEvent* event);
@@ -69,6 +71,7 @@ private:
 	CFaceSketch* faceSketch;
 	CVideoRenderer* videoRenderer;
 	Phonon::MediaSource mediaSource;
+	QCheckBox* colorCheckBox;
 	void updateSketch();
 };
 #endif // MAINWINDOW_H

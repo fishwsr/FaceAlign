@@ -24,6 +24,11 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	ui->statusBar->showMessage("Welcome");
 	ui->leftGraphicsView->viewport()->installEventFilter(this);
 	ui->rightGraphicsView->viewport()->installEventFilter(this);
+
+	colorCheckBox = new QCheckBox("Color");
+	colorCheckBox->setChecked(true);
+	colorCheckBox->setFont(QFont("Century Gothic"));
+
 	QLabel *bgThresholdLabel = new QLabel("Curve ");
 	bgThresholdLabel->setFont(QFont("Century Gothic"));
 	QLabel *fcThresholdLabel = new QLabel("Quantization ");
@@ -48,12 +53,16 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	ui->rightToolBar->addWidget(bgThresholdSpinbox);
 	ui->rightToolBar->addWidget(bgThresholdSlider);
 	ui->rightToolBar->addWidget(bgThresholdLabel);
+	ui->rightToolBar->addSeparator();
+	ui->rightToolBar->addWidget(colorCheckBox);
 	QObject::connect(bgThresholdSpinbox,SIGNAL(valueChanged(int)),bgThresholdSlider,SLOT(setValue(int)));
 	QObject::connect(qtzThresholdSpinbox,SIGNAL(valueChanged(int)),qtzThresholdSlider,SLOT(setValue(int)));
 	QObject::connect(bgThresholdSlider,SIGNAL(valueChanged(int)),bgThresholdSpinbox,SLOT(setValue(int)));
 	QObject::connect(qtzThresholdSlider,SIGNAL(valueChanged(int)),qtzThresholdSpinbox,SLOT(setValue(int)));
 	QObject::connect(bgThresholdSlider,SIGNAL(valueChanged(int)),this,SLOT(on_bgThresholdSlider_valueChanged(int)));
 	QObject::connect(qtzThresholdSlider,SIGNAL(valueChanged(int)),this,SLOT(on_qtzThresholdSlider_valueChanged(int)));
+	QObject::connect(colorCheckBox,SIGNAL(stateChanged(int)),this,SLOT(on_colorCheckBox_stateChanged (int)));
+
     bgThresholdValue = 60;
 	fcThresholdValue = 80;
 	qtzThresholdValue = 15;
@@ -463,6 +472,11 @@ void MainWindow::on_qtzThresholdSlider_valueChanged( int value )
 	qtzThresholdValue = value;
 	updateSketch();
 }
+void MainWindow::on_colorCheckBox_stateChanged( int value )
+{
+	updateSketch();
+}
+
 
 void MainWindow::updateSketch()
 {
@@ -475,7 +489,8 @@ void MainWindow::updateSketch()
 		qDebug("image file not Found");
 		return;
 	}
-	faceSketch->updateBackground(srcImg, bgThresholdValue, qtzThresholdValue);
+	
+	faceSketch->updateBackground(srcImg, bgThresholdValue, qtzThresholdValue, colorCheckBox->isChecked());
 
 	QImage* rightImage = new QImage();
 	if(rightImage->load("temp/wholeSketch.jpg"))
