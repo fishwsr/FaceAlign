@@ -64,6 +64,9 @@ std::vector<cv::Point> CFaceComponent::getTemplatePointsFromFile(std::ifstream* 
 	*fin >> ptsNumInFile;
 
 	std::vector<cv::Point> templatePoints;
+	if(actualComponentPtsNum < ptsNumInFile){
+		actualComponentPtsNum = ptsNumInFile;
+	}
 	templatePoints.resize(actualComponentPtsNum);
 
 	for (int i = 0; i < ptsNumInFile; i++) {
