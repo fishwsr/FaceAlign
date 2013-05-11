@@ -18,11 +18,14 @@ public:
 	Mat getFirstFrame();
 	void render(int bgThresholdValue, int qtzThresholdValue);
 	QString getRenderedVideoPath();
+	long getRenderTimeInSeconds() const { return renderTimeInSeconds; }
+	int getFrameCount() const { return frameCount; }
 public slots:
 	void stopRender();
 signals:
 	void progressChanged(float percent);
 private:
+	double renderTimeInSeconds;
 	VideoCapture *srcVideoCapture;
 	QString renderedVideoPath;
 	int interval;

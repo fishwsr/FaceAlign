@@ -44,6 +44,7 @@ cv::Mat CVideoRenderer::getFirstFrame()
 
 void CVideoRenderer::render(int bgThresholdValue, int qtzThresholdValue )
 {
+	double beginTickCount = (double)getTickCount();
 	VideoWriter outputVideo;
 	CFaceAlign* faceAlign = new CFaceAlign();
 	int ex = static_cast<int>(srcVideoCapture->get(CV_CAP_PROP_FOURCC));
@@ -92,6 +93,7 @@ void CVideoRenderer::render(int bgThresholdValue, int qtzThresholdValue )
 
 	}
 	delete faceAlign;
+	renderTimeInSeconds = ((double)getTickCount() - beginTickCount)/getTickFrequency();
 }
 
 void CVideoRenderer::stopRender(){
