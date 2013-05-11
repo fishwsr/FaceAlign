@@ -86,7 +86,7 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThr
 }
 
 bool CFaceSketch::isWhite(MatIterator_<Vec3b> point){
-	return ((*point)[0] > 150) && ((*point)[1] > 150) && ((*point)[2] > 150);
+	return ((*point)[0] > 240) && ((*point)[1] > 240) && ((*point)[2] > 240);
 }
 
 bool CFaceSketch::isBackground(MatIterator_<Vec3b> point){
@@ -118,7 +118,10 @@ void CFaceSketch::combineSketch(bool combineFace)
 	{
 		combineComponent();
 	}
-	Mat facialSketch = imread("temp\\wholeFace.jpg");
+	Mat wholdFace = imread("temp\\wholeFace.jpg"), facialSketch;
+	//threshold(wholdFace, facialSketch, 100, NULL, CV_THRESH_TRUNC);
+	facialSketch = wholdFace.clone();
+	fixTemplate(facialSketch);
 	addTopToBottom(facialSketch, bgCurve);
 	addTopToBottom(bgCurve, bgColor);
 }
@@ -340,4 +343,34 @@ void CFaceSketch::backgroundSmooth( cv::Mat &srcImg )
 		swap(srcImg, bgColor);
 		bilateralFilter(srcImg, bgColor, 5, 150, 150);		
 	}
+}
+
+void CFaceSketch::fixTemplate( cv::Mat &templateImg)
+{
+     Mat temp;
+	 MatIterator_<Vec3b> it, end;
+	 it = templateImg.begin<Vec3b>();
+	 end = templateImg.end<Vec3b>();
+
+	 for( ;it != end; ++it)
+	 {
+		 if((*it)[0] > 180)
+		{
+			 (*it)[0] = 255;
+			 (*it)[1] = 255;
+			 (*it)[2] = 255;
+		 } 
+		 if((*it)[0] > 100 && (*it)[0]<180)
+		 {
+			 (*it)[0] = 50;
+			 (*it)[1] = 50;
+			 (*it)[2] = 50;
+		 } 
+		 //if((*it)[0] <= 50)
+		 //{
+			// (*it)[0] = 0;
+			// (*it)[1] = 0;
+			// (*it)[2] = 0;
+		 //}
+	 }
 }

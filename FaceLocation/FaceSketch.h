@@ -47,5 +47,6 @@ private:
 	void backgroundColor(cv::Mat srcImg);
 	void backgroundSmooth( cv::Mat &srcImg );
 	void colorQuantization();
+	void fixTemplate( cv::Mat &srcImg);
 };
 

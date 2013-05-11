@@ -78,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	//openImage("./penny.jpg");
 
 	initList(ui->browListWidget, QString("data/sketchMode/leftEyeBrow/leftEyebrow"));
-	initList(ui->eyeListWidget, QString("data/colorMode/leftEye/leftEye"));
+	initList(ui->eyeListWidget, QString("data/sketchMode/leftEye/leftEye"));
 	initList(ui->noseListWidget, QString("data/sketchMode/nose/nose"));
 	initList(ui->mouthListWidget, QString("data/sketchMode/mouth/mouth"));
 	initList(ui->faceContourListWidget, QString("data/sketchMode/faceContour/faceContour"));
@@ -182,7 +182,7 @@ void MainWindow::on_sketchAction_triggered()
 	//std::vector<QGraphicsTextItem *> cmpnControlPts;
 	//int cmpnPtsNum;
 	//std::ifstream fin;
-	//fin.open("colorMode\\mouth\\mouth1.pts");
+	//fin.open("sketchMode\\mouth\\mouth1.pts");
 	//if(!fin)
 	//{
 	//	return;
