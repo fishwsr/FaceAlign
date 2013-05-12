@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>753</width>
+    <width>790</width>
     <height>492</height>
    </rect>
   </property>
@@ -818,8 +818,8 @@
      <y>257</y>
     </hint>
     <hint type="destinationlabel">
-     <x>376</x>
-     <y>245</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
    </hints>
   </connection>
