@@ -39,7 +39,9 @@ testpic/res*
 
 FaceLocation/data/colorMode0
 FaceLocation/data/colorMode*/
+FaceLocation/data/sketchMode*/
 FaceLocation/temp*
 testpic*/
+testvideo*/
 
 *.orig
