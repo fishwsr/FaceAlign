@@ -18,3 +18,8 @@ QVector<Node*> CMouthComponent::getLocatedNodes()
 {
 	return faceModel->getMouthNodes();
 }
+
+std::vector<cv::Point> CMouthComponent::filterPoints( std::vector<cv::Point> points )
+{
+	return points;
+}
