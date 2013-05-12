@@ -38,6 +38,8 @@ FaceLocation/mainwindow.h.orig
 testpic/res*
 
 FaceLocation/data/colorMode0
-FaceLocation/data/colorMode/faceContour2*
+FaceLocation/data/colorMode*/
 FaceLocation/temp*
 testpic*/
+
+*.orig

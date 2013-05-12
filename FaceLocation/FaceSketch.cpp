@@ -372,11 +372,5 @@ void CFaceSketch::fixTemplate( cv::Mat &templateImg)
 			 (*it)[1] = 50;
 			 (*it)[2] = 50;
 		 } 
-		 //if((*it)[0] <= 50)
-		 //{
-			// (*it)[0] = 0;
-			// (*it)[1] = 0;
-			// (*it)[2] = 0;
-		 //}
 	 }
 }
