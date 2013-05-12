@@ -34,6 +34,8 @@ void ORBMatching::findMatchigPoint( cv::Mat currentFrame, cv::Mat previousFrame,
 	faceDetect.detectAndDisplay(currentFrame, &rcBox); 
 	int rcNum = (rcBox.right-rcBox.left) * (rcBox.bottom-rcBox.top);
 	keyPoints_2_Orb.resize(rcNum);
+
+	double t1 = (double)getTickCount();
 	for(int i=rcBox.left, k=0; i<rcBox.right; i++)
 	{
 		for (int j=rcBox.top; j<rcBox.bottom; j++,k++)
@@ -42,13 +44,19 @@ void ORBMatching::findMatchigPoint( cv::Mat currentFrame, cv::Mat previousFrame,
 			keyPoints_2_Orb[k].pt.y = j;
 		}
 	}
+	t1 = ((double)getTickCount() - t1)/getTickFrequency();
+	qDebug("Key Points 2 -- Times passed in seconds: %f\n", t1);
 
+	t1 = (double)getTickCount();
 	orb(previousFrame, Mat(), keyPoints_1_Orb, descriptors_1_Orb, true);
 	orb(currentFrame, Mat(), keyPoints_2_Orb, descriptors_2_Orb, true);
+	
 
 	BruteForceMatcher<Hamming> matcher_Orb;
 	vector<DMatch> matches_Orb;
 	matcher_Orb.match(descriptors_1_Orb, descriptors_2_Orb, matches_Orb);
+	t1 = ((double)getTickCount() - t1)/getTickFrequency();
+	qDebug("Actual ORB Matching -- Times passed in seconds: %f\n", t1);
 
 	for(int i=0; i<matches_Orb.size(); i++)
 	{

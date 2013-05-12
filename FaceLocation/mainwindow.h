@@ -43,7 +43,6 @@ private slots:
 	void on_pauseButton_clicked();
 	void on_stopButton_clicked();
 	void on_chooseTemplateAction_triggered();
-	void on_colorCheckBox_stateChanged(int value);
 
 protected:
 	bool eventFilter(QObject* object, QEvent* event);

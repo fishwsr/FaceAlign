@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	QObject::connect(qtzThresholdSlider,SIGNAL(valueChanged(int)),qtzThresholdSpinbox,SLOT(setValue(int)));
 	QObject::connect(bgThresholdSlider,SIGNAL(valueChanged(int)),this,SLOT(on_bgThresholdSlider_valueChanged(int)));
 	QObject::connect(qtzThresholdSlider,SIGNAL(valueChanged(int)),this,SLOT(on_qtzThresholdSlider_valueChanged(int)));
-	QObject::connect(colorCheckBox,SIGNAL(stateChanged(int)),this,SLOT(on_colorCheckBox_stateChanged (int)));
+	QObject::connect(colorCheckBox,SIGNAL(stateChanged(int)),ui->sketchAction, SLOT(trigger()));
 
     bgThresholdValue = 60;
 	fcThresholdValue = 80;
@@ -145,6 +145,7 @@ void MainWindow::on_sketchAction_triggered()
 	if(!canTriggerSketch){
 		return;
 	}
+	faceSketch->setHasColor(this->colorCheckBox->isChecked());
 	faceSketch->setBrowIndex(ui->browListWidget->currentRow() + 1);
 	faceSketch->setEyeIndex(ui->eyeListWidget->currentRow()+1);
 	faceSketch->setNoseIndex(ui->noseListWidget->currentRow()+1);
@@ -472,10 +473,6 @@ void MainWindow::on_qtzThresholdSlider_valueChanged( int value )
 	qtzThresholdValue = value;
 	updateSketch();
 }
-void MainWindow::on_colorCheckBox_stateChanged( int value )
-{
-	updateSketch();
-}
 
 
 void MainWindow::updateSketch()
@@ -490,7 +487,7 @@ void MainWindow::updateSketch()
 		return;
 	}
 	
-	faceSketch->updateBackground(srcImg, bgThresholdValue, qtzThresholdValue, colorCheckBox->isChecked());
+	faceSketch->updateBackground(srcImg, bgThresholdValue, qtzThresholdValue);
 
 	QImage* rightImage = new QImage();
 	if(rightImage->load("temp/wholeSketch.jpg"))

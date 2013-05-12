@@ -61,13 +61,18 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThr
 	faceComps.push_back(&noseComp);
 	CMouthComponent mouthComp(mouthIndex, facemodel);
 	faceComps.push_back(&mouthComp);
+
 	CFaceContourComponent faceContourComp(faceIndex, facemodel);
-	faceComps.push_back(&faceContourComp);
+	//no need to wrap face contour when there is no color
+	if(!hasColor) {
+		faceComps.push_back(&faceContourComp);
+	}
 
 	pointsToWrap.clear();
 	wrappedFaceCompMap.clear();
 	int faceCompNumber = faceComps.size();
 
+	double t1 = (double)getTickCount();
 	#pragma omp parallel for
 	for(int i = 0; i < faceCompNumber; ++i) {
 		faceComps[i]->wrapTemplate(width, height);
@@ -80,10 +85,25 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThr
 			pointsToWrap.push_back(pts[j]);
 		}
 	}
+	t1 = ((double)getTickCount() - t1)/getTickFrequency();
+	qDebug("Wrap -- Times passed in seconds: %f\n", t1);
 	
+	t1 = (double)getTickCount();
 	backgroudSketch(srcImg);
+	t1 = ((double)getTickCount() - t1)/getTickFrequency();
+	qDebug("BG Sketch -- Times passed in seconds: %f\n", t1);
+
+	t1 = (double)getTickCount();
 	backgroundColor(srcImg);
+	t1 = ((double)getTickCount() - t1)/getTickFrequency();
+	qDebug("BG Color -- Times passed in seconds: %f\n", t1);
+
+	t1 = (double)getTickCount();
 	combineSketch();
+	t1 = ((double)getTickCount() - t1)/getTickFrequency();
+	qDebug("Combine -- Times passed in seconds: %f\n", t1);
+
+
 	t = ((double)getTickCount() - t)/getTickFrequency();
 	qDebug("Sketch -- Times passed in seconds: %f\n", t);
 	return bgColor;
@@ -108,6 +128,7 @@ void CFaceSketch::combineComponent()
 	addTopToBottom(wrappedFaceCompMap[NOSE], face);
 	if(!hasColor)
 	{
+		//wrappedFaceCompMap[PROFIILE]->w
 		addTopToBottom(face, wrappedFaceCompMap[PROFIILE]);
 		face = wrappedFaceCompMap[PROFIILE].clone();
 	}
@@ -158,11 +179,10 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 
 }
 
-void CFaceSketch::updateBackground(cv::Mat srcImg, int bgThresholdValue, int qtzThresholdValue, bool hasColor)
+void CFaceSketch::updateBackground(cv::Mat srcImg, int bgThresholdValue, int qtzThresholdValue)
 {
 	this->bgThresholdValue = bgThresholdValue;
 	this->qtzThresholdValue = qtzThresholdValue;
-	this->hasColor = hasColor;
 	width = srcImg.cols;
 	height = srcImg.rows;
 	backgroudSketch(srcImg);
@@ -200,6 +220,7 @@ void CFaceSketch::backgroudSketch( cv::Mat srcImg)
 	itOfFace = faceBgCurv.begin<Vec3b>();
 	endOfFace = faceBgCurv.end<Vec3b>();
 
+	double t1 = (double)getTickCount();
 	for( ;(itOfBg != endOfBg) && (itOfFace != endOfFace); ++itOfFace, ++itOfBg)
 	{
 		double isFacePoint = pointPolygonTest( faceOutLine, Point2f(itOfBg.pos().x,itOfBg.pos().y), false );
@@ -210,6 +231,9 @@ void CFaceSketch::backgroudSketch( cv::Mat srcImg)
 			(*itOfBg)[2] = (*itOfFace)[2];
 		} 
 	}
+	t1 = ((double)getTickCount() - t1)/getTickFrequency();
+	qDebug("Face Point -- Times passed in seconds: %f\n", t1);
+
 	
 }
 
