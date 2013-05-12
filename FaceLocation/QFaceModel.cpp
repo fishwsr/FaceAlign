@@ -2,22 +2,30 @@
 #include "Node.h"
 #include "Link.h"
 #include <QtGui>
+#include <cv.h>
+#include <opencv2/core/core.hpp>
 
 
 QFaceModel::QFaceModel(float *ptsPos, int pointnum, QGraphicsItem *parent)
 {
+	
 	nodes.resize(pointnum);
 	nodesID.resize(pointnum);
 	for(int i=0;i<pointnum;i=i++)
 	{	
+		
 		int x = ptsPos[2*i];
 		int y = ptsPos[2*i+1];
 		nodes[i] = new Node(QRectF(x, y, 3, 3),parent);
-		nodesID[i] = new QGraphicsTextItem(QString::number(i),parent);
-		nodesID[i]->setPos(x,y);
-		nodesID[i]->setVisible(false);
+		double t1 = cv::getTickCount();
+		if(NULL != parent) {
+			nodesID[i] = new QGraphicsTextItem(QString::number(i),parent);
+			nodesID[i]->setPos(x,y);
+			nodesID[i]->setVisible(false);
+		}
 	}
 	Connect(ptsPos,parent);
+	
 }
 
 

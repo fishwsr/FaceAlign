@@ -39,7 +39,7 @@ CFaceSketch::~CFaceSketch(void)
 cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThresholdValue, int faceThresholdValue)
 {
 	double t = (double)getTickCount();
-	qDebug("Face Threshold %i, BG Threshold %i", fcThresholdValue, bgThresholdValue);
+	//qDebug("Face Threshold %i, BG Threshold %i", fcThresholdValue, bgThresholdValue);
 	this->bgThresholdValue = bgThresholdValue;
 	this->qtzThresholdValue = qtzThresholdValue;
 
@@ -65,18 +65,22 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThr
 	faceComps.push_back(&faceContourComp);
 
 	pointsToWrap.clear();
+	wrappedFaceCompMap.clear();
+	int faceCompNumber = faceComps.size();
+
 	#pragma omp parallel for
-	for(int i = 0; i < faceComps.size(); i++) {
-		Mat compMat = faceComps[i]->wrapTemplate(width, height);
+	for(int i = 0; i < faceCompNumber; ++i) {
+		faceComps[i]->wrapTemplate(width, height);
+	}
 
-		wrappedFaceCompMap.insert(i, compMat);
-
+	for(int i = 0; i < faceCompNumber; ++i) {
+		wrappedFaceCompMap.insert(i, faceComps[i]->getWarpedTemplate());
 		std::vector<cv::Point> pts = faceComps[i]->getLocatedPointsToWrap();
 		for(int j = 0; j < pts.size(); j++) {
 			pointsToWrap.push_back(pts[j]);
 		}
 	}
-
+	
 	backgroudSketch(srcImg);
 	backgroundColor(srcImg);
 	combineSketch();

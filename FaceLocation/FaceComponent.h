@@ -11,6 +11,7 @@ public:
 	~CFaceComponent(void);
 	virtual cv::Mat wrapTemplate(int width, int height);
 	std::vector<cv::Point> getLocatedPointsToWrap();
+	cv::Mat getWarpedTemplate() const { return warpedTemplate; }
 protected:
 	virtual std::vector<cv::Point> getTemplatePointsFromFile(std::ifstream* fin);
 	virtual std::vector<cv::Point> getLocatedPoints();
@@ -24,6 +25,7 @@ protected:
 	QFaceModel* faceModel;
 	int actualComponentPtsNum;
 	cv::Mat templateImg;
+	cv::Mat warpedTemplate;
 	std::vector<cv::Point> locatedPointsToWrap;
 private:
 	cv::Mat getTemplateImage(std::string templateIndexString, int width, int height);

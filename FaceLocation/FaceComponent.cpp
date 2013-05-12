@@ -25,7 +25,6 @@ cv::Mat CFaceComponent::wrapTemplate(int width, int height)
 	locatedPointsToWrap = filterPoints(getLocatedPoints());
 
 	CThinPlateSpline tps(templatePoints,locatedPointsToWrap);
-	Mat warpedTemplate;
 	tps.warpImage(templateMat, warpedTemplate,0.01,INTER_CUBIC,BACK_WARP);
 	return warpedTemplate;
 }
