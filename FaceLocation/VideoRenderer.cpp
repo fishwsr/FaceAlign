@@ -113,7 +113,7 @@ cv::Mat CVideoRenderer::renderKeyFrame( CFaceAlign* faceAlign, Mat currentSrc, i
 	ptsPos = faceAlign->procPic("temp/currentSrcVideoFrame.jpg");
 	
 	QFaceModel facemodel(ptsPos,pointnum,NULL);
-	cv::Mat sketchedFace = faceSketch->sketchFace(&facemodel,currentSrc, bgThresholdValue, bgThresholdValue);
+	cv::Mat sketchedFace = faceSketch->sketchFace(&facemodel,currentSrc, true, bgThresholdValue, bgThresholdValue);
 	currentFace = faceSketch->getPointsToWrap();
 	return sketchedFace;
 }

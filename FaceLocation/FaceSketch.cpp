@@ -36,7 +36,7 @@ CFaceSketch::~CFaceSketch(void)
 }
 
 
-cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThresholdValue, int faceThresholdValue)
+cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, bool isRenderVideo, int bgThresholdValue, int faceThresholdValue)
 {
 	double t = (double)getTickCount();
 	//qDebug("Face Threshold %i, BG Threshold %i", fcThresholdValue, bgThresholdValue);
@@ -64,7 +64,7 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, int bgThr
 
 	CFaceContourComponent faceContourComp(faceIndex, facemodel);
 	//no need to wrap face contour when there is no color
-	if(!hasColor) {
+	if(!hasColor || !isRenderVideo) {
 		faceComps.push_back(&faceContourComp);
 	}
 
@@ -126,7 +126,7 @@ void CFaceSketch::combineComponent()
 	addTopToBottom(wrappedFaceCompMap[LEFTEYE], face);
 	addTopToBottom(wrappedFaceCompMap[RIGHTEYE], face);
 	addTopToBottom(wrappedFaceCompMap[NOSE], face);
-	if(!hasColor)
+	if(7 == wrappedFaceCompMap.size())
 	{
 		//wrappedFaceCompMap[PROFIILE]->w
 		addTopToBottom(face, wrappedFaceCompMap[PROFIILE]);
