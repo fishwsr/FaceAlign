@@ -8,5 +8,6 @@ public:
 	~CLeftEyeComponent(void);
 protected:
 	virtual QVector<Node*> getLocatedNodes();
+	virtual void preProcessTemplateImage();
 };
 

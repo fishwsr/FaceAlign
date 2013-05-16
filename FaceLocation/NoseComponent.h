@@ -9,5 +9,6 @@ public:
 protected:
 	virtual QVector<Node*> getLocatedNodes();
 	std::vector<cv::Point> getTemplatePointsFromFile(std::ifstream* fin);
+	virtual void preProcessTemplateImage();
 };
 

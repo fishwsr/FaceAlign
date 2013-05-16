@@ -1,4 +1,5 @@
 #include "NoseComponent.h"
+#include <opencv2\core\core.hpp>
 
 
 CNoseComponent::CNoseComponent(int templateIndex, QFaceModel* faceModel):CFaceComponent(templateIndex, faceModel)
@@ -43,4 +44,17 @@ std::vector<cv::Point> CNoseComponent::getTemplatePointsFromFile( std::ifstream*
 		}
 	}
 	return templatePoints;
+}
+
+void CNoseComponent::preProcessTemplateImage()
+{
+	std::vector<std::vector<cv::Point>> templateKeyPoints = getTemplateKeyPoints();
+	//templateImg.setTo(255);
+	for (int i = 0; i < templateKeyPoints.size(); i++)
+	{
+		for(int j = 0; j< templateKeyPoints[i].size()-1; j++)
+		{
+			cv::line(templateImg, templateKeyPoints[i][j], templateKeyPoints[i][j+1],cv::Scalar(10, 10, 10),4);
+		}
+	};
 }

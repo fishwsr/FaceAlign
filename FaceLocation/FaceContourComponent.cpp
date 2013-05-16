@@ -1,5 +1,5 @@
 #include "FaceContourComponent.h"
-
+#include <opencv2\highgui\highgui.hpp>
 
 CFaceContourComponent::CFaceContourComponent(int templateIndex, QFaceModel* faceModel):CFaceComponent(templateIndex, faceModel)
 {
@@ -29,4 +29,22 @@ std::vector<cv::Point> CFaceContourComponent::filterPoints( std::vector<cv::Poin
 		}
 	}
 	return filteredPoints;
+}
+
+cv::Mat CFaceContourComponent::renderComponent( int width, int height )
+{
+	warpedTemplate = cvCreateMat(height, width, CV_8UC3);
+	CFaceComponent::renderComponent(width, height);
+	return warpedTemplate;
+}
+
+void CFaceContourComponent::doRender( std::vector<cv::Point> templatePoints, cv::Mat templateMat )
+{
+	
+	warpedTemplate.setTo(255);
+	std::vector<cv::Point> facePoints = getLocatedPoints();
+	for (int i = 0; i< facePoints.size()-1; i++)
+	{
+		cv::line(warpedTemplate, facePoints[i], facePoints[i+1],cv::Scalar(10, 10, 10),1);
+	}
 }

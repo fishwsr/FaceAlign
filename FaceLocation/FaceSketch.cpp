@@ -75,11 +75,11 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, bool isRe
 	double t1 = (double)getTickCount();
 	#pragma omp parallel for
 	for(int i = 0; i < faceCompNumber; ++i) {
-		faceComps[i]->wrapTemplate(width, height);
+		faceComps[i]->renderComponent(width, height);
 	}
 
 	for(int i = 0; i < faceCompNumber; ++i) {
-		wrappedFaceCompMap.insert(i, faceComps[i]->getWarpedTemplate());
+		wrappedFaceCompMap.insert(i, faceComps[i]->getRenderedImage());
 		std::vector<cv::Point> pts = faceComps[i]->getLocatedPointsToWrap();
 		for(int j = 0; j < pts.size(); j++) {
 			pointsToWrap.push_back(pts[j]);
