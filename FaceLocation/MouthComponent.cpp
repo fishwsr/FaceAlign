@@ -53,11 +53,11 @@ void CMouthComponent::renderComponentInColor( std::vector<cv::Point> templatePoi
 	for( int row = 0; row < warpedTemplate.rows; ++row){
 		for( int col = 0; col < warpedTemplate.cols; ++col )
 		{
-			double isMouthPoint = pointPolygonTest( mouthPoints, cv::Point2f(row,col), false );
+			double isMouthPoint = pointPolygonTest( mouthPoints, cv::Point2f(col,row), false );
 			if(isMouthPoint > 0){
-				_I(col,row)[0] = 68;
-				_I(col,row)[1] = 101;
-				_I(col,row)[2] = 187;
+				_I(row,col)[0] = 68;
+				_I(row,col)[1] = 101;
+				_I(row,col)[2] = 187;
 			}
 		}
 	}

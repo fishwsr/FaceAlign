@@ -110,7 +110,7 @@ cv::Mat CFaceSketch::sketchFace( QFaceModel* ASMModel, cv::Mat srcImg, bool isRe
 }
 
 bool CFaceSketch::isWhite(MatIterator_<Vec3b> point){
-	return ((*point)[0] > 240) && ((*point)[1] > 240) && ((*point)[2] > 240);
+	return ((*point)[0] == 255) && ((*point)[1] == 255) && ((*point)[2] == 255);
 }
 
 bool CFaceSketch::isBackground(MatIterator_<Vec3b> point){
@@ -151,7 +151,10 @@ void CFaceSketch::combineSketch(bool combineFace)
 	}
 	Mat wholdFace = imread("temp\\wholeFace.jpg"), facialSketch;
 	facialSketch = wholdFace.clone();
+	double t1 = (double)getTickCount();
 	fixTemplate(facialSketch);
+	t1 = ((double)getTickCount() - t1)/getTickFrequency();
+	qDebug("Fix Template -- Times passed in seconds: %f\n", t1);
 	addTopToBottom(facialSketch, bgCurve);
 	addTopToBottom(bgCurve, bgColor);
 }
@@ -167,7 +170,7 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 	for( ;(itOfTop != endOfTop) && (itOfBottom != endOfBottom); ++itOfTop, ++itOfBottom)
 	{
 
-		bool noPixelOfFace = isBackground(itOfTop) || ( isWhite(itOfTop) && !isInEyeBall(itOfTop));
+		bool noPixelOfFace = isBackground(itOfTop) || ( isWhite(itOfTop));
 
 		if(!noPixelOfFace){
 			(*itOfBottom)[0] = (*itOfTop)[0];
@@ -380,45 +383,47 @@ void CFaceSketch::backgroundSmooth( cv::Mat &srcImg )
 
 void CFaceSketch::fixTemplate( cv::Mat &templateImg)
 {
-     Mat temp;
-	 MatIterator_<Vec3b> it, end;
-	 it = templateImg.begin<Vec3b>();
-	 end = templateImg.end<Vec3b>();
-
-	 for( ;it != end; ++it)
+     QVector<Node*> leftEyeQNodes = facemodel->getLeftEyeNodes();
+	 QVector<Node*> rightEyeQNodes = facemodel->getRightEyeNodes();
+	 std::vector<cv::Point> leftPoints, rightPoints;
+	 int count = leftEyeQNodes.size();
+	 for( int i = 0; i < count; i++ )
 	 {
-		 if((*it)[0] > 180 && !isInEyeBall(it))
-		{
-			 (*it)[0] = 255;
-			 (*it)[1] = 255;
-			 (*it)[2] = 255;
-		 } 
-		 if((*it)[0] > 100 && (*it)[0]<180)
+		 Point lpt, rpt;
+		 lpt.x = leftEyeQNodes.at(i)->sceneBoundingRect().center().x();
+		 lpt.y = leftEyeQNodes.at(i)->sceneBoundingRect().center().y();
+		 leftPoints.push_back(lpt);
+		 rpt.x = rightEyeQNodes.at(i)->sceneBoundingRect().center().x();
+		 rpt.y = rightEyeQNodes.at(i)->sceneBoundingRect().center().y();
+		 rightPoints.push_back(rpt);
+	 }
+	 cv::Mat_<cv::Vec3b> _I = templateImg;
+	 #pragma omp parallel for
+	 for( int row = 0; row < templateImg.rows; ++row){
+		 for( int col = 0; col < templateImg.cols; ++col )
 		 {
-			 (*it)[0] = 30;
-			 (*it)[1] = 30;
-			 (*it)[2] = 30;
-		 } 
+			 int value0 =  _I(row, col)[0];
+			 if(value0 > 180 && !isInEyeBall(leftPoints, rightPoints, col, row)){
+			 //if(value0 > 180 && !(_I(row, col)[0] == 253 && _I(row, col)[1] == 254 && _I(row, col)[2] == 252)){
+				 _I(row, col)[0] = 255;
+				 _I(row, col)[1] = 255;
+				 _I(row, col)[2] = 255;
+			 }
+			 if(value0 >100 && value0 <180) {
+				 _I(row, col)[0] = 30;
+				 _I(row, col)[1] = 30;
+				 _I(row, col)[2] = 30;
+			 }
+		 }
 	 }
 }
 
-bool CFaceSketch::isInEyeBall(MatIterator_<Vec3b> point)
+bool CFaceSketch::isInEyeBall(std::vector<cv::Point> leftPoints, std::vector<cv::Point> rightPoints, float x, float y)
 {
-	QVector<Node*> leftEyeQNodes = facemodel->getLeftEyeNodes();
-	QVector<Node*> rightEyeQNodes = facemodel->getRightEyeNodes();
-	std::vector<cv::Point> leftPoints, rightPoints;
-	int count = leftEyeQNodes.size();
-	for( int i = 0; i < count; i++ )
-	{
-		Point lpt, rpt;
-		lpt.x = leftEyeQNodes.at(i)->sceneBoundingRect().center().x();
-		lpt.y = leftEyeQNodes.at(i)->sceneBoundingRect().center().y();
-		leftPoints.push_back(lpt);
-		rpt.x = rightEyeQNodes.at(i)->sceneBoundingRect().center().x();
-		rpt.y = rightEyeQNodes.at(i)->sceneBoundingRect().center().y();
-		rightPoints.push_back(rpt);
+	double isLEyeBall = pointPolygonTest( leftPoints, Point2f(x,y), false );
+	if(isLEyeBall > 0) {
+		return true;
 	}
-	double isLEyeBall = pointPolygonTest( leftPoints, Point2f(point.pos().x,point.pos().y), false );
-	double isREyeBall = pointPolygonTest( rightPoints, Point2f(point.pos().x,point.pos().y), false );
+	double isREyeBall = pointPolygonTest( rightPoints, Point2f(x,y), false );
 	return (isLEyeBall>0)||(isREyeBall>0);
 }

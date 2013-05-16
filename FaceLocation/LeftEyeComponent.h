@@ -9,5 +9,6 @@ public:
 protected:
 	virtual QVector<Node*> getLocatedNodes();
 	virtual void preProcessTemplateImage();
+	virtual void renderComponentInColor(std::vector<cv::Point> templatePoints, cv::Mat templateMat, int width, int height);
 };
 

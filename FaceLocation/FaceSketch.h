@@ -48,6 +48,6 @@ private:
 	void backgroundSmooth( cv::Mat &srcImg );
 	void colorQuantization();
 	void fixTemplate( cv::Mat &srcImg);
-	bool isInEyeBall(cv::MatIterator_<cv::Vec3b> point);
+	bool isInEyeBall(std::vector<cv::Point> leftPoints, std::vector<cv::Point> rightPoints, float x, float y);
 };
 
