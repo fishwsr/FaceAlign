@@ -25,15 +25,10 @@ std::vector<cv::Point> CMouthComponent::filterPoints( std::vector<cv::Point> poi
 	return points;
 }
 
-cv::Mat CMouthComponent::renderComponent( int width, int height )
+
+void CMouthComponent::renderComponentInColor( std::vector<cv::Point> templatePoints, cv::Mat templateMat, int width, int height )
 {
 	warpedTemplate = cvCreateMat(height, width, CV_8UC3);
-	return CFaceComponent::renderComponent(width, height);
-}
-
-void CMouthComponent::doRender( std::vector<cv::Point> templatePoints, cv::Mat templateMat )
-{
-	
 	warpedTemplate.setTo(255);
 	std::vector<cv::Point> mouthPoints = getLocatedPoints();
 	for (int i = 0; i< mouthPoints.size(); i++)

@@ -9,9 +9,10 @@
 #include "ModalProgressDialog.h"
 #include <QThread>
 #include "RenderWorker.h"
+#include "UIParams.h"
 
 using namespace Gdiplus; 
-
+bool UIParams::hasColor = true;
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags),
     ui(new Ui::MainWindow)
@@ -142,6 +143,7 @@ void MainWindow::on_alignAction_triggered()
 
 void MainWindow::on_sketchAction_triggered()
 {
+	UIParams::hasColor = this->colorCheckBox->isChecked();
 	if(!canTriggerSketch){
 		return;
 	}

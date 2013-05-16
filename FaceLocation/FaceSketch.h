@@ -22,7 +22,6 @@ public:
 	int getBrowIndex() const { return browIndex; }
 	void setBrowIndex(int val) { browIndex = val; }
 	void setHasColor(bool val) { hasColor = val; }
-	
 private:
 	int width, height;
 	int bgThresholdValue;

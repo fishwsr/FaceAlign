@@ -173,6 +173,7 @@
     <ClInclude Include="LeftBrowComponent.h" />
     <ClInclude Include="LeftEyeComponent.h" />
     <ClInclude Include="Link.h" />
+    <ClInclude Include="UIParams.h" />
     <CustomBuild Include="ModalProgressDialog.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ModalProgressDialog.h...</Message>

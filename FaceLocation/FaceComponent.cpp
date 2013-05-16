@@ -3,7 +3,7 @@
 #include "CThinPlateSpline.h"
 #include <QString>
 #include <opencv2\highgui\highgui.hpp>
-
+#include "UIParams.h"
 
 CFaceComponent::CFaceComponent(int templateIndex, QFaceModel* faceModel)
 {
@@ -24,15 +24,26 @@ cv::Mat CFaceComponent::renderComponent(int width, int height)
 	std::vector<cv::Point> templatePoints = filterPoints(getTemplatePoints());
 	locatedPointsToWrap = filterPoints(getLocatedPoints());
 	
-	doRender(templatePoints, templateMat);
+	if(UIParams::hasColor) {
+		renderComponentInColor(templatePoints, templateMat, width, height);
+	} else {
+		renderComponentInGray(templatePoints, templateMat, width, height);
+	}
 
 	return warpedTemplate;
 }
 
-void CFaceComponent::doRender( std::vector<cv::Point> templatePoints, cv::Mat templateMat )
+
+void CFaceComponent::renderComponentInGray( std::vector<cv::Point> templatePoints, cv::Mat templateMat,int width, int height )
 {
 	CThinPlateSpline tps(templatePoints,locatedPointsToWrap);
 	tps.warpImage(templateMat, warpedTemplate,0.01,INTER_CUBIC,BACK_WARP);
+}
+
+
+void CFaceComponent::renderComponentInColor( std::vector<cv::Point> templatePoints, cv::Mat templateMat, int width, int height )
+{
+	return renderComponentInGray(templatePoints, templateMat, width, height);
 }
 
 
@@ -45,7 +56,9 @@ cv::Mat CFaceComponent::getTemplateImage(std::string templateIndexString, int wi
 		exit(-1);
 	};
 
-	preProcessTemplateImage();
+	if(UIParams::hasColor) {
+		preProcessTemplateImage();
+	}
 	
 	cv::Mat bigTemplateImg(height, width, templateImg.type(), Scalar(1,2,3));
 	Mat(templateImg, cvRect(0,0,templateImg.cols, templateImg.rows)).copyTo(Mat(bigTemplateImg, cvRect(0,0,templateImg.cols, templateImg.rows)));

@@ -9,7 +9,7 @@ class CFaceComponent
 public:
 	CFaceComponent(int templateIndex, QFaceModel* faceModel);
 	~CFaceComponent(void);
-	virtual cv::Mat renderComponent(int width, int height);
+	cv::Mat renderComponent(int width, int height);
 	std::vector<cv::Point> getLocatedPointsToWrap();
 	cv::Mat getRenderedImage() const { return warpedTemplate; }
 	
@@ -19,7 +19,8 @@ protected:
 	virtual QVector<Node*> getLocatedNodes() = 0;
 	virtual std::vector<cv::Point> filterPoints(std::vector<cv::Point> points);
 	virtual void preProcessTemplateImage();
-	virtual void doRender(std::vector<cv::Point> templatePoints, cv::Mat templateMat);
+	virtual void renderComponentInColor(std::vector<cv::Point> templatePoints, cv::Mat templateMat, int width, int height);
+	virtual void renderComponentInGray(std::vector<cv::Point> templatePoints, cv::Mat templateMat, int width, int height);
 	int templateIndex;
 	std::string templatePath;
 	std::string folderName;

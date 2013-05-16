@@ -234,6 +234,9 @@
     <ClInclude Include="GeneratedFiles\ui_modalProgressDialog.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="UIParams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="sketchMode\faceContour\faceContour1.jpg">
