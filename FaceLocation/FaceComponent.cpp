@@ -23,9 +23,44 @@ cv::Mat CFaceComponent::wrapTemplate(int width, int height)
 	cv::Mat templateMat = getTemplateImage(templateIndexString, width, height);
 	std::vector<cv::Point> templatePoints = filterPoints(getTemplatePoints(templateIndexString));
 	locatedPointsToWrap = filterPoints(getLocatedPoints());
-
+	
 	CThinPlateSpline tps(templatePoints,locatedPointsToWrap);
-	tps.warpImage(templateMat, warpedTemplate,0.01,INTER_CUBIC,BACK_WARP);
+	//tps.warpImage(templateMat, warpedTemplate,0.01,INTER_CUBIC,BACK_WARP);
+	if( picNamePrefix == "faceContour" )
+	{
+		warpedTemplate = cvCreateMat(height, width, CV_8UC3);
+		warpedTemplate.setTo(255);
+		std::vector<cv::Point> facePoints = getLocatedPoints();
+		for (int i = 0; i< facePoints.size()-1; i++)
+		{
+			cv::line(warpedTemplate, facePoints[i], facePoints[i+1],Scalar(10, 10, 10),1);
+		}
+	}
+	else if ( picNamePrefix == "mouth" )
+	{
+		warpedTemplate = cvCreateMat(height, width, CV_8UC3);
+		warpedTemplate.setTo(255);
+		std::vector<cv::Point> mouthPoints = getLocatedPoints();
+		for (int i = 0; i< mouthPoints.size(); i++)
+		{
+			int j;
+			if ( i == 11 || i == 19)
+			{
+				j = 0;
+			}
+			else
+			{
+				j = i + 1;
+			}
+			Point kp1 = mouthPoints[i];
+			Point kp2 = mouthPoints[j];
+			cv::line(warpedTemplate, kp1, kp2,Scalar(0, 0, 255), 1);
+		}
+	}
+	else
+	{
+		tps.warpImage(templateMat, warpedTemplate,0.01,INTER_CUBIC,BACK_WARP);
+	}
 	return warpedTemplate;
 }
 
@@ -36,7 +71,20 @@ cv::Mat CFaceComponent::getTemplateImage(std::string templateIndexString, int wi
 	if(templateImg.empty()){
 		qDebug("Template Image can not be found");
 		exit(-1);
+	};	
+	if(picNamePrefix == "nose" || picNamePrefix == "leftEye")
+	{
+		std::vector<std::vector<cv::Point>> templateKeyPoints = getTemplateKeyPoints(templateIndexString);
+		//templateImg.setTo(255);
+		for (int i = 0; i < templateKeyPoints.size(); i++)
+		{
+			for(int j = 0; j< templateKeyPoints[i].size()-1; j++)
+			{
+				cv::line(templateImg, templateKeyPoints[i][j], templateKeyPoints[i][j+1],Scalar(10, 10, 10),4);
+			}
+		};
 	}
+	
 	cv::Mat bigTemplateImg(height, width, templateImg.type(), Scalar(1,2,3));
 	Mat(templateImg, cvRect(0,0,templateImg.cols, templateImg.rows)).copyTo(Mat(bigTemplateImg, cvRect(0,0,templateImg.cols, templateImg.rows)));
 	return bigTemplateImg;
@@ -107,5 +155,36 @@ std::vector<cv::Point> CFaceComponent::getLocatedPointsToWrap()
 	return locatedPointsToWrap;
 }
 
+std::vector<std::vector<cv::Point>> CFaceComponent::getTemplateKeyPoints( std::string templateIndexString )
+{
+	std::string ptsFilePath = templatePath + folderName + "\\keyPoints" +  templateIndexString + ".pts";
+	std::ifstream fin;
 
+	fin.open(ptsFilePath);
+	if(!fin)
+	{
+		qDebug("PTS File Not Found ");
+		exit(-1);
+	}
+
+	int lineNumInFile;
+	fin >> lineNumInFile;
+
+	std::vector<vector<cv::Point>> templateKeyPoints;
+	templateKeyPoints.resize(lineNumInFile);
+	for (int i = 0; i < lineNumInFile; i++) 
+	{
+		int ptsNumInLine;
+		fin >> ptsNumInLine;
+		templateKeyPoints[i].resize(ptsNumInLine);
+		for(int j = 0; j < ptsNumInLine; j++)
+		{
+			double ptsX, ptsY;
+			fin >> ptsX >>ptsY;
+			templateKeyPoints[i][j].x = ptsX;
+			templateKeyPoints[i][j].y = ptsY;
+		}
+	}
+	return templateKeyPoints;
+}
 

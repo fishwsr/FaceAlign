@@ -150,7 +150,6 @@ void CFaceSketch::combineSketch(bool combineFace)
 		combineComponent();
 	}
 	Mat wholdFace = imread("temp\\wholeFace.jpg"), facialSketch;
-	//threshold(wholdFace, facialSketch, 100, NULL, CV_THRESH_TRUNC);
 	facialSketch = wholdFace.clone();
 	fixTemplate(facialSketch);
 	addTopToBottom(facialSketch, bgCurve);
@@ -168,7 +167,7 @@ void CFaceSketch::addTopToBottom( Mat &top, Mat &botom)
 	for( ;(itOfTop != endOfTop) && (itOfBottom != endOfBottom); ++itOfTop, ++itOfBottom)
 	{
 
-		bool noPixelOfFace = isBackground(itOfTop) || isWhite(itOfTop);
+		bool noPixelOfFace = isBackground(itOfTop) || ( isWhite(itOfTop) && !isInEyeBall(itOfTop));
 
 		if(!noPixelOfFace){
 			(*itOfBottom)[0] = (*itOfTop)[0];
@@ -388,7 +387,7 @@ void CFaceSketch::fixTemplate( cv::Mat &templateImg)
 
 	 for( ;it != end; ++it)
 	 {
-		 if((*it)[0] > 180)
+		 if((*it)[0] > 180 && !isInEyeBall(it))
 		{
 			 (*it)[0] = 255;
 			 (*it)[1] = 255;
@@ -401,4 +400,25 @@ void CFaceSketch::fixTemplate( cv::Mat &templateImg)
 			 (*it)[2] = 30;
 		 } 
 	 }
+}
+
+bool CFaceSketch::isInEyeBall(MatIterator_<Vec3b> point)
+{
+	QVector<Node*> leftEyeQNodes = facemodel->getLeftEyeNodes();
+	QVector<Node*> rightEyeQNodes = facemodel->getRightEyeNodes();
+	std::vector<cv::Point> leftPoints, rightPoints;
+	int count = leftEyeQNodes.size();
+	for( int i = 0; i < count; i++ )
+	{
+		Point lpt, rpt;
+		lpt.x = leftEyeQNodes.at(i)->sceneBoundingRect().center().x();
+		lpt.y = leftEyeQNodes.at(i)->sceneBoundingRect().center().y();
+		leftPoints.push_back(lpt);
+		rpt.x = rightEyeQNodes.at(i)->sceneBoundingRect().center().x();
+		rpt.y = rightEyeQNodes.at(i)->sceneBoundingRect().center().y();
+		rightPoints.push_back(rpt);
+	}
+	double isLEyeBall = pointPolygonTest( leftPoints, Point2f(point.pos().x,point.pos().y), false );
+	double isREyeBall = pointPolygonTest( rightPoints, Point2f(point.pos().x,point.pos().y), false );
+	return (isLEyeBall>0)||(isREyeBall>0);
 }

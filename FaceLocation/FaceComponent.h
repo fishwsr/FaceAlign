@@ -30,5 +30,6 @@ protected:
 private:
 	cv::Mat getTemplateImage(std::string templateIndexString, int width, int height);
 	std::vector<cv::Point> getTemplatePoints(std::string templateIndexString);
+	std::vector<std::vector<cv::Point>> getTemplateKeyPoints(std::string templateIndexString);
 };
 
