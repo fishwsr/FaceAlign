@@ -34,7 +34,7 @@ private:
 	QMap<int, cv::Mat> wrappedFaceCompMap;
 	std::vector<cv::Point> pointsToWrap;
 	int browIndex, eyeIndex, noseIndex, mouthIndex, faceIndex;
-	enum faceElement{LEFTEYE, RIGHTEYE, LEFTBROW, RIGHTBROW, NOSE, MOUTH, PROFIILE};
+	enum faceElement{LEFTEYE, RIGHTEYE, LEFTBROW, RIGHTBROW, NOSE, MOUTH, PROFIILE, ALL};
 	void combineSketch(bool combineFace = true);
 	void addTopToBottom( cv::Mat &top, cv::Mat &botom);
 	bool isWhite(cv::MatIterator_<cv::Vec3b> point);

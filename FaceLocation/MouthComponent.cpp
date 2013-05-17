@@ -55,7 +55,7 @@ void CMouthComponent::renderComponentInColor( std::vector<cv::Point> templatePoi
 		{
 			double isMouthPoint = pointPolygonTest( mouthPoints, cv::Point2f(col,row), false );
 			if(isMouthPoint > 0){
-				_I(row,col)[0] = 68;
+				_I(row,col)[0] = 99;
 				_I(row,col)[1] = 101;
 				_I(row,col)[2] = 187;
 			}

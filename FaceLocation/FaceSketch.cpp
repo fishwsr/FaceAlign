@@ -122,7 +122,6 @@ void CFaceSketch::combineComponent()
 	Mat face(height, width, CV_8UC3, Scalar(1,2,3));
 	addTopToBottom(wrappedFaceCompMap[LEFTBROW], face);
 	addTopToBottom(wrappedFaceCompMap[RIGHTBROW], face);
-	addTopToBottom(wrappedFaceCompMap[MOUTH], face);
 	addTopToBottom(wrappedFaceCompMap[LEFTEYE], face);
 	addTopToBottom(wrappedFaceCompMap[RIGHTEYE], face);
 	addTopToBottom(wrappedFaceCompMap[NOSE], face);
@@ -132,15 +131,16 @@ void CFaceSketch::combineComponent()
 		addTopToBottom(face, wrappedFaceCompMap[PROFIILE]);
 		face = wrappedFaceCompMap[PROFIILE].clone();
 	}
-
-	Mat facialSetch(height, width, CV_8UC3, Scalar::all(255));
-	addTopToBottom(face, facialSetch);
-
+	
+	Mat facialSketch(height, width, CV_8UC3, Scalar::all(255));
+	addTopToBottom(face, facialSketch);
+	fixTemplate(facialSketch);
+	addTopToBottom(wrappedFaceCompMap[MOUTH], facialSketch);
 	/*int size = 1;
 	Mat element = getStructuringElement( MORPH_RECT,	Size( 2*size+1, 2*size+1 ),Point( size, size ) );
 	erode(facialSetch, facialSetch, element);*/
-
-	cv::imwrite("temp\\wholeFace.jpg",facialSetch);
+	wrappedFaceCompMap[ALL] = facialSketch;
+	cv::imwrite("temp\\wholeFace.jpg",facialSketch);
 }
 
 void CFaceSketch::combineSketch(bool combineFace)
@@ -149,10 +149,8 @@ void CFaceSketch::combineSketch(bool combineFace)
 	{
 		combineComponent();
 	}
-	Mat wholdFace = imread("temp\\wholeFace.jpg"), facialSketch;
-	facialSketch = wholdFace.clone();
+	Mat facialSketch = wrappedFaceCompMap[ALL];
 	double t1 = (double)getTickCount();
-	fixTemplate(facialSketch);
 	t1 = ((double)getTickCount() - t1)/getTickFrequency();
 	qDebug("Fix Template -- Times passed in seconds: %f\n", t1);
 	addTopToBottom(facialSketch, bgCurve);
