@@ -44,7 +44,7 @@ void CMouthComponent::renderComponentInColor( std::vector<cv::Point> templatePoi
 		}
 		cv::Point kp1 = mouthPoints[i];
 		cv::Point kp2 = mouthPoints[j];
-		cv::line(warpedTemplate, kp1, kp2,cv::Scalar(0, 0, 255), 1);
+		cv::line(warpedTemplate, kp1, kp2,cv::Scalar(70, 75, 170), 1);
 	}
 
 	cv::Mat_<cv::Vec3b> _I = warpedTemplate;
@@ -55,9 +55,9 @@ void CMouthComponent::renderComponentInColor( std::vector<cv::Point> templatePoi
 		{
 			double isMouthPoint = pointPolygonTest( mouthPoints, cv::Point2f(col,row), false );
 			if(isMouthPoint > 0){
-				_I(row,col)[0] = 99;
-				_I(row,col)[1] = 101;
-				_I(row,col)[2] = 187;
+				_I(row,col)[0] = 100;
+				_I(row,col)[1] = 100;
+				_I(row,col)[2] = 200;
 			}
 		}
 	}
